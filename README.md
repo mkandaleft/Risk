@@ -8,4 +8,5 @@ The project is organized as such:
 - testing is for testing files, not sure yet how to use it
 - myprogram is executable file
 
-For any questions let Mark now
+Add your own files or work on existing files, if you change the name of files or classes please let us know so we can adjust 
+the other classes for proper functionning. For any questions, let me (Mark) know (:
