@@ -1,10 +1,6 @@
 #include "iostream"
-#include "Player.h"
-#include "Territory.h"
-#include "Hand.h"
-#include "OrderList.h"
-#include "Order.h"
 #include <vector>
+#include "include/AllHeaders.h"
 
 using std::string;
 using std::vector;

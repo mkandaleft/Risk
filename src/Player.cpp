@@ -6,7 +6,7 @@
 *   For COMP 345 
 */
 
-#include "Player.h"
+#include "../include/Player.h"
 
 using std::string;
 

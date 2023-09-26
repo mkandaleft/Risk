@@ -1,5 +1,4 @@
-
-#include "Hand.h"
+#include "../include/Hand.h"
 
 using std::string;
 
