@@ -1,11 +1,16 @@
+/*
+*   This is the player driver file. This file includes a method
+*   for testing the functionalities of a Player object.
+*
+*   Written by: Mark Kandaleft
+*   For COMP 345 
+*/
 #include "iostream"
 #include <vector>
-#include "include/AllHeaders.h"
+#include "../include/AllHeaders.h"
 
-using std::string;
-using std::vector;
 
-int main() {
+void testPlayers() {
 
     // Create some Territory instances
     Territory territory1("Territory 1");
@@ -31,8 +36,4 @@ int main() {
     }
     std::cout << std::endl;
 
-    return 0;
 }
-
-//g++ -o myprogram Hand.cpp Hand.h Player.cpp Player.h PlayerDriver.cpp Territory.cpp Territory.h Driver.cpp Order.cpp Order.h OrderList.cpp OrderList.h
-//./myprogram

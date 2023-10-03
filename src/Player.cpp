@@ -35,5 +35,10 @@ string Player::getName() const {
     return name;
 }
 
+Player::Player(const Player& player) {
+    name = player.name;
+    territories = player.territories;
+    orderlist = player.orderlist;
+}
 
 
