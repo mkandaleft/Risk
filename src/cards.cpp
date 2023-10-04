@@ -2,7 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-#include "cards.h"
+#include "../include/cards.h"
 using namespace std;
 
 
