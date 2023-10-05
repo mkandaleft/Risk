@@ -24,3 +24,5 @@ class GameEngine {
     void end();
     void play();
 };
+
+void testGameStates();
