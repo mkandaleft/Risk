@@ -24,7 +24,7 @@ class Player {
         string name;
         vector<Territory*> territories;
         OrderList orderlist;
-        //Hand hand;
+        Hand hand;
 
     public:
         Player(const string& playerName);
@@ -33,5 +33,6 @@ class Player {
         const vector<Territory*>& toAttack() const;
         void issueOrder(Order& order);
         string getName() const;
+        Player(const Player& player);
 
 };

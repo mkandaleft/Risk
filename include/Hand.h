@@ -9,6 +9,9 @@ class  Hand {
     string cards;
 
     public:
+
+    Hand();
+
     Hand(const string& cards);
 
     string getCards() const;
