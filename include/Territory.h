@@ -2,15 +2,36 @@
 #pragma once
 
 #include <iostream>
-using std::string;
+#include <map>
+#include <vector>
+#include <string>
+#include <unordered_set>
 
-class  Territory {
-    
-    private:
-    string name;
+using namespace std;
+class Continent;
 
-    public:
-    Territory(const string& name);
+class Territory {
 
-    string getName() const;
+private:
+	string name;
+	vector<Territory*> adjacents;
+	int x, y;
+	Continent* continent;
+
+public:
+
+	vector<string> adjacent; //holds names of adjacents. (temporary)
+	explicit Territory();
+	explicit Territory(const string& name);
+	string getName() const;
+	Continent* getContinent() const;
+	vector<Territory*> getAdjacents() const;
+
+
+	void connect(Territory* other);
+
+	void setContinent(Continent* newContinent);
+
+	void setCoordinates(int newx, int newy);
+
 };

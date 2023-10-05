@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Territory.h"
-#include "Hand.h"
+#include "cards.h"
 #include "OrderList.h"
 #include "Order.h"
 #include <vector>
