@@ -5,7 +5,8 @@
 #include <map>
 #include <vector>
 #include <iomanip>
-#include "Map.cpp"
+#include "../include/Territory.h"
+#include "../include/Map.h"
 using namespace std;
 
 
@@ -25,7 +26,7 @@ int main() {
         maps.push_back(testLoadMap(fileName));
     }*/
 
-    Map myMap = testLoadMap("Earth.map");
+    Map myMap = testLoadMap("Map/Earth.map");
     myMap.display();
     myMap.validate();
 
