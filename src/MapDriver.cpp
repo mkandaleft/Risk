@@ -5,33 +5,10 @@
 #include <map>
 #include <vector>
 #include <iomanip>
-#include "../include/Territory.h"
-#include "../include/Map.h"
+#include "Map.cpp"
+#include "Territory.cpp"
 using namespace std;
 
-
-Map testLoadMap(string mapFileName);
-
-int main() {
-    
-    /*vector<string> testMapFiles = {
-        "ABC_Map.map",
-        "Australia.map",
-        "Earth.map"
-    };
-
-    vector<Map >maps;
-
-    for (const auto& fileName : testMapFiles) {
-        maps.push_back(testLoadMap(fileName));
-    }*/
-
-    Map myMap = testLoadMap("Map/Earth.map");
-    myMap.display();
-    myMap.validate();
-
-    return 0;
-}
 
 Map testLoadMap(string mapFileName) {
 

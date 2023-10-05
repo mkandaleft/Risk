@@ -1,4 +1,4 @@
-
+#pragma once
 #include "../include/Territory.h"
 using namespace std;
 class Continent {

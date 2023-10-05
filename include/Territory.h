@@ -8,7 +8,6 @@
 #include <unordered_set>
 
 using namespace std;
-class Map;
 class Continent;
 
 class Territory {
