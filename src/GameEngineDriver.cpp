@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main() {
+void testGameStates(){
     GameEngine engine("start");
     
     string command;
@@ -39,7 +39,10 @@ int main() {
             cout << "Incorrect command. Please retry." << endl;
         }
     }
+}
 
+int main() {
+    testGameStates();
     return 0;
 }
 
