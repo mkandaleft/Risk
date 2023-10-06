@@ -1,8 +1,9 @@
 
 
 #include <iostream>
-#include "Orders.h"
+#include "../include/Orders.h"
 #include <vector>
+#include "../include/AllHeaders.h"
 
 using std::string;
 using std::vector;
@@ -33,10 +34,9 @@ void testOrdersLists() {
 }
 
 
-int main()
-{
-	testOrdersLists();
+//int main()
+//{
+//	testOrdersLists();
 
-	return 0;
-
-}
+//	return 0;
+//}

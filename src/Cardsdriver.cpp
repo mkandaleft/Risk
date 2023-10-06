@@ -2,7 +2,9 @@
 //
 
 #include <iostream>
-#include "cards.cpp"
+#include "../include/cards.h"
+//#include "cards.cpp"
+#include "../include/AllHeaders.h"
 using namespace std;
 
 void testCards() {
@@ -42,9 +44,7 @@ void testCards() {
 }
 
 
-int main()
-{
-	testCards();
-	
-
-}
+//int main()
+//{
+//	testCards();
+//}

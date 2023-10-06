@@ -10,8 +10,7 @@
 
 #include "Territory.h"
 #include "cards.h"
-#include "OrderList.h"
-#include "Order.h"
+#include "Orders.h"
 #include <vector>
 
 using std::string;
@@ -23,15 +22,15 @@ class Player {
     private:
         string name;
         vector<Territory*> territories;
-        OrderList orderlist;
-        Hand hand;
+        OrdersList* ordersList;
+        //Hand* hand;
 
     public:
         Player(const string& playerName);
         void addTerritory(Territory& territory);
         const vector<Territory*>& toDefend() const;
         const vector<Territory*>& toAttack() const;
-        void issueOrder(Order& order);
+        void issueOrder(Orders& order);
         string getName() const;
         Player(const Player& player);
 

@@ -5,8 +5,12 @@
 #include <map>
 #include <vector>
 #include <iomanip>
-#include "Map.cpp"
-#include "Territory.cpp"
+#include "../include/Map.h"
+//#include "Map.cpp"
+#include "../include/Territory.h"
+//#include "Territory.cpp"
+#include "../include/AllHeaders.h"
+//#include "../include/testing/MapDriver.h"
 using namespace std;
 
 
@@ -16,8 +20,8 @@ Map testLoadMap(string mapFileName) {
 
     bool printLogs = true; //toggle print loading detail on/off
 
-    ifstream file(mapFileName);
-    if (!file.is_open()) {
+    ifstream file(mapFileName); // This function produces warning!!
+    if (!file.is_open()) {                     
         cerr << "Error: Unable to open file!" << endl;
         exit;
     }

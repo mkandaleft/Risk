@@ -5,8 +5,8 @@
 
 using namespace std;
 
-
-string cardTypes[5]{ "bomb","rein","block","air","dip" };
+//{ "bomb","rein","block","air","dip" };
+extern string cardTypes[5];
 
 class Hand;
 class Deck;
