@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "../include/cards.h"
-//#include "cards.cpp"
+#include "cards.cpp"
 #include "../include/AllHeaders.h"
 using namespace std;
 

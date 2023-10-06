@@ -4,6 +4,7 @@
 #include "../include/Orders.h"
 #include <vector>
 #include "../include/AllHeaders.h"
+#include "Orders.cpp"
 
 using std::string;
 using std::vector;
