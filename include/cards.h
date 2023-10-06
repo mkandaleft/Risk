@@ -5,9 +5,6 @@
 
 using namespace std;
 
-//{ "bomb","rein","block","air","dip" };
-extern string cardTypes[5];
-
 class Hand;
 class Deck;
 
@@ -16,23 +13,22 @@ class Card {
 public:
 	Card();
 
-	Card(string type);//string as a stand in for Order
+	Card(Orders& type);//string as a stand in for Order
 
 	Card(const Card& other);//copy constructor
 
 	void play(Deck& gameDeck, Hand& playerHand);
 
-	string getType();
+	Orders getType();
 	
 	int getId();
 	void addId();
 
 private:
-	string type;
+	Orders* type;
 	int id;
 	static int idCounter;
 };
-
 class Deck {
 public:
 	Deck();
