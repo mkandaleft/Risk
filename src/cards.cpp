@@ -8,6 +8,8 @@ using namespace std;
 
 int Card::idCounter;
 
+std::string cardTypes[5] = { "bomb","rein","block","air","dip" };
+
 Card::Card() {
 	//type = random type
 }
@@ -99,7 +101,7 @@ void Deck::draw(Hand& hand) {
 
 
 void Deck::display() {
-	for (int i = 0; i < cards.size(); i++) {
+	for (int i = 0; i < static_cast<int>(cards.size()); i++) {
 		cout << cards[i]->getType() << " ";
 	}
 	cout << "\n";
@@ -120,7 +122,7 @@ int Deck::getSize() {
 
 
 void Deck::addCard(Card& added) {
-	if (cards.size() >= maxSize) {
+	if (static_cast<int>(cards.size()) >= maxSize) {
 		cout << "Deck is full, what are you adding";
 		return;
 	}
@@ -138,7 +140,7 @@ Hand::Hand(int max) {
 }
 
 void Hand::display() {
-	for (int i = 0; i < playerHand.size(); i++) {
+	for (int i = 0; i < static_cast<int>(playerHand.size()); i++) {
 		cout << playerHand[i]->getType() << " ";
 	}
 	cout << "\n";

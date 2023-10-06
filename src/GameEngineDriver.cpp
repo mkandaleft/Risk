@@ -1,5 +1,6 @@
 #include "../include/GameEngine.h"
 #include <iostream>
+#include "../include/AllHeaders.h"
 
 using namespace std;
 
@@ -41,8 +42,8 @@ void testGameStates(){
     }
 }
 
-int main() {
-    testGameStates();
-    return 0;
-}
+//int main() {
+//    testGameStates();
+//    return 0;
+//}
 

@@ -27,8 +27,8 @@ const vector<Territory*>& Player::toAttack() const{
 }
 
 // Creates an order object and adds it to the list of orders
-void Player::issueOrder(Order& order){
-    orderlist.addOrder(order);
+void Player::issueOrder(Orders& order){
+    ordersList->addOrder(order);
 }
 
 string Player::getName() const {
@@ -38,7 +38,7 @@ string Player::getName() const {
 Player::Player(const Player& player) {
     name = player.name;
     territories = player.territories;
-    orderlist = player.orderlist;
+    ordersList = player.ordersList;
 }
 
 

@@ -31,7 +31,12 @@ if [ $? -eq 0 ]; then
     echo "Running Risk_Game..."
     ./Risk_Game
 else
-    echo "Linking failed. Fix the compilation errors."
+    echo "Linking failed. The following object files failed to link:"
+    for OBJFILE in ${OBJFILES[@]}; do
+        if [ ! -f "$OBJFILE" ]; then
+            echo "$OBJFILE"
+        fi
+    done
 fi
 
 echo "Done!"
