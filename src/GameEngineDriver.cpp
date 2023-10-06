@@ -1,6 +1,7 @@
 #include "../include/GameEngine.h"
 #include <iostream>
 #include "../include/AllHeaders.h"
+#include "GameEngine.cpp"
 
 using namespace std;
 
@@ -41,9 +42,9 @@ void testGameStates(){
         }
     }
 }
-
+//
 //int main() {
 //    testGameStates();
 //    return 0;
 //}
-
+//
