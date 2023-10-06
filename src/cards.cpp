@@ -14,7 +14,7 @@ Card::Card() {
 	id = 0;
 }
 
-Card::Card(string _type) {
+Card::Card(Orders _type) {
 	type = _type;
 }
 Card::Card(Orders& order) {
