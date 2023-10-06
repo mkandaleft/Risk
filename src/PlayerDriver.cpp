@@ -25,13 +25,13 @@ void testPlayers() {
     player2.addTerritory(territory2);
 
     // Access territories for each player
-    std::cout << player1.getName() << " owns: ";
+    std::cout << player1.getName() << " can attack: ";
     for (const Territory* territory : player1.toAttack()) {
         std::cout << territory->getName() << " ";
     }
     std::cout << std::endl;
 
-    std::cout << player2.getName() << " owns: ";
+    std::cout << player2.getName() << " can defend: ";
     for (const Territory* territory : player2.toDefend()) {
         std::cout << territory->getName() << " ";
     }
