@@ -8,16 +8,19 @@ using namespace std;
 
 int Card::idCounter;
 
-std::string cardTypes[5] = { "bomb","rein","block","air","dip" };
-
 Card::Card() {
-	//type = random type
+	Orders ord;
+	type = &ord;
+	id = 0;
 }
 
 Card::Card(string _type) {
 	type = _type;
 }
-//Card:: Card(Order type){}
+Card::Card(Orders& order) {
+	type = &order;
+	id = 0;
+}
 
 //copy constructor
 Card::Card(const Card& other) {
@@ -65,9 +68,30 @@ Deck::Deck(int numCards) {
 	//adds cards to the array
 	srand((unsigned int)time(NULL) * (unsigned int)time(NULL));
 	int index = 0;
+	int cardType = 0;
 	for (int i = 0; i < numCards; i++) {
 		index = rand() % (cards.size()+1);
-		cards.insert(cards.begin()+index, new Card(cardTypes[i % 5]));
+		for (int i = 0; i < numCards; i++) {
+			index = rand() % (cards.size() + 1);
+			cardType = i % 4;
+			if (cardType == 0) {
+				Bomb kaboom(1);
+				cards.insert(cards.begin() + index, new Card(kaboom));
+			}
+			else if (cardType == 1) {
+				Blockade block(1);
+				cards.insert(cards.begin() + index, new Card(block));
+			}
+			else if (cardType == 2) {
+				Airlift air(1);
+				cards.insert(cards.begin() + index, new Card(air));
+			}
+			else if (cardType == 3) {
+				Negotiate diplomacy(1);
+				cards.insert(cards.begin() + index, new Card(diplomacy));
+			}
+			
+		}
 	}
 }
 
