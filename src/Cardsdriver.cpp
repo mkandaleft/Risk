@@ -2,13 +2,13 @@
 //
 
 #include <iostream>
-#include "../include/cards.h"
+//#include "../include/cards.h"
 #include "cards.cpp"
 #include "../include/AllHeaders.h"
 using namespace std;
 
 void testCards() {
-	Deck deck(10);
+	Deck deck(15);
 
 	Hand myHand(5);
 
