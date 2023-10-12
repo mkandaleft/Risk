@@ -22,8 +22,17 @@ const vector<Territory*>& Player::toDefend() const{
 }
 
 // Returns a list of territories to be attacked
-const vector<Territory*>& Player::toAttack() const{
-    return territories;
+const std::vector<Territory*>& Player::toAttack() const{
+    
+    std::vector<Territory*>* adjacentTerritories = new std::vector<Territory*>();
+    
+    // Iterate through all owned territories
+    for (const Territory* territory : territories) {
+        
+        const std::vector<Territory*> adjacents = territory->getAdjacents();
+        adjacentTerritories->insert(adjacentTerritories->end(), adjacents.begin(), adjacents.end());
+    }
+    return *adjacentTerritories;
 }
 
 // Creates an order object and adds it to the list of orders
