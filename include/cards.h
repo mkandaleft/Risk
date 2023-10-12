@@ -2,7 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-#include "Allheaders.h"
+#include "Orders.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ public:
 	void play(Deck& gameDeck, Hand& playerHand);
 
 	Orders getType();
-	
+
 	int getId();
 	void addId();
 
@@ -30,6 +30,7 @@ private:
 	int id;
 	static int idCounter;
 };
+
 class Deck {
 public:
 	Deck();
@@ -43,12 +44,10 @@ public:
 	vector<Card*> getDeck();
 
 	void addCard(Card& added);
-	void removeCard(Card drawn);
 
 	int getMaxSize();
 	int getSize();
 
-	//void shuffle();
 private:
 	vector<Card*> cards;
 	int maxSize;
@@ -57,6 +56,7 @@ private:
 
 class Hand {
 public:
+	Hand();
 	Hand(int max);
 	Hand(const Hand& other);
 
