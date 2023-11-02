@@ -23,7 +23,7 @@ class Player {
         string name;
         vector<Territory*> territories;
         OrdersList* ordersList;
-        //Hand* hand;
+        Hand* hand;
 
     public:
         Player(const string& playerName);

@@ -15,8 +15,9 @@ void testGameStates(){
 
     while (exit == false){
         cin >> command;
-        if (command == "loadmap"){
-            engine.loadMap();
+        //ex: loadmap Earth.map
+        if (command.find("loadmap")){
+            engine.loadMap(command);
         } else if (command == "validatemap") {
             engine.validateMap();
         } else if (command == "addplayer") {
@@ -42,6 +43,16 @@ void testGameStates(){
         }
     }
 }
+
+/*
+int main(){
+    GameEngine engine("start");
+    engine.loadMap("loadmap Map/Earth.map");
+    //engine.validateMap();
+    return 0;
+}
+*/
+
 //
 //int main() {
 //    testGameStates();
