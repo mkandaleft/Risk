@@ -1,0 +1,6 @@
+loadmap Earth.map
+validatemap
+addplayer player1
+addplayer player2
+gamestart
+quit
