@@ -79,10 +79,10 @@ void testStartupPhase(){
     engine.end();
 }
 
-int main(){
-    testStartupPhase();
-    return 0;
-}
+//int main(){
+  //  testStartupPhase();
+ //   return 0;
+//}
 
 //
 //int main() {
