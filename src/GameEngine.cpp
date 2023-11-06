@@ -27,17 +27,29 @@ void GameEngine::loadMap(string command) {
         
         int spaceIdx = command.find(' ');
 
-        string map = command.substr(spaceIdx + 1);
+        //if spaceIdx is less, than the space either does not exist, or is the last character, so there was no file provided
+        if(spaceIdx < command.length()-1){
+            string map = command.substr(spaceIdx + 1);
 
-        //check for invalid map names
-            //string fileName = map.substr(space+1);
+            //check for invalid map names
             Map temp = testLoadMap(map);//temporary, just to load the map in
+
+            
+
             gameMap = new Map(temp);//game map needs to be dynamically stored in order to exist outside of this function
             //currentstate is always maploaded even if it doesnt work
 
-            currentState = "maploaded";
+            //stops state change if a bad map file is used
+            if(gameMap->isMapConnected() && gameMap->areContinentsSubgraphs()){
+                currentState = "maploaded";
+            }
 
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
+        }
+        else{
+            cout<<"No map file provided"<<endl;
+        }
+        
     } else {
         cout << "Unable to load state, must be at state 'start' or 'map loaded' to load" << endl;
     }
@@ -45,11 +57,10 @@ void GameEngine::loadMap(string command) {
 
 void GameEngine::validateMap() {
     if (currentState == "maploaded") {
-        //gameMap->display();
         gameMap->validate();
 
         currentState = "mapvalidated";
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
     }
@@ -61,15 +72,23 @@ void GameEngine::addPlayer(string command) {
 
         
         int spaceIdx = command.find(' ');
-        //if command is properly called (e.g. "addplayer name"), "addplayer" will be disregarded
-        string name = command.substr(spaceIdx+1);
 
-        Player* gamer = new Player(name);
+        //if spaceIdx is less, than the space either does not exist, or is the last character, so there was no name added
+        if(spaceIdx < command.length()-1){
+            //if command is properly called (e.g. "addplayer name"), "addplayer" will be disregarded
+            string name = command.substr(spaceIdx+1);
+
+            //stops players from having no name
+                Player* gamer = new Player(name);
         
-        participants.push_back(gamer);
-        currentState = "playersadded";
-        cout << currentState << endl;
+                participants.push_back(gamer);
+                currentState = "playersadded";
+                cout <<"current state: "<< currentState << endl;
+        }
+        else{
+            cout<<"No name provided"<<endl;
 
+        }
     } else {
         cout << "Unable to load state, must be at state 'map validated' or 'players added' to load" << endl;
     }
@@ -77,8 +96,6 @@ void GameEngine::addPlayer(string command) {
 
 void GameEngine::assignCountries(){
     if (currentState == "playersadded"){
-        map<string,Territory*> mapTerritories = gameMap->getTerritories();
-
         //used to randomize the distribution of territories
         random_device rd;
         mt19937 ran(rd());
@@ -110,15 +127,12 @@ void GameEngine::assignCountries(){
 void GameEngine::gameStart(){
 if (currentState == "playersadded"){
     //4a
-        assignCountries();
-
+    assignCountries();
     //4b
     random_device rd;
     mt19937 ran(rd());
                 
     shuffle(participants.begin(),participants.end(),ran);
-
-    
 
     for(Player* gamer: participants){
         //4c
@@ -131,7 +145,7 @@ if (currentState == "playersadded"){
     }
 
         currentState = "assignreinforcement";
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
     }
@@ -140,7 +154,7 @@ if (currentState == "playersadded"){
 void GameEngine::issueOrder(){
     if (currentState == "assignreinforcement" || currentState == "issueorders"){
         currentState = "issueorders";
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
     }
@@ -149,7 +163,7 @@ void GameEngine::issueOrder(){
 void GameEngine::endIssueOrders(){
     if (currentState == "issue orders") {
         currentState = "execute orders";
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'issue orders' to load" << endl;
     }
@@ -158,7 +172,7 @@ void GameEngine::endIssueOrders(){
 void GameEngine::execOrder() {
     if (currentState == "execute orders"){
         currentState = "execute orders";
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -167,7 +181,7 @@ void GameEngine::execOrder() {
 void GameEngine::endExecOrders() {
     if (currentState == "execute orders"){
         currentState = "assign reinforcement";
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -176,7 +190,7 @@ void GameEngine::endExecOrders() {
 void GameEngine::win() {
     if (currentState == "execute orders"){
         currentState = "win";
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -185,6 +199,25 @@ void GameEngine::win() {
 void GameEngine::end() {
     if (currentState == "win"){
         cout << "Game Over. Thanks for playing!" << endl;
+
+        for(Card* card:gameDeck->getDeck()){
+            delete card;
+            card = nullptr;
+        }
+        delete gameDeck;
+        gameDeck = nullptr;
+        delete gameMap;
+        gameMap = nullptr;
+        for(Player* gamer:participants){
+            for(Card* card:gamer->getHand()->getHand()){
+                delete card;
+                card = nullptr;
+            }
+            delete gamer->getHand();
+            
+            gamer = nullptr;
+        }
+
         abort();
     } else {
         cout << "Unable to load state, must be at state 'win' to load" << endl;
@@ -195,7 +228,7 @@ void GameEngine::play() {
     if (currentState == "win" ||currentState == "start"){
 
         currentState = "start";
-        cout << currentState << endl;
+        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'win' to load" << endl;
     }
@@ -211,12 +244,14 @@ void GameEngine::startUpPhase(){
 
     while(startingUp || (participants.size() < 2)){
         getline(cin,command);
-        if (command.find("loadmap")){
+        if (command.find("loadmap",0)==0){
+            cout<<"Loading Map"<<endl;
             this->loadMap(command);
         } else if (command == "validatemap") {
+            cout<<"Validating Map"<<endl;
             this->validateMap();
-        } else if (command.find("addplayer")) {
-            cout<<"why you here";
+        } else if (command.find("addplayer",0)==0) {
+            cout<<"Adding Player"<<endl;
             if(participants.size() < 6){
                     this->addPlayer(command);
             }else{
@@ -224,14 +259,28 @@ void GameEngine::startUpPhase(){
             }
         } else if (command == "gamestart") {
             if(participants.size()>=2){
-                cout<<"starting game"<<endl;
+                cout<<"Starting Game"<<endl;
                 gameStart();
+
+                //4e
+                startingUp = false;
                 
             }else{
                 cout<<"Not enough players have been added"<<endl;
             }
         }
+        else{
+            cout<<"Unknown command"<<endl;
+        }
     }
-    
-     
+}
+
+Map* GameEngine::getMap(){
+    return gameMap;
+}
+vector<Player*> GameEngine::getPlayers(){
+    return participants;
+}
+Deck* GameEngine::getDeck(){
+    return gameDeck;
 }

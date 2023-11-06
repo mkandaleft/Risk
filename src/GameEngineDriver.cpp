@@ -45,27 +45,44 @@ void testGameStates(){
     }
 }
 
-
-int main(){
-    
+void testStartupPhase(){
     GameEngine engine("start");
-   engine.startUpPhase();
+    engine.startUpPhase();
 
-    //engine.gameMap->display();
+    Map* world = engine.getMap();
+    vector<Player*> contestants = engine.getPlayers();
+    Deck* cards = engine.getDeck();
 
-    //engine.startUpPhase();
+    world->display();
 
-/*
-    engine.loadMap("loadmap Map/Earth.map");
-    //engine.validateMap();
-    engine.setState("map validated");
-    engine.addPlayer();
-    
-    */
-    return 0;
-    
+    cards->display();
+
+    int playerCount = 1;
+
+    for(Player* player: contestants){
+        cout<<"\nPlayer "<<playerCount++<<endl;
+        cout<<"Name: "<<player->getName()<<endl;
+        cout<<"Territories: ";
+        for(Territory* land: player->getTerritories()){
+            cout<<land->getName()<<" ";
+        }
+        cout<<"\nHand: ";
+        for(Card* card: player->getHand()->getHand()){
+            cout<<card->getType().getName()<< " ";
+        }
+        cout<<"\n";
+
+    }
+
+    //prematurely calls end to delete dynamic objects
+    engine.setState("win");
+    engine.end();
 }
 
+int main(){
+    testStartupPhase();
+    return 0;
+}
 
 //
 //int main() {

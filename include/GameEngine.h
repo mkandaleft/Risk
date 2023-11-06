@@ -34,4 +34,9 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
+
+    //for testStartupPhase
+    Map* getMap();
+    vector<Player*> getPlayers();
+    Deck* getDeck();
 };
