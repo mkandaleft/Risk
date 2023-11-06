@@ -11,9 +11,9 @@ class GameEngine {
 
     private:
     string currentState;
-    vector<Player*> participants;
     Map* gameMap;
-    //Deck* cards;
+    vector<Player*> participants;
+    Deck* gameDeck;
 
     
 
@@ -23,8 +23,9 @@ class GameEngine {
     void setState(string state);
     void loadMap(string map);
     void validateMap();
-    void addPlayer();
+    void addPlayer(string name);
     void assignCountries();
+    void gameStart();
     void issueOrder();
     void endIssueOrders();
     void execOrder();

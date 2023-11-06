@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../include/AllHeaders.h"
 #include "GameEngine.cpp"
+#include "Player.cpp"
 
 using namespace std;
 
@@ -16,12 +17,12 @@ void testGameStates(){
     while (exit == false){
         cin >> command;
         //ex: loadmap Earth.map
-        if (command.find("loadmap")){
+        if (command=="loadmap"){
             engine.loadMap(command);
         } else if (command == "validatemap") {
             engine.validateMap();
         } else if (command == "addplayer") {
-            engine.addPlayer();
+            engine.addPlayer("");
         } else if (command == "assigncountries") {
             engine.assignCountries();
         } else if (command == "issueorder") {
@@ -44,14 +45,27 @@ void testGameStates(){
     }
 }
 
-/*
+
 int main(){
+    
     GameEngine engine("start");
+   engine.startUpPhase();
+
+    //engine.gameMap->display();
+
+    //engine.startUpPhase();
+
+/*
     engine.loadMap("loadmap Map/Earth.map");
     //engine.validateMap();
+    engine.setState("map validated");
+    engine.addPlayer();
+    
+    */
     return 0;
+    
 }
-*/
+
 
 //
 //int main() {

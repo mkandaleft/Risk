@@ -7,10 +7,12 @@
 */
 
 #include "../include/Player.h"
-
+#include "Orders.cpp"
 using std::string;
 
-Player::Player(const string& playerName) : name(playerName) {}
+Player::Player(const string& playerName) : name(playerName),reinformentPool(0) {
+    hand = new Hand();
+}
 
 void Player::addTerritory(Territory& territory) {
     territories.push_back(&territory);
@@ -41,4 +43,19 @@ Player::Player(const Player& player) {
     ordersList = player.ordersList;
 }
 
+void Player::earnReinforcement(int add){
+    reinformentPool+= add;
+}
+
+void Player::useReinforcement(int use){
+    reinformentPool-= use;
+}
+
+vector<Territory*> Player::getTerritories(){
+    return territories;
+}
+
+Hand* Player::getHand(){
+    return hand;
+}
 
