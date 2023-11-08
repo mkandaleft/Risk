@@ -6,6 +6,9 @@ class Continent;
 
 Territory::Territory() {}
 Territory::Territory(const string& name) : name(name) {}
+
+Territory::Territory(const Territory& other):name(other.name),adjacents(other.adjacents),x(other.x),y(other.y),continent(other.continent){}
+
 string Territory::getName() const { return name; }
 Continent* Territory::getContinent() const { return continent; }
 vector<Territory*> Territory::getAdjacents() const { return adjacents; }

@@ -1,4 +1,6 @@
-
+.vscode/tasks.json
+.vscode/settings.json
+.vscode/c_cpp_properties.json
 .vs/slnx.sqlite
 .vs/Risk/v17/ipch/AutoPCH/151fc92bbc89dde8/MAP.ipch
 .vs/Risk/v17/Browse.VC.opendb

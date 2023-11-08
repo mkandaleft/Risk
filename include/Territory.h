@@ -23,6 +23,7 @@ public:
 	vector<string> adjacent; //holds names of adjacents. (temporary)
 	explicit Territory();
 	explicit Territory(const string& name);
+	explicit Territory(const Territory& other);
 	string getName() const;
 	Continent* getContinent() const;
 	vector<Territory*> getAdjacents() const;
