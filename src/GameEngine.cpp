@@ -22,6 +22,10 @@ void GameEngine::setState(string state) {
     currentState = state;
 }
 
+void GameEngine::loadMap() {
+    /*if (currentState == "start" || currentState == "map loaded") {
+        currentState = "map loaded";
+        cout << currentState << endl;
 void GameEngine::loadMap(string command) {
     if (currentState == "start" || currentState == "maploaded") {
         
@@ -52,10 +56,13 @@ void GameEngine::loadMap(string command) {
         
     } else {
         cout << "Unable to load state, must be at state 'start' or 'map loaded' to load" << endl;
-    }
+    }*/
 }
 
 void GameEngine::validateMap() {
+    /*if (currentState == "map loaded") {
+        currentState = "map validated";
+        cout << currentState << endl;
     if (currentState == "maploaded") {
         gameMap->validate();
 
@@ -63,7 +70,7 @@ void GameEngine::validateMap() {
         cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
-    }
+    }*/
 }
 
 void GameEngine::addPlayer(string command) {
