@@ -115,6 +115,7 @@ void GameEngine::play() {
     }
 }
 
+<<<<<<< Updated upstream
 void testGameStates(){
     GameEngine engine("start");
     
@@ -151,4 +152,20 @@ void testGameStates(){
             cout << "Incorrect command. Please retry." << endl;
         }
     }
+=======
+void GameEngine::mainGameLoop() {
+
+}
+
+void GameEngine::reinforcementPhase() {
+
+}
+
+void GameEngine::issueOrdersPhase() {
+
+}
+
+void GameEngine::executeOrdersPhase() {
+    
+>>>>>>> Stashed changes
 }

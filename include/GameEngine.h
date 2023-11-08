@@ -23,6 +23,14 @@ class GameEngine {
     void win();
     void end();
     void play();
+<<<<<<< Updated upstream
 };
 
 void testGameStates();
+=======
+    void mainGameLoop();
+    void reinforcementPhase();
+    void issueOrdersPhase();
+    void executeOrdersPhase();
+};
+>>>>>>> Stashed changes
