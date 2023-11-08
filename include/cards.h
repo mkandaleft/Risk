@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Orders.h"
+#include "AllHeaders.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ public:
 	void play(Deck& gameDeck, Hand& playerHand);
 
 	Orders getType();
-
+	
 	int getId();
 	void addId();
 
@@ -37,6 +38,7 @@ public:
 	Deck(int size);
 	Deck(const Deck& other);
 
+	void draw(Hand& hand);
 	Card& draw();
 
 
@@ -44,10 +46,12 @@ public:
 	vector<Card*> getDeck();
 
 	void addCard(Card& added);
+	void removeCard(Card drawn);
 
 	int getMaxSize();
 	int getSize();
 
+	//void shuffle();
 private:
 	vector<Card*> cards;
 	int maxSize;
