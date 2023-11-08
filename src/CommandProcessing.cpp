@@ -3,90 +3,65 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
+#include "../include/AllHeaders.h"
 
 using namespace std;
 
-class Command {
-public:
-    string commandText;
-    string effect;
+Command::Command(std::string text) : commandText(text) {}
 
-    Command(string text) {
-        commandText = text;
+void Command::saveEffect(std::string eff) {
+    effect = eff;
+}
+
+std::string CommandProcessor::readCommand() {
+    std::string userInput;
+    std::cout << "Enter a command: ";
+    std::cin.ignore(); // Clear any previous newline characters
+    std::getline(std::cin, userInput);
+    return userInput;
+}
+
+void CommandProcessor::getCommand() {
+    std::string s = readCommand();
+    Command* newCommand = new Command(s);
+    saveCommand(newCommand);
+}
+
+void CommandProcessor::saveCommand(Command* c) {
+    commands.push_back(c);
+}
+
+void CommandProcessor::displayCommands() {
+    for (Command* cmd : commands) {
+        std::cout << "Command: " << cmd->commandText << ", Effect: " << cmd->effect << std::endl;
     }
+}
 
-    void saveEffect(string eff) {
-        effect = eff;
+FileLineReader::FileLineReader(std::string filename) {
+    file.open(filename);
+}
+
+std::string FileLineReader::readLineFromFile() {
+    std::string line;
+    if (file.is_open()) {
+        std::getline(file, line);
     }
+    return line;
+}
 
-};
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(std::string filename, CommandProcessor& processorRef) : flr(filename), processor(processorRef) {}
 
-class CommandProcessor {
-public:
-    vector<Command*> commands;
-
-    string readCommand() {
-        string userInput;
-        cout << "Enter a command: ";
-        cin.ignore(); // Clear any previous newline characters
-        getline(cin, userInput);
-        return userInput;
+void FileCommandProcessorAdapter::readCommand() {
+    std::string command;
+    while (!(command = flr.readLineFromFile()).empty()) {
+        saveCommand(command);
     }
+}
 
-    void getCommand() {
-        string s = readCommand();
-        Command* newCommand = new Command(s);
-        saveCommand(newCommand);
-    }
-
-    void saveCommand(Command* c) {
-        commands.push_back(c);
-    }
-
-    void displayCommands() {
-        for (Command* cmd : commands) {
-            cout << "Command: " << cmd->commandText << ", Effect: " << cmd->effect << endl;
-        }
-    }
-
-};
-
-class FileLineReader {
-public:
-    ifstream file;
-
-    FileLineReader(string filename) {
-        file.open(filename);
-    }
-
-    string readLineFromFile() {
-        string line;
-        if (file.is_open()) {
-            getline(file, line);
-        }
-        return line;
-    }
-};
-
-class FileCommandProcessorAdapter {
-public:
-    FileLineReader flr;
-    CommandProcessor& processor;
-
-    FileCommandProcessorAdapter(string filename, CommandProcessor& processorRef) : flr(filename), processor(processorRef) {}
-
-    void readCommand() {
-        string command;
-        while (!(command = flr.readLineFromFile()).empty()) {
-            saveCommand(command);
-        }
-    }
-
-    void saveCommand(string s) {
-        Command* newCommand = new Command(s);
-        processor.commands.push_back(newCommand);
-    }
-};
+void FileCommandProcessorAdapter::saveCommand(std::string s) {
+    Command* newCommand = new Command(s);
+    processor.commands.push_back(newCommand);
+}
 
 int main() {
     CommandProcessor processor;
