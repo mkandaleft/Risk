@@ -17,21 +17,21 @@ void GameEngine::setState(string state) {
 }
 
 void GameEngine::loadMap() {
-    if (currentState == "start" || currentState == "map loaded") {
+    /*if (currentState == "start" || currentState == "map loaded") {
         currentState = "map loaded";
         cout << currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'start' or 'map loaded' to load" << endl;
-    }
+    }*/
 }
 
 void GameEngine::validateMap() {
-    if (currentState == "map loaded") {
+    /*if (currentState == "map loaded") {
         currentState = "map validated";
         cout << currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
-    }
+    }*/
 }
 
 void GameEngine::addPlayer() {
