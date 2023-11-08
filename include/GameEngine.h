@@ -4,6 +4,7 @@
 #include <vector>
 #include "AllHeaders.h"
 #include "Map.h"
+#include "CommandProcessing.h"
 
 using std::string;
 
@@ -14,8 +15,7 @@ class GameEngine {
     Map* gameMap;
     vector<Player*> participants;
     Deck* gameDeck;
-
-    
+    CommandProcessor processor;
 
     public:
     GameEngine(const string& state);

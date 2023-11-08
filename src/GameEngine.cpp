@@ -12,6 +12,7 @@ using namespace std;
 GameEngine::GameEngine(const string &state) : currentState(state){
     currentState = "start";
     gameDeck = new Deck(100);
+
 }
 
 string GameEngine::getState() const{
@@ -22,10 +23,7 @@ void GameEngine::setState(string state) {
     currentState = state;
 }
 
-void GameEngine::loadMap() {
-    /*if (currentState == "start" || currentState == "map loaded") {
-        currentState = "map loaded";
-        cout << currentState << endl;
+
 void GameEngine::loadMap(string command) {
     if (currentState == "start" || currentState == "maploaded") {
         
@@ -56,13 +54,11 @@ void GameEngine::loadMap(string command) {
         
     } else {
         cout << "Unable to load state, must be at state 'start' or 'map loaded' to load" << endl;
-    }*/
+    }
 }
 
 void GameEngine::validateMap() {
-    /*if (currentState == "map loaded") {
-        currentState = "map validated";
-        cout << currentState << endl;
+
     if (currentState == "maploaded") {
         gameMap->validate();
 
@@ -70,8 +66,9 @@ void GameEngine::validateMap() {
         cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
-    }*/
+    }
 }
+
 
 void GameEngine::addPlayer(string command) {
 
@@ -250,7 +247,9 @@ void GameEngine::startUpPhase(){
     cout << "Welcome! Please enter a command to begin playing!" << endl;
 
     while(startingUp || (participants.size() < 2)){
-        getline(cin,command);
+
+        command = processor.getCommand();
+
         if (command.find("loadmap",0)==0){
             cout<<"Loading Map"<<endl;
             this->loadMap(command);
