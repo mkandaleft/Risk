@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include "../include/LoggingObserver.h"
 
 class Command {
 public:
