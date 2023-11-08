@@ -17,7 +17,7 @@ public:
     std::vector<Command*> commands;
 
     std::string readCommand();
-    void getCommand();
+    std::string getCommand();
     void saveCommand(Command* c);
     void displayCommands();
 };

@@ -1,12 +1,14 @@
-#include "../include/GameEngine.h"
 #include <iostream>
 #include "../include/AllHeaders.h"
 #include "GameEngine.cpp"
+#include "CommandProcessing.cpp"
 
 using namespace std;
 
 void testGameStates(){
     GameEngine engine("start");
+
+    CommandProcessor processor;
     
     string command;
     bool exit = false;
@@ -14,7 +16,7 @@ void testGameStates(){
     cout << "Welcome! Please enter a command to begin playing!" << endl;
 
     while (exit == false){
-        cin >> command;
+        command = processor.getCommand();
         if (command == "loadmap"){
             engine.loadMap();
         } else if (command == "validatemap") {
@@ -37,14 +39,19 @@ void testGameStates(){
             engine.end();
         } else if (command == "play") {
             engine.play();
-        } else {
+        }else if (command == "exit") {
+            exit = true;
+        }
+        else {
             cout << "Incorrect command. Please retry." << endl;
+            cout << command<< endl;
         }
     }
 }
-//
-//int main() {
-//    testGameStates();
-//    return 0;
-//}
-//
+
+
+int main() {
+    testGameStates();
+    return 0;
+}
+
