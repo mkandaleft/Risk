@@ -2,9 +2,7 @@
 //
 
 #include <iostream>
-//#include "../include/cards.h"
-#include "Orders.cpp"
-#include "cards.cpp"
+#include "../include/cards.h"
 #include "../include/AllHeaders.h"
 using namespace std;
 

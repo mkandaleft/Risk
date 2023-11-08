@@ -1,7 +1,7 @@
 #include "iostream"
 #include <vector>
 #include "../include/AllHeaders.h"
-#include "MapDriver.cpp"
+//#include "MapDriver.cpp"
 #include "PlayerDriver.cpp"
 #include "GameEngineDriver.cpp"
 #include "OrdersDriver.cpp"
@@ -22,8 +22,8 @@ int main() {
     testPlayers(); // Call the testPlayer method in PlayerDriver.cpp
     testOrdersLists();
     testCards();
-    testGameStates();
-    
+    //testGameStates();
+    testStartupPhase();
 
     return 0;
 }
