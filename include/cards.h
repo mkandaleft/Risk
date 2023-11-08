@@ -37,7 +37,7 @@ public:
 	Deck(int size);
 	Deck(const Deck& other);
 
-	void draw(Hand& hand);
+	Card& draw();
 
 
 	void display();

@@ -23,7 +23,8 @@ class Player {
         string name;
         vector<Territory*> territories;
         OrdersList* ordersList;
-        //Hand* hand;
+        Hand* hand;
+        int reinformentPool;
 
     public:
         Player(const string& playerName);
@@ -33,5 +34,9 @@ class Player {
         void issueOrder(Orders& order);
         string getName() const;
         Player(const Player& player);
+        vector<Territory*> getTerritories();
+        void earnReinforcement(int added);
+        void useReinforcement(int used);
+        Hand* getHand();
 
 };

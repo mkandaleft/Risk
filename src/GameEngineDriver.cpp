@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../include/AllHeaders.h"
 #include "GameEngine.cpp"
+#include "Player.cpp"
 
 using namespace std;
 
@@ -15,12 +16,13 @@ void testGameStates(){
 
     while (exit == false){
         cin >> command;
-        if (command == "loadmap"){
-            engine.loadMap();
+        //ex: loadmap Earth.map
+        if (command=="loadmap"){
+            engine.loadMap(command);
         } else if (command == "validatemap") {
             engine.validateMap();
         } else if (command == "addplayer") {
-            engine.addPlayer();
+            engine.addPlayer("");
         } else if (command == "assigncountries") {
             engine.assignCountries();
         } else if (command == "issueorder") {
@@ -42,6 +44,46 @@ void testGameStates(){
         }
     }
 }
+
+void testStartupPhase(){
+    GameEngine engine("start");
+    engine.startUpPhase();
+
+    Map* world = engine.getMap();
+    vector<Player*> contestants = engine.getPlayers();
+    Deck* cards = engine.getDeck();
+
+    world->display();
+
+    cards->display();
+
+    int playerCount = 1;
+
+    for(Player* player: contestants){
+        cout<<"\nPlayer "<<playerCount++<<endl;
+        cout<<"Name: "<<player->getName()<<endl;
+        cout<<"Territories: ";
+        for(Territory* land: player->getTerritories()){
+            cout<<land->getName()<<" ";
+        }
+        cout<<"\nHand: ";
+        for(Card* card: player->getHand()->getHand()){
+            cout<<card->getType().getName()<< " ";
+        }
+        cout<<"\n";
+
+    }
+
+    //prematurely calls end to delete dynamic objects
+    engine.setState("win");
+    engine.end();
+}
+
+//int main(){
+  //  testStartupPhase();
+ //   return 0;
+//}
+
 //
 //int main() {
 //    testGameStates();

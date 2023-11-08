@@ -3,6 +3,7 @@
 
 #include <iostream>
 //#include "../include/cards.h"
+#include "Orders.cpp"
 #include "cards.cpp"
 #include "../include/AllHeaders.h"
 using namespace std;
@@ -16,12 +17,16 @@ void testCards() {
 	deck.display();
 
 	cout << "\nDrawing...\n";
-	deck.draw(myHand);
-	deck.draw(myHand);
-	deck.draw(myHand);
-	deck.draw(myHand);
-	deck.draw(myHand);
-	deck.draw(myHand);
+
+	try{
+		myHand.addCard((deck.draw()));
+		myHand.addCard((deck.draw()));
+		myHand.addCard((deck.draw()));
+		myHand.addCard((deck.draw()));
+		myHand.addCard((deck.draw()));
+	}catch(const exception& e){
+		cerr<<e.what();
+	}
 
 
 	cout << "\nHand after drawing\n";

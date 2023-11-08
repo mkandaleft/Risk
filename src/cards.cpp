@@ -3,7 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include "../include/cards.h"
-#include "Orders.cpp"
+#include "../include/Orders.h"
+//#include "Orders.cpp"
 using namespace std;
 
 
@@ -106,31 +107,21 @@ Deck::Deck(int numCards) {
 	}
 }
 
-void Deck::draw(Hand& hand) {
+Card& Deck::draw() {
 	if (cards.size() <= 0) {
-		cout << "No more cards\n";
-		return;
+		throw runtime_error("No more cards");
 	}
-
-	if (hand.getSize() >= hand.getMax()) {
-		cout << "You have too many cards already\n";
-		return;
-	}
-
 
 	srand((unsigned int)time(NULL) * (unsigned int)time(NULL));//random seed based on time
 	int index = rand() % cards.size(); //index where the card will be randomly inserted
 
-
 	Card* drawn = cards[index]; // get random card to be inserted to hand later
 	drawn->addId();//gives ids to cards so that they can be found in the hand later
 
-
-	//add card to hand
-	hand.addCard(*drawn);
-
 	//remove card from hand
 	cards.erase(cards.begin() + index);
+	
+	return *drawn;
 
 }
 
@@ -170,7 +161,7 @@ void Deck::addCard(Card& added) {
 }
 
 Hand::Hand() {
-	maxSize = 0;
+	maxSize = 10;
 }
 
 Hand::Hand(int max) {
