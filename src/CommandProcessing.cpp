@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -17,27 +18,29 @@ public:
     void saveEffect(string eff) {
         effect = eff;
     }
+
 };
 
 class CommandProcessor {
 public:
     vector<Command*> commands;
 
-    void readCommand() {
+    string readCommand() {
         string userInput;
         cout << "Enter a command: ";
         cin.ignore(); // Clear any previous newline characters
         getline(cin, userInput);
-        saveCommand(userInput);
+        return userInput;
     }
 
     void getCommand() {
-        readCommand();
+        string s = readCommand();
+        Command* newCommand = new Command(s);
+        saveCommand(newCommand);
     }
 
-    void saveCommand(string s) {
-        Command* newCommand = new Command(s);
-        commands.push_back(newCommand);
+    void saveCommand(Command* c) {
+        commands.push_back(c);
     }
 
     void displayCommands() {
@@ -45,6 +48,7 @@ public:
             cout << "Command: " << cmd->commandText << ", Effect: " << cmd->effect << endl;
         }
     }
+
 };
 
 class FileLineReader {
