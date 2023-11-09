@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <list>
+
 using namespace std;
 
 class Observer {
@@ -14,13 +15,13 @@ class Observer {
 
 class Subject {
     public:
-        virtual void attach(Observer* o);
-        virtual void detach(Observer* o);
-        virtual void notify();
-        Subject();
-        ~Subject();
+        virtual void attach(Observer* o)=0;
+        virtual void detach(Observer* o)=0;
+        virtual void notify()=0;
+        Subject() {};
+        ~Subject() {};  // EMPTY BRACKETS SHOULDN'T BE EMPTY ):<
 
-    private:
+    protected:
         list<Observer*> *_observers;
 };
 

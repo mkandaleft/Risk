@@ -7,6 +7,7 @@
 #include "OrdersDriver.cpp"
 #include "Cardsdriver.cpp"
 //#include "../include/testing/MapDriver.h"
+#include "LoggingObserverDriver.cpp"
 
 using std::string;
 using std::vector;
