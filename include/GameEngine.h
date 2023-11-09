@@ -34,6 +34,10 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
+    void mainGameLoop();
+    void reinforcementPhase();
+    void issueOrderPhase();
+    void executeOrdersPhase();
 
     //for testStartupPhase
     Map* getMap();

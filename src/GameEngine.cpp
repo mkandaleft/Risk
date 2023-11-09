@@ -22,11 +22,11 @@ void GameEngine::setState(string state) {
     currentState = state;
 }
 
-void GameEngine::loadMap() {
+void GameEngine::loadMap(string map) {
     /*if (currentState == "start" || currentState == "map loaded") {
         currentState = "map loaded";
         cout << currentState << endl;
-void GameEngine::loadMap(string command) {
+    void GameEngine::loadMap(string command) {
     if (currentState == "start" || currentState == "maploaded") {
         
         int spaceIdx = command.find(' ');
@@ -280,6 +280,63 @@ void GameEngine::startUpPhase(){
             cout<<"Unknown command"<<endl;
         }
     }
+}
+
+// go through each phase of the main game loop
+void GameEngine::mainGameLoop(){
+    reinforcementPhase();
+    issueOrderPhase();
+    executeOrdersPhase();
+}
+
+void GameEngine::reinforcementPhase(){
+    // get the map and continents from it
+    Map* mapPointer = getMap();
+    map<string, Continent*> continents = mapPointer->getContinents();
+
+    // Give each player their units to play this turn
+    for (const auto& playerPtr : participants) {
+        // get the territories owned by this player
+        vector<Territory*> playerTerritories = playerPtr->getTerritories();
+        int earnedUnits = (playerTerritories.size())/3;
+        // implement the determining of bonus units awarded upon having all territories in a continent
+        // for each pair in map<string, Continent*>, we only want Continent here.
+        for (const auto& pair : continents) {
+            Continent* continentPtr = pair.second;
+            vector<Territory*> contTerritories = continentPtr->getTerritory();
+            // We start by saying the player has the continent. If it is found that there is a missing
+            // territory, we will say that the player doesn't have it.
+            bool hasContinent = true;
+            for (const auto& territoryPtr : contTerritories) {
+                // use find to try and find the territory in the continent. This is done for every territory.
+                auto it = find(playerTerritories.begin(), playerTerritories.end(), territoryPtr);
+                // if it is found continue the loop
+                if (it != playerTerritories.end()) {
+                    hasContinent = true;
+                    continue;
+                } else { // if not found, the continent isn't claimed, so break the loop
+                    hasContinent = false;
+                    break;
+                }
+            }
+            if (hasContinent) earnedUnits += continentPtr->getValue();
+        }
+        // adjust if this player has less than 3 units
+        if (earnedUnits < 3) earnedUnits = 3;
+        playerPtr->earnReinforcement(earnedUnits);
+    }
+}
+
+void GameEngine::issueOrderPhase(){
+    // Have each player issue their orders
+    for (const auto& playerPtr : participants) {
+        const vector<Territory*>& attackable = playerPtr->toAttack();
+        const vector<Territory*>& defendable = playerPtr->toDefend();
+    }
+}
+
+void GameEngine::executeOrdersPhase(){
+
 }
 
 Map* GameEngine::getMap(){

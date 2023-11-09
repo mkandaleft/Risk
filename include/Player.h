@@ -38,5 +38,5 @@ class Player {
         void earnReinforcement(int added);
         void useReinforcement(int used);
         Hand* getHand();
-
+    
 };
