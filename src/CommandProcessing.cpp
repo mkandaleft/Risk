@@ -16,7 +16,7 @@ void Command::saveEffect(std::string eff) {
 std::string CommandProcessor::readCommand() {
     std::string userInput;
     std::cout << "Enter a command: ";
-    //std::cin.ignore('\n'); // Clear any previous newline characters
+    //std::cin.ignore(); // Clear any previous newline characters
     cin >> userInput;
     return userInput;
 }
