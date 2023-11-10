@@ -59,3 +59,15 @@ Hand* Player::getHand(){
     return hand;
 }
 
+vector<Player*> Player::getAlliances()
+{
+    return alliances;
+}
+
+void Player::addAlliance(*Player ally)
+{
+    alliances.push_back(ally);
+}
+
+
+

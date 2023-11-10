@@ -14,6 +14,7 @@ class GameEngine {
     Map* gameMap;
     vector<Player*> participants;
     Deck* gameDeck;
+    Player* neutralPlayer = new Player("neutralPlayer");
 
     
 
@@ -34,6 +35,7 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
+    static Player* getNeutralPlayer();
 
     //for testStartupPhase
     Map* getMap();

@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <vector>
+#include <time.h>
+#include <stdlib.h>
+
 using std::string;
 using std::vector;
 
@@ -17,8 +20,8 @@ public:
 
 
     //will use the proper one from the subclasses
-    virtual bool validate();
-    virtual void execute();
+    virtual bool validate() =0;
+    virtual void execute() =0;
     virtual ~Orders();
 
     string getName() const;
@@ -31,54 +34,73 @@ public:
 
 class Deploy : public Orders {
 private:
+    int units;
+    Territory* target;
+    Player* issuingPlayer;
 
 public:
-    Deploy(int i);
+    Deploy(int units, Territory* target, Player* issuingPlayer);
     bool validate();
     void execute();
 };
 
 class Advance : public Orders {
 private:
+    int units;
+    Territory* source;
+    Territory* target;
+    Player* issuingPlayer;
+    void Battle(Territory* source, Territory* target);
+    bool isAlly(Player* player1, Player* player2);
 
 public:
-    Advance(int i);
+    Advance(int units, Territory* source, Territory* target, Player* issuingPlayer);
     bool validate();
     void execute();
 };
 
 class Bomb : public Orders {
 private:
+    Territory* target;
+    Player* issuingPlayer;
 
 public:
-    Bomb(int i);
+    Bomb(Territory* target, Player* issuingPlayer);
     bool validate();
     void execute();
 };
 
 class Blockade : public Orders {
 private:
+    Territory* target;
+    Player* issuingPlayer;
 
 public:
-    Blockade(int i);
+    Blockade(Territory* target, Player* issuingPlayer);
     bool validate();
     void execute();
 };
 
 class Airlift : public Orders {
 private:
+    int units;
+    Territory* source;
+    Territory* target;
+    Player* issuingPlayer;
 
 public:
-    Airlift(int i);
+    Airlift(int units, Territory* source, Territory* target, Player* issuingPlayer);
     bool validate();
     void execute();
 };
 
 class Negotiate : public Orders {
 private:
+    Player* issuingPlayer;
+    Player* target;
 
 public:
-    Negotiate(int i);
+    Negotiate(Player* target, Player* issuingPlayer);
     bool validate();
     void execute();
 };
