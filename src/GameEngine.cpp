@@ -23,7 +23,6 @@ void GameEngine::setState(string state) {
     currentState = state;
 }
 
-
 void GameEngine::loadMap(string command) {
     if (currentState == "start" || currentState == "maploaded") {
         
@@ -58,7 +57,6 @@ void GameEngine::loadMap(string command) {
 }
 
 void GameEngine::validateMap() {
-
     if (currentState == "maploaded") {
         gameMap->validate();
 
