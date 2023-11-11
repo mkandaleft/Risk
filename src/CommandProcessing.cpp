@@ -17,7 +17,7 @@ std::string CommandProcessor::readCommand() {
     std::string userInput;
     std::cout << "Enter a command: ";
     //std::cin.ignore(); // Clear any previous newline characters
-    std::getline(std::cin, userInput);
+    cin >> userInput;
     return userInput;
 }
 
