@@ -8,3 +8,4 @@
 #include "Map.h"
 #include "testing/PlayerDriver.h"
 #include "CommandProcessing.h"
+#include "LoggingObserver.h"

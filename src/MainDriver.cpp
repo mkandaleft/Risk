@@ -6,6 +6,7 @@
 #include "GameEngineDriver.cpp"
 #include "OrdersDriver.cpp"
 #include "Cardsdriver.cpp"
+//#include "LoggingObserverDriver.cpp"
 //#include "../include/testing/MapDriver.h"
 
 using std::string;
@@ -24,6 +25,7 @@ int main() {
     testCards();
     //testGameStates();
     testStartupPhase();
+    //testLoggingObserver();
 
     return 0;
 }

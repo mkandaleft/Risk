@@ -2,17 +2,24 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include "LoggingObserver.h"
 
-class Command {
+class Command: public Subject, public ILoggable {
 public:
     std::string commandText;
     std::string effect;
 
     Command(std::string text);
     void saveEffect(std::string eff);
+
+    //observer methods
+    void attach(Observer* o) override;
+    void detach(Observer* o) override;
+    void notify(ILoggable* loggable) override;
+    string stringToLog() override;
 };
 
-class CommandProcessor {
+class CommandProcessor: public Subject, public ILoggable  {
 public:
     std::vector<Command*> commands;
 
@@ -20,6 +27,12 @@ public:
     std::string getCommand();
     void saveCommand(Command* c);
     void displayCommands();
+
+    //observer methods
+    void attach(Observer* o) override;
+    void detach(Observer* o) override;
+    void notify(ILoggable* loggable) override;
+    string stringToLog() override;
 };
 
 class FileLineReader {

@@ -2,10 +2,11 @@
 
 #include <iostream>
 #include <vector>
+#include "LoggingObserver.h"
 using std::string;
 using std::vector;
 
-class  Orders {
+class  Orders: public Subject, public ILoggable {
 private:
     string name;
     string description;
@@ -27,6 +28,13 @@ public:
     void setName(string s);
     void setDescription(string s);
     void setResult(string s);
+
+
+    //observer methods
+    void attach(Observer* o) override;
+    void detach(Observer* o) override;
+    void notify(ILoggable* loggable) override;
+    string stringToLog() override;
 };
 
 class Deploy : public Orders {
@@ -83,7 +91,7 @@ public:
     void execute();
 };
 
-class  OrdersList {
+class  OrdersList: public Subject, public ILoggable {
 private:
     vector<Orders> ordersList;
 
@@ -94,4 +102,11 @@ public:
     void printOrders();
 
     const vector<Orders>& getOrders() const;
+
+
+    //observer methods
+    void attach(Observer* o) override;
+    void detach(Observer* o) override;
+    void notify(ILoggable* loggable) override;
+    string stringToLog() override;
 };

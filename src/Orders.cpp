@@ -9,6 +9,7 @@ Orders::Orders() {
     name = "default order name";
     description = "default order description";
     result = "default order result";
+    _observers = new list<Observer*>;
 }
 
 //parameterized constructor
@@ -27,6 +28,7 @@ void Orders::execute()
     else {
         std::cout << "Could not perform default action." << std::endl;
     }
+    notify(this);
 }
 
 Orders::~Orders()
@@ -52,6 +54,22 @@ void Orders::setDescription(string s) {
 }
 void Orders::setResult(string s) {
     result = s;
+}
+
+//OBSERVER METHODS
+void Orders::attach(Observer* o) {
+    _observers->push_back(o);
+}
+void Orders::detach(Observer* o)  {
+    _observers->remove(o);
+}
+void Orders::notify(ILoggable* loggable) {
+    list<Observer*>::iterator i = _observers->begin();
+    for (; i != _observers->end(); ++i)
+        (*i)->update(loggable);
+}
+string Orders::stringToLog() {
+    return "Order Name: " + getName() + ", Description: " + getDescription() + ", Result: " + getResult();
 }
 
 //DEPLOY
@@ -190,6 +208,7 @@ void Negotiate::execute() {
 
 void OrdersList::addOrder(Orders& order) {
     ordersList.push_back(order);
+    // notify(this);                        // Causes runtime error ):
 }
 
 
@@ -234,4 +253,27 @@ void OrdersList::printOrders()
 
 const vector<Orders>& OrdersList::getOrders() const {
     return ordersList;
+}
+
+//ORDERS LIST OBSERVER METHODS
+void OrdersList::attach(Observer* o) {
+    _observers->push_back(o);
+}
+
+void OrdersList::detach(Observer* o) {
+    _observers->remove(o);
+}
+
+void OrdersList::notify(ILoggable* loggable) {
+    list<Observer*>::iterator i = _observers->begin();
+    for (; i != _observers->end(); ++i)
+        (*i)->update(loggable);
+}
+
+string OrdersList::stringToLog() {
+    std::string logString = "Orders List: ";
+    for (Orders& order : ordersList) {
+        logString += order.stringToLog() + ", ";
+    }
+    return logString;
 }
