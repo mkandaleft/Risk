@@ -22,6 +22,7 @@ class GameEngine {
     void loadMap(string map);
     void validateMap();
     void addPlayer(string name);
+    void addPlayerObject(Player* player);
     void assignCountries();
     void gameStart();
     void issueOrder();

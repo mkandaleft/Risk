@@ -59,7 +59,7 @@ public:
 
 	bool areContinentsSubgraphs() ;
 
-	bool isMapConnected() const ;
+	bool isMapConnected() ;
 
 	bool validate();
 

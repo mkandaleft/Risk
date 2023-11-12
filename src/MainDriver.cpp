@@ -6,7 +6,6 @@
 #include "GameEngineDriver.cpp"
 #include "OrdersDriver.cpp"
 #include "Cardsdriver.cpp"
-//#include "../include/testing/MapDriver.h"
 
 using std::string;
 using std::vector;
@@ -15,7 +14,7 @@ using std::vector;
 int main() {
     
 
-    Map myMap = testLoadMap("Map/Earth.map");
+    //Map myMap = testLoadMap("Map/Earth.map");
     //myMap.display();
     myMap.validate();
 

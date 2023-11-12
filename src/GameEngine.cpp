@@ -32,21 +32,9 @@ void GameEngine::loadMap(string command) {
         //if spaceIdx is less, than the space either does not exist, or is the last character, so there was no file provided
         if(spaceIdx < command.length()-1){
             string map = command.substr(spaceIdx + 1);
-
-            //check for invalid map names
-            //Map temp = testLoadMap(map);//temporary, just to load the map in
-
-            
-
-            //gameMap = &temp;//game map needs to be dynamically stored in order to exist outside of this function
-            //currentstate is always maploaded even if it doesnt work
-
-            *gameMap = testLoadMap(map);
-
+            *gameMap = testLoadMap(map); //assignment operator called
             setState("maploaded");
             cout << "current state: " << getState() << endl;
-
-        
         }
         else{
             cout<<"No map file provided"<<endl;
@@ -96,6 +84,11 @@ void GameEngine::addPlayer(string command) {
         cout << "Unable to load state, must be at state 'map validated' or 'players added' to load" << endl;
     }
 }
+
+void GameEngine::addPlayerObject(Player* player) {
+    participants.push_back(player);
+}
+
 
 void GameEngine::assignCountries(){
     if (currentState == "playersadded"){
