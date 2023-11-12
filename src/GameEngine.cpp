@@ -2,7 +2,7 @@
 #include "../include/GameEngine.h"
 #include "../include/AllHeaders.h"
 #include "cards.cpp"
-#include "MapDriver.cpp"
+//#include "MapDriver.cpp"
 #include <cstdlib>
 #include <algorithm>
 #include <random>
@@ -12,6 +12,7 @@ using namespace std;
 GameEngine::GameEngine(const string &state) : currentState(state){
     currentState = "start";
     gameDeck = new Deck(100);
+    gameMap = new Map();
 }
 
 string GameEngine::getState() const{
@@ -22,10 +23,7 @@ void GameEngine::setState(string state) {
     currentState = state;
 }
 
-//void GameEngine::loadMap() {
-    /*if (currentState == "start" || currentState == "map loaded") {
-        currentState = "map loaded";
-        cout << currentState << endl;*/
+
 void GameEngine::loadMap(string command) {
     if (currentState == "start" || currentState == "maploaded") {
         
@@ -34,21 +32,9 @@ void GameEngine::loadMap(string command) {
         //if spaceIdx is less, than the space either does not exist, or is the last character, so there was no file provided
         if(spaceIdx < command.length()-1){
             string map = command.substr(spaceIdx + 1);
-
-            //check for invalid map names
-            Map temp = testLoadMap(map);//temporary, just to load the map in
-
-            
-
-            gameMap = new Map(temp);//game map needs to be dynamically stored in order to exist outside of this function
-            //currentstate is always maploaded even if it doesnt work
-
-            //stops state change if a bad map file is used
-            if(gameMap->isMapConnected() && gameMap->areContinentsSubgraphs()){
-                currentState = "maploaded";
-            }
-
-        cout <<"current state: "<< currentState << endl;
+            *gameMap = testLoadMap(map); //assignment operator called
+            setState("maploaded");
+            cout << "current state: " << getState() << endl;
         }
         else{
             cout<<"No map file provided"<<endl;
@@ -60,13 +46,11 @@ void GameEngine::loadMap(string command) {
 }
 
 void GameEngine::validateMap() {
-    /*if (currentState == "map loaded") {
-        currentState = "map validated";
-        cout << currentState << endl;*/
-    if (currentState == "maploaded") {
-        gameMap->validate();
-
-        currentState = "mapvalidated";
+    
+    if (getState() == "maploaded") {
+        if (gameMap->validate()) {
+            setState("mapvalidated");
+        }
         cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
@@ -100,6 +84,11 @@ void GameEngine::addPlayer(string command) {
         cout << "Unable to load state, must be at state 'map validated' or 'players added' to load" << endl;
     }
 }
+
+void GameEngine::addPlayerObject(Player* player) {
+    participants.push_back(player);
+}
+
 
 void GameEngine::assignCountries(){
     if (currentState == "playersadded"){

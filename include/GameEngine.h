@@ -15,8 +15,6 @@ class GameEngine: public Subject, public ILoggable {
     vector<Player*> participants;
     Deck* gameDeck;
 
-    
-
     public:
     GameEngine(const string& state);
     string getState() const;
@@ -24,6 +22,7 @@ class GameEngine: public Subject, public ILoggable {
     void loadMap(string map);
     void validateMap();
     void addPlayer(string name);
+    void addPlayerObject(Player* player);
     void assignCountries();
     void gameStart();
     void issueOrder();
