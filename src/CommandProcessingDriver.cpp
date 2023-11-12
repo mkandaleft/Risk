@@ -3,41 +3,41 @@
 #include "GameEngineDriver.cpp"
 
 
-void ExecuteCommand(string command, GameEngine engine) {
+void ExecuteCommand(string command, GameEngine* engine) {
     if (command.find("loadmap", 0) == 0) {
-        engine.loadMap(command);
+        engine->loadMap(command);
     }else if (command == "loadmap") {
-        engine.loadMap("load Map/Earth.map");
+        engine->loadMap("loadmap Map/Earth.map");
     }
     else if (command == "validatemap") {
-        engine.validateMap();
+        engine->validateMap();
     }
     else if (command == "addplayer") {
-        engine.addPlayer("");
+        engine->addPlayer("");
     }
     else if (command == "assigncountries") {
-        engine.assignCountries();
+        engine->assignCountries();
     }
     else if (command == "issueorder") {
-        engine.issueOrder();
+        engine->issueOrder();
     }
     else if (command == "endissueorders") {
-        engine.endIssueOrders();
+        engine->endIssueOrders();
     }
     else if (command == "execorder") {
-        engine.execOrder();
+        engine->execOrder();
     }
     else if (command == "endexecorders") {
-        engine.endExecOrders();
+        engine->endExecOrders();
     }
     else if (command == "win") {
-        engine.win();
+        engine->win();
     }
     else if (command == "end") {
-        engine.end();
+        engine->end();
     }
     else if (command == "play") {
-        engine.play();
+        engine->play();
     }
     else if (command == "exit") {
         return;
@@ -75,7 +75,7 @@ int testCommandProcessing() {
                 fileAdapter.readCommand();  
                 for (Command* cmd : processor.commands)
                 {
-                    ExecuteCommand(cmd->commandText, engine);
+                    ExecuteCommand(cmd->commandText, &engine);
                     cmd->saveEffect(engine.getState());
                 }
                 break;
@@ -96,7 +96,7 @@ int testCommandProcessing() {
     }
 }
 
-//int main() {
-//    testCommandProcessing();
-//    return 0;
-//}
+int main() {
+    testCommandProcessing();
+    return 0;
+}
