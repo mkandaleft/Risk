@@ -15,8 +15,6 @@ class GameEngine {
     vector<Player*> participants;
     Deck* gameDeck;
 
-    
-
     public:
     GameEngine(const string& state);
     string getState() const;

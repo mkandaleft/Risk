@@ -9,11 +9,14 @@ void ExecuteCommand(string command, GameEngine* engine) {
     }else if (command == "loadmap") {
         engine->loadMap("loadmap Map/Earth.map");
     }
+    else if (command.find("addplayer", 0) == 0) {
+        engine->loadMap(command);
+    }
     else if (command == "validatemap") {
         engine->validateMap();
     }
     else if (command == "addplayer") {
-        engine->addPlayer("");
+        engine->addPlayer("player ");
     }
     else if (command == "assigncountries") {
         engine->assignCountries();
@@ -70,6 +73,13 @@ int testCommandProcessing() {
         switch (choice) {
             case 1:
                 s = processor.getCommand();
+                ExecuteCommand(s, &engine);
+                //to do: find a better way to save effect
+                for (Command* cmd : processor.commands) {
+                    if (cmd->commandText == s) {
+                        cmd->saveEffect(engine.getState());
+                    }
+                }
                 break;
             case 2:
                 fileAdapter.readCommand();  
