@@ -22,9 +22,11 @@ class Player {
     private:
         string name;
         vector<Territory*> territories;
+        vector<Territory*> toBeAttacked;
+        vector<Territory*> toBeDefended;
         OrdersList* ordersList;
         Hand* hand;
-        int reinformentPool;
+        int reinforcementPool;
 
     public:
         Player(const string& playerName);
@@ -32,11 +34,12 @@ class Player {
         const vector<Territory*>& toDefend() const;
         const vector<Territory*>& toAttack() const;
         void issueOrder(Orders& order);
+        int getReinforcement() const;
         string getName() const;
         Player(const Player& player);
         vector<Territory*> getTerritories();
         void earnReinforcement(int added);
         void useReinforcement(int used);
         Hand* getHand();
-    
+        bool operator==(const Player& other) const;
 };

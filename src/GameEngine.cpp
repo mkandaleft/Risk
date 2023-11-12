@@ -176,7 +176,7 @@ void GameEngine::endIssueOrders(){
     }
 }
 
-void GameEngine::execOrder() {
+void GameEngine::execOrder(Orders& order) {
     if (currentState == "execute orders"){
         currentState = "execute orders";
         cout <<"current state: "<< currentState << endl;
@@ -330,13 +330,19 @@ void GameEngine::reinforcementPhase(){
 void GameEngine::issueOrderPhase(){
     // Have each player issue their orders
     for (const auto& playerPtr : participants) {
-        const vector<Territory*>& attackable = playerPtr->toAttack();
-        const vector<Territory*>& defendable = playerPtr->toDefend();
+        playerPtr->issueOrder(*this);
     }
 }
 
 void GameEngine::executeOrdersPhase(){
+    for (const auto& playerPtr : participants) {
+        OrdersList* list = playerPtr->getOrdersList();
+        const vector<Orders>& orders = list->getOrders();
 
+        for (const auto& orderPtr : orders){
+            execOrder();
+        }
+    }
 }
 
 Map* GameEngine::getMap(){

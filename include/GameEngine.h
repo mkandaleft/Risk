@@ -24,11 +24,12 @@ class GameEngine {
     void loadMap(string map);
     void validateMap();
     void addPlayer(string name);
+    void removePlayer(string name);
     void assignCountries();
     void gameStart();
     void issueOrder();
     void endIssueOrders();
-    void execOrder();
+    void execOrder(Orders& order);
     void endExecOrders();
     void win();
     void end();

@@ -26,3 +26,7 @@ void Territory::setCoordinates(int newx, int newy) {
 	x = newx;
 	y = newy;
 }
+
+void Territory::setArmyUnits(int units) {
+	armyUnits = units;
+}

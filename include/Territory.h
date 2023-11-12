@@ -15,7 +15,8 @@ class Territory {
 private:
 	string name;
 	vector<Territory*> adjacents;
-	int x, y;
+	int x, y, armyUnits;
+	Player* owner;
 	Continent* continent;
 
 public:
@@ -25,6 +26,8 @@ public:
 	explicit Territory(const string& name);
 	explicit Territory(const Territory& other);
 	string getName() const;
+	Player* getOwner() const;
+	int getArmyUnits() const;
 	Continent* getContinent() const;
 	vector<Territory*> getAdjacents() const;
 
@@ -35,4 +38,7 @@ public:
 
 	void setCoordinates(int newx, int newy);
 
+	void setArmyUnits(int units);
+
+	void setPlayer(Player* ownerIn);
 };
