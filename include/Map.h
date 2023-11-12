@@ -25,7 +25,21 @@ private:
 	map<string, Continent*> continents;	
 
 public:
+	
+	// Default constructor
+	Map();
 
+	// Copy constructor
+	Map(const Map& other);
+
+	// Assignment operator
+	Map& operator=(const Map& other);
+
+
+	// Destructor
+	~Map();
+
+	
 	void dfs(Territory* territory, unordered_set<string>& visited) const;
 
 	map<string, Territory*> getTerritories() ;

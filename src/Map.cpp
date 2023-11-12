@@ -66,6 +66,69 @@ Continent* Map::addContinent(const string& name) {
 	return c;
 }
 
+Map::Map() {
+	// Initialize your data members as needed
+}
+
+// Copy constructor
+Map::Map(const Map& other) {
+	// Copy territories
+	for (const auto& pair : other.territories) {
+		// Assuming Territory has a copy constructor or appropriate clone method
+		territories[pair.first] = new Territory(*(pair.second));
+	}
+
+	// Copy continents
+	for (const auto& pair : other.continents) {
+		// Assuming Continent has a copy constructor or appropriate clone method
+		continents[pair.first] = new Continent(*(pair.second));
+	}
+}
+
+Map& Map::operator=(const Map& other) {
+	if (this == &other) {
+		// Self-assignment, do nothing
+		return *this;
+	}
+
+	// Clean up existing data
+	for (const auto& pair : territories) {
+		delete pair.second;
+	}
+	territories.clear();
+
+	for (const auto& pair : continents) {
+		delete pair.second;
+	}
+	continents.clear();
+
+	// Copy territories
+	for (const auto& pair : other.territories) {
+		// Assuming Territory has a copy constructor or appropriate clone method
+		territories[pair.first] = new Territory(*(pair.second));
+	}
+
+	// Copy continents
+	for (const auto& pair : other.continents) {
+		// Assuming Continent has a copy constructor or appropriate clone method
+		continents[pair.first] = new Continent(*(pair.second));
+	}
+
+	return *this;
+}
+
+// Destructor
+Map::~Map() {
+	// Clean up dynamically allocated objects
+	for (const auto& pair : territories) {
+		delete pair.second;
+	}
+
+	for (const auto& pair : continents) {
+		delete pair.second;
+	}
+}
+
 //connect 2 territories in map
 void Map::connect(const string& name1, const string& name2) {
 	territories[name1]->connect(territories[name2]);
