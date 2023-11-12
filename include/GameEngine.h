@@ -29,7 +29,7 @@ class GameEngine {
     void gameStart();
     void issueOrder();
     void endIssueOrders();
-    void execOrder(Orders& order);
+    void execOrder();
     void endExecOrders();
     void win();
     void end();

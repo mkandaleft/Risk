@@ -176,7 +176,7 @@ void GameEngine::endIssueOrders(){
     }
 }
 
-void GameEngine::execOrder(Orders& order) {
+void GameEngine::execOrder() {
     if (currentState == "execute orders"){
         currentState = "execute orders";
         cout <<"current state: "<< currentState << endl;
@@ -287,6 +287,22 @@ void GameEngine::mainGameLoop(){
     reinforcementPhase();
     issueOrderPhase();
     executeOrdersPhase();
+    // remove players than have no more territories
+    int participantNum = 0;
+    for (const auto& playerPtr : participants) {
+        int numOfTerritories = 0;
+        for (const auto& thisTerritory : playerPtr->getTerritories()){
+            numOfTerritories++;
+        }
+        if (numOfTerritories <= 0){
+            cout << "Player " << playerPtr->getName() << " has no territories, they have lost!" << endl;
+            delete playerPtr;
+        } 
+        participantNum++;
+    }
+    if (participantNum == 1){
+        cout << "Player " << participants[0]->getName() << " has won the game!!!" << endl;
+    }
 }
 
 void GameEngine::reinforcementPhase(){
