@@ -2,7 +2,7 @@
 #include "../include/GameEngine.h"
 #include "../include/AllHeaders.h"
 #include "cards.cpp"
-#include "MapDriver.cpp"
+//#include "MapDriver.cpp"
 #include <cstdlib>
 #include <algorithm>
 #include <random>
@@ -40,7 +40,7 @@ void GameEngine::loadMap(string command) {
 
             
 
-            gameMap = new Map(temp);//game map needs to be dynamically stored in order to exist outside of this function
+            gameMap = &temp;//game map needs to be dynamically stored in order to exist outside of this function
             //currentstate is always maploaded even if it doesnt work
 
             //stops state change if a bad map file is used

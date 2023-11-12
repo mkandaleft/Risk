@@ -1,10 +1,9 @@
 #include <iostream>
 #include "../include/AllHeaders.h"
+#include "MapDriver.cpp"
 #include "GameEngine.cpp"
-#include "CommandProcessing.cpp"
-//#include "MapDriver.cpp"
-//#include "Player.cpp"
-
+//#include "CommandProcessing.cpp"
+#include "Player.cpp"
 
 using namespace std;
 
@@ -22,25 +21,9 @@ void testGameStates(){
     while (exit == false){
         command = processor.getCommand();
         if (command == "loadmap"){
-            //engine.loadMap();
-            if (engine.getState() == "start" || engine.getState() == "map loaded") {
-                myMap = testLoadMap("Map/Earth.map");
-                engine.setState("maploaded");
-                cout << engine.getState() << endl;
-            }
-            else {
-                cout << "Unable to load state, must be at state 'start' or 'map loaded' to load" << endl;
-            }
+            engine.loadMap(command);
         } else if (command == "validatemap") {
-            if (engine.getState() == "maploaded") {
-                if (myMap.validate()) {
-                    engine.setState("mapvalidated");
-                }
-                cout << engine.getState() << endl;
-            }
-            else {
-                cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
-            }
+            engine.validateMap();
         } else if (command == "addplayer") {
             engine.addPlayer("");
         } else if (command == "assigncountries") {
@@ -105,13 +88,13 @@ void testStartupPhase(){
 }
 
 //int main(){
-  //  testStartupPhase();
- //   return 0;
+//    testStartupPhase();
+//    return 0;
 //}
-
 //
+
 //int main() {
 //    testGameStates();
 //    return 0;
 //}
-//
+
