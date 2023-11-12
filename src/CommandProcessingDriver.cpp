@@ -75,12 +75,15 @@ int testCommandProcessing() {
 
         switch (choice) {
             case 1: //enter command by hand
-                s = processor.getCommand();
-                ExecuteCommand(s, &engine);
-                //to do: find a better way to save effect
-                for (Command* cmd : processor.commands) {
-                    if (cmd->commandText == s) {
-                        cmd->saveEffect(engine.getState());
+                while (true) {
+                    s = processor.getCommand();
+                    if(s=="exit"||s=="quit") break;
+                    ExecuteCommand(s, &engine);
+                    //to do: find a better way to save effect
+                    for (Command* cmd : processor.commands) {
+                        if (cmd->commandText == s) {
+                            cmd->saveEffect(engine.getState());
+                        }
                     }
                 }
                 break;
