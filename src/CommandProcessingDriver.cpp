@@ -1,6 +1,6 @@
 #include "../include/AllHeaders.h"
 #include "CommandProcessing.cpp"
-#include "GameEngineDriver.cpp"
+//#include "GameEngineDriver.cpp"
 
 void ExecuteCommand(string command, GameEngine* engine) {
 
@@ -112,7 +112,7 @@ int testCommandProcessing() {
     }
 }
 
-int main() {
-    testCommandProcessing();
-    return 0;
-}
+//int main() {
+//    testCommandProcessing();
+//    return 0;
+//}
