@@ -7,7 +7,7 @@
 #include "CommandProcessingDriver.cpp"
 #include "OrdersDriver.cpp"
 #include "Cardsdriver.cpp"
-//#include "LoggingObserverDriver.cpp"
+#include "LoggingObserverDriver.cpp"
 
 using std::string;
 using std::vector;
@@ -23,10 +23,10 @@ int main() {
     //testOrdersLists();
     //testCards();
 
-        
+    
+    testLoggingObserver();
     testCommandProcessing();
     testStartupPhase();
-    //testLoggingObserver();
 
     return 0;
 }

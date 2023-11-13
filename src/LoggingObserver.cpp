@@ -27,6 +27,10 @@ void Subject::notify(ILoggable* loggable) {
         (*i)->update(loggable);
 }
 
+LogObserver::LogObserver() {}
+
+LogObserver::~LogObserver() {}
+
 void LogObserver::update(ILoggable* loggable) {
     std::ofstream logFile("gamelog.txt", std::ios_base::app); // Open the log file in append mode
     if (logFile.is_open()) {

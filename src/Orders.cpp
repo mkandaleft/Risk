@@ -197,7 +197,7 @@ void Negotiate::execute() {
 
 void OrdersList::addOrder(Orders& order) {
     ordersList.push_back(order);
-    // notify(this);                        // Causes runtime error ):
+    notify(this);                        // Causes runtime error ):
 }
 
 

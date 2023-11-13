@@ -32,5 +32,7 @@ class Subject {
 
 class LogObserver : public Observer {
     public:
+        LogObserver();
+        ~LogObserver();
         virtual void update(ILoggable* loggable);
 };
