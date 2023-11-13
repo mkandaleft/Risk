@@ -7,7 +7,7 @@
 */
 
 #include "../include/Player.h"
-#include "Orders.cpp"
+//#include "Orders.cpp"
 using std::string;
 
 Player::Player(const string& playerName) : name(playerName),reinforcementPool(0) {

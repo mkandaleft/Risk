@@ -5,6 +5,7 @@
 #include <unordered_set>
 
 #include "../include/Map.h"
+#include "Territory.cpp"
 
 using namespace std;
 

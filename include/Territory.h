@@ -1,6 +1,4 @@
-
 #pragma once
-
 #include <iostream>
 #include <map>
 #include <vector>
@@ -9,14 +7,15 @@
 
 using namespace std;
 class Continent;
-
+class Player;
 class Territory {
 
 private:
 	string name;
 	vector<Territory*> adjacents;
-	int x, y;
+	int x, y, armyUnits;
 	Continent* continent;
+	Player* owner;
 
 public:
 
@@ -27,12 +26,13 @@ public:
 	string getName() const;
 	Continent* getContinent() const;
 	vector<Territory*> getAdjacents() const;
-
+	Player* getOwner();
 
 	void connect(Territory* other);
 
 	void setContinent(Continent* newContinent);
 
 	void setCoordinates(int newx, int newy);
+	int Territory::getArmyUnits() const;
 
 };

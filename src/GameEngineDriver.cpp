@@ -3,9 +3,11 @@
 #include "MapDriver.cpp"
 #include "GameEngine.cpp"
 //#include "CommandProcessing.cpp"
-#include "Player.cpp"
+//#include "Player.cpp"
 
 using namespace std;
+
+class Player;
 
 void testGameStates(){
     GameEngine engine("start");
