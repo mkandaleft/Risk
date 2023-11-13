@@ -15,9 +15,9 @@ using std::vector;
 
 int main() {
 
-    Map myMap = testLoadMap("Map/Earth.map");
+    // Map myMap = testLoadMap("Map/Earth.map");
     //myMap.display();
-    myMap.validate();
+    //myMap.validate();
 
     testPlayers(); // Call the testPlayer method in PlayerDriver.cpp
     testOrdersLists();

@@ -10,6 +10,7 @@
 
 using namespace std;
 class Continent;
+class Player;
 
 class Territory {
 

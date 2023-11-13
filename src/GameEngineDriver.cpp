@@ -4,6 +4,9 @@
 // #include "CommandProcessing.cpp"
 #include "MapDriver.cpp"
 #include "../include/Player.h"
+#include "GameEngine.cpp"
+#include "Player.cpp"
+#include "cards.cpp"
 
 
 using namespace std;
@@ -15,7 +18,7 @@ void testMainGameLoop(){
     engine.mainGameLoop();
 }
 
-void testGameStates(){
+/*void testGameStates(){
     GameEngine engine("start");
 
     CommandProcessor processor;
@@ -74,7 +77,7 @@ void testGameStates(){
             cout << command<< endl;
         }
     }
-}
+} */
 
 
 void testStartupPhase(){
@@ -111,10 +114,10 @@ void testStartupPhase(){
     engine.end();
 }
 
-//int main(){
-  //  testStartupPhase();
- //   return 0;
-//}
+int main(){
+   testMainGameLoop();
+   return 0;
+}
 
 //
 //int main() {

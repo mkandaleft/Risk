@@ -3,10 +3,14 @@
 #include <iostream>
 #include <vector>
 #include "AllHeaders.h"
-#include "Map.h"
-#include "Player.h"
 
 using std::string;
+
+class Player;
+
+class Map;
+
+class Deck;
 
 class GameEngine {
 
