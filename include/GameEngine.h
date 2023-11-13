@@ -4,6 +4,7 @@
 #include <vector>
 #include "AllHeaders.h"
 #include "Map.h"
+#include "Player.h"
 
 using std::string;
 
@@ -14,8 +15,6 @@ class GameEngine {
     Map* gameMap;
     vector<Player*> participants;
     Deck* gameDeck;
-
-    
 
     public:
     GameEngine(const string& state);

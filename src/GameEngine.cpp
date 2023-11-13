@@ -1,8 +1,7 @@
 
 #include "../include/GameEngine.h"
 #include "../include/AllHeaders.h"
-#include "cards.cpp"
-#include "MapDriver.cpp"
+#include "../include/cards.h"
 #include <cstdlib>
 #include <algorithm>
 #include <random>
@@ -250,7 +249,7 @@ void GameEngine::startUpPhase(){
     cout << "Welcome! Please enter a command to begin playing!" << endl;
 
     while(startingUp || (participants.size() < 2)){
-        getline(cin,command);
+        getline(std::cin,command);
         if (command.find("loadmap",0)==0){
             cout<<"Loading Map"<<endl;
             this->loadMap(command);
@@ -340,6 +339,7 @@ void GameEngine::reinforcementPhase(){
         // adjust if this player has less than 3 units
         if (earnedUnits < 3) earnedUnits = 3;
         playerPtr->earnReinforcement(earnedUnits);
+        cout << playerPtr->getName() << " has earned " << earnedUnits << " as a bonus!" << endl;
     }
 }
 

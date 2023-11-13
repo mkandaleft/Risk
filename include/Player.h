@@ -11,6 +11,7 @@
 #include "Territory.h"
 #include "cards.h"
 #include "Orders.h"
+#include "GameEngine.h"
 #include <vector>
 
 using std::string;
@@ -33,7 +34,7 @@ class Player {
         void addTerritory(Territory& territory);
         const vector<Territory*>& toDefend() const;
         const vector<Territory*>& toAttack() const;
-        void issueOrder(Orders& order);
+        void issueOrder(GameEngine& engine);
         int getReinforcement() const;
         string getName() const;
         Player(const Player& player);
@@ -41,5 +42,6 @@ class Player {
         void earnReinforcement(int added);
         void useReinforcement(int used);
         Hand* getHand();
+        OrdersList* getOrdersList();
         bool operator==(const Player& other) const;
 };

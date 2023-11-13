@@ -8,7 +8,7 @@
 #include "iostream"
 #include <vector>
 #include "../include/AllHeaders.h"
-#include "Player.cpp"
+#include "../include/Player.h"
 //#include "Orders.cpp"
 
 void testPlayers() {

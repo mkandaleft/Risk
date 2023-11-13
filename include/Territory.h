@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <unordered_set>
+#include "Player.h"
 
 using namespace std;
 class Continent;

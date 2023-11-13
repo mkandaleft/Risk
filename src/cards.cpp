@@ -74,7 +74,7 @@ Deck::Deck(int numCards) {
 	srand((unsigned int)time(NULL) * (unsigned int)time(NULL));//generate random seed
 	int index = 0;
 	int cardType = 0;
-	int numCardTypes = 5;
+	int numCardTypes = 4;
 	for (int i = 0; i < numCards; i++) {
 		//generate random index to insert card at
 		index = rand() % (cards.size() + 1);
@@ -87,20 +87,21 @@ Deck::Deck(int numCards) {
 			//use insert instead of push_back so that the deck is randomized to begin with
 			cards.insert(cards.begin() + index, new Card(*kaboom));
 		}
-		else if (cardType == 1) {
+		// Advance commented out because it is not a card type, according to the assignment
+		/*		else if (cardType == 1) {
 			Advance* reinforce = new Advance(1);
 			cards.insert(cards.begin() + index, new Card(*reinforce));
-		}
-		else if (cardType == 2) {
+		}*/
+		else if (cardType == 1) {
 
 			Blockade* block = new Blockade(1);
 			cards.insert(cards.begin() + index, new Card(*block));
 		}
-		else if (cardType == 3) {
+		else if (cardType == 2) {
 			Airlift* air = new Airlift(1);
 			cards.insert(cards.begin() + index, new Card(*air));
 		}
-		else if (cardType == 4) {
+		else if (cardType == 3) {
 			Negotiate* diplomacy = new Negotiate(1);
 			cards.insert(cards.begin() + index, new Card(*diplomacy));
 		}

@@ -1,12 +1,19 @@
 #include <iostream>
 #include "../include/AllHeaders.h"
-#include "GameEngine.cpp"
-#include "CommandProcessing.cpp"
+#include "../include/GameEngine.h"
+// #include "CommandProcessing.cpp"
 #include "MapDriver.cpp"
-#include "Player.cpp"
+#include "../include/Player.h"
 
 
 using namespace std;
+
+void testMainGameLoop(){
+    GameEngine engine("start");
+    CommandProcessor processor;
+
+    engine.mainGameLoop();
+}
 
 void testGameStates(){
     GameEngine engine("start");
