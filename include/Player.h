@@ -40,6 +40,8 @@ class Player {
         void useReinforcement(int used);
         Hand* getHand();
         vector<Player*> getAlliances();
-        void addAlliance(*Player ally);
+        void addAlliance(Player* ally);
         
+        void setName(const string& newName);
+
 };

@@ -1,4 +1,4 @@
-loadmap Earth.map
+loadmap Map/Earth.map
 validatemap
 addplayer player1
 addplayer player2

@@ -43,6 +43,10 @@ Player::Player(const Player& player) {
     ordersList = player.ordersList;
 }
 
+void Player::setName(const string& newName) {
+    name = newName;
+}
+
 void Player::earnReinforcement(int add){
     reinformentPool+= add;
 }
