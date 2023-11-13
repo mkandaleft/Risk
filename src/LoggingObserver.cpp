@@ -32,9 +32,9 @@ LogObserver::LogObserver() {}
 LogObserver::~LogObserver() {}
 
 void LogObserver::update(ILoggable* loggable) {
-    std::ofstream logFile("gamelog.txt", std::ios_base::app); // Open the log file in append mode
+    std::ofstream logFile("gamelog.txt", std::ios_base::app);
     if (logFile.is_open()) {
-        logFile << loggable->stringToLog() << std::endl; // Write the string representation of the object to the log file
+        logFile << loggable->stringToLog() << std::endl;
         logFile.close();
     } else {
         std::cerr << "Unable to open log file" << std::endl;

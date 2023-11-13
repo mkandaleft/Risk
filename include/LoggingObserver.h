@@ -24,7 +24,7 @@ class Subject {
         virtual void detach(Observer* o);
         virtual void notify(ILoggable* loggable);
         Subject();
-        virtual ~Subject();  // fix empty brackets
+        virtual ~Subject();
 
     protected:
         list<Observer*> *_observers;
