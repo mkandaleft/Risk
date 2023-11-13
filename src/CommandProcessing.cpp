@@ -11,24 +11,10 @@ Command::Command(std::string text) : commandText(text) {}
 
 void Command::saveEffect(std::string eff) {
     effect = eff;
-    notify(this);
+    //notify(this);
 }
 
-// Observer methods
-void Command::attach(Observer* o) {
-    _observers->push_back(o);
-}
-
-void Command::detach(Observer* o) {
-    _observers->remove(o);
-}
-
-void Command::notify(ILoggable* loggable) {
-    list<Observer*>::iterator i = _observers->begin();
-    for (; i != _observers->end(); ++i)
-        (*i)->update(loggable);
-}
-
+// log methods
 string Command::stringToLog() {
     return "Command: " + commandText + ", Effect: " + effect;
 }
@@ -51,7 +37,7 @@ std::string CommandProcessor::getCommand() {
 
 void CommandProcessor::saveCommand(Command* c) {
     commands.push_back(c);
-    notify(this);
+    // notify(this);
 }
 
 void CommandProcessor::displayCommands() {
@@ -60,21 +46,7 @@ void CommandProcessor::displayCommands() {
     }
 }
 
-// Observer methods
-void CommandProcessor::attach(Observer* o) {
-    _observers->push_back(o);
-}
-
-void CommandProcessor::detach(Observer* o) {
-    _observers->remove(o);
-}
-
-void CommandProcessor::notify(ILoggable* loggable) {
-    list<Observer*>::iterator i = _observers->begin();
-    for (; i != _observers->end(); ++i)
-        (*i)->update(loggable);
-}
-
+// logging methods
 string CommandProcessor::stringToLog() {
     std::string logString = "Command Processor: ";
     for (Command* cmd : commands) {

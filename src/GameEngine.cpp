@@ -281,21 +281,7 @@ Deck* GameEngine::getDeck(){
     return gameDeck;
 }
 
-//observer methods
-void GameEngine::attach(Observer* o) {
-    _observers->push_back(o);
-}
-
-void GameEngine::detach(Observer* o) {
-    _observers->remove(o);
-}
-
-void GameEngine::notify(ILoggable* loggable) {
-    list<Observer*>::iterator i = _observers->begin();
-    for (; i != _observers->end(); ++i)
-        (*i)->update(loggable);
-}
-
+//logging methods
 string GameEngine::stringToLog() {
     return "GameEngine: " + currentState;
 }

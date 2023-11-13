@@ -29,11 +29,6 @@ public:
     void setDescription(string s);
     void setResult(string s);
 
-
-    //observer methods
-    void attach(Observer* o) override;
-    void detach(Observer* o) override;
-    void notify(ILoggable* loggable) override;
     string stringToLog() override;
 };
 
@@ -103,10 +98,5 @@ public:
 
     const vector<Orders>& getOrders() const;
 
-
-    //observer methods
-    void attach(Observer* o) override;
-    void detach(Observer* o) override;
-    void notify(ILoggable* loggable) override;
     string stringToLog() override;
 };

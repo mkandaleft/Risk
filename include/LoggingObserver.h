@@ -20,11 +20,11 @@ class Observer {
 
 class Subject {
     public:
-        virtual void attach(Observer* o)=0;
-        virtual void detach(Observer* o)=0;
-        virtual void notify(ILoggable* loggable)=0;
-        Subject() {};
-        virtual ~Subject() {};  // fix empty brackets
+        virtual void attach(Observer* o);
+        virtual void detach(Observer* o);
+        virtual void notify(ILoggable* loggable);
+        Subject();
+        virtual ~Subject();  // fix empty brackets
 
     protected:
         list<Observer*> *_observers;
@@ -32,5 +32,5 @@ class Subject {
 
 class LogObserver : public Observer {
     public:
-        virtual void update(ILoggable* loggable) = 0;
+        virtual void update(ILoggable* loggable);
 };

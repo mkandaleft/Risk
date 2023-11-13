@@ -39,9 +39,5 @@ class GameEngine: public Subject, public ILoggable {
     vector<Player*> getPlayers();
     Deck* getDeck();
 
-    //observer methods
-    void attach(Observer* o) override;
-    void detach(Observer* o) override;
-    void notify(ILoggable* loggable) override;
     string stringToLog() override;
 };

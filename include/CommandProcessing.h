@@ -12,10 +12,6 @@ public:
     Command(std::string text);
     void saveEffect(std::string eff);
 
-    //observer methods
-    void attach(Observer* o) override;
-    void detach(Observer* o) override;
-    void notify(ILoggable* loggable) override;
     string stringToLog() override;
 };
 
@@ -28,10 +24,6 @@ public:
     void saveCommand(Command* c);
     void displayCommands();
 
-    //observer methods
-    void attach(Observer* o) override;
-    void detach(Observer* o) override;
-    void notify(ILoggable* loggable) override;
     string stringToLog() override;
 };
 
