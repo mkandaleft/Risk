@@ -3,6 +3,7 @@
 
 class Map;
 class Continent;
+class Player;
 
 Territory::Territory() {}
 Territory::Territory(const string& name) : name(name) {}
@@ -12,6 +13,8 @@ Territory::Territory(const Territory& other):name(other.name),adjacents(other.ad
 string Territory::getName() const { return name; }
 Continent* Territory::getContinent() const { return continent; }
 vector<Territory*> Territory::getAdjacents() const { return adjacents; }
+int Territory::getArmyUnits() const { return armyUnits; }
+Player* Territory::getOwner() { return owner; }
 
 void Territory::connect(Territory* other) {
 	adjacents.push_back(other);

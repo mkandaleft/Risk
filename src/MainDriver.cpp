@@ -2,7 +2,7 @@
 #include <vector>
 #include "../include/AllHeaders.h"
 //#include "MapDriver.cpp"
-//#include "PlayerDriver.cpp"
+#include "PlayerDriver.cpp"
 #include "GameEngineDriver.cpp"
 #include "CommandProcessingDriver.cpp"
 #include "OrdersDriver.cpp"
