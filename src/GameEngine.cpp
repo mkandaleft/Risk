@@ -15,6 +15,16 @@ GameEngine::GameEngine(const string &state) : currentState(state){
     gameMap = new Map();
 }
 
+GameEngine::~GameEngine() {
+    delete gameDeck;
+    delete gameMap;
+
+    // Delete players
+    for (Player* player : participants) {
+        delete player;
+    }
+}
+
 string GameEngine::getState() const{
     return currentState;
 }
@@ -213,6 +223,7 @@ void GameEngine::end() {
             
             gamer = nullptr;
         }
+        delete this;
 
         abort();
     } else {

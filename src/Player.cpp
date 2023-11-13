@@ -46,7 +46,9 @@ void Player::issueOrder(GameEngine& engine){
                 std::cin >> input;
             }
             // remove from reinforcement pool, add to orderslist
-            ordersList->addOrder(Deploy(input));
+            Deploy newOrder = Deploy(input);
+            Deploy& ref = newOrder;
+            ordersList->addOrder(ref);
             reinforcementPool = reinforcementPool - input;
             cout << "You've sent " << input << " troops to " << thisTerritory->getName() << "." << endl;
             if (input > 0) {
@@ -74,7 +76,9 @@ void Player::issueOrder(GameEngine& engine){
                 // add move to orderlist
                 if (input > 0) {
                     toBeDefended.push_back(thisAdjacent);
-                    ordersList->addOrder(Advance(input));
+                    Advance newOrder = Advance(input);
+                    Advance& ref = newOrder;
+                    ordersList->addOrder(ref);
                     cout << "You've sent " << input << " troops to defend " << thisAdjacent->getName() << "." << endl;
                 } else {
                     cout << "Did not send troops to defend. No troops were declared." << endl;
@@ -114,7 +118,9 @@ void Player::issueOrder(GameEngine& engine){
                     }
                     if (input > 0) {
                         toBeAttacked.push_back(thisAdjacent);
-                        ordersList->addOrder(Advance(input));
+                        Advance newOrder = Advance(input);
+                        Advance& ref = newOrder;
+                        ordersList->addOrder(ref);
                         cout << "You've sent " << input << " troops to attack " << thisAdjacent->getName() << "." << endl;
                     } else {
                         cout << "Did not send troops to attack. No troops were declared." << endl;
@@ -144,7 +150,7 @@ void Player::issueOrder(GameEngine& engine){
         }
         vector<Player*> players = engine.getPlayers();
         bool playOrder = false;
-        Orders orderToPlay = nullptr;
+        Orders orderToPlay;
         string orderName = "";
         switch(cardSelect){
             // Play a bomb card. Prompt player to choose the adjacent territory to bomb
@@ -164,7 +170,9 @@ void Player::issueOrder(GameEngine& engine){
                             } 
                             if (yesOrNo.compare("y") == 0 || yesOrNo.compare("Y") == 0) {
                                 playOrder = true;
-                                orderToPlay = Bomb(1);
+                                Bomb newOrder = Bomb(1);
+                                Bomb& ref = newOrder;
+                                orderToPlay = ref;
                                 orderName = "Bomb";
                             }
                         }
@@ -184,7 +192,9 @@ void Player::issueOrder(GameEngine& engine){
                     } 
                     if (yesOrNo.compare("y") == 0 || yesOrNo.compare("Y") == 0) {
                         playOrder = true;
-                        orderToPlay = Blockade(1);
+                        Blockade newOrder = Blockade(1);
+                        Blockade& ref = newOrder;
+                        orderToPlay = ref;
                         orderName = "Blockade";
                     }
                 }
@@ -222,7 +232,9 @@ void Player::issueOrder(GameEngine& engine){
                             // once player has confirmed to airlift to a territory from a territory
                             if (yesOrNo.compare("y") == 0 || yesOrNo.compare("Y") == 0){
                                 playOrder = true;
-                                orderToPlay = Airlift(1);
+                                Airlift newOrder = Airlift(unitsToAirlift);
+                                Airlift& ref = newOrder;
+                                orderToPlay = ref;
                                 orderName = "Airlift";
                             }
                         }
@@ -245,7 +257,9 @@ void Player::issueOrder(GameEngine& engine){
                         // once player has confirmed to airlift to a territory from a territory
                         if (yesOrNo.compare("y") == 0 || yesOrNo.compare("Y") == 0){
                             playOrder = true;
-                            orderToPlay = Negotiate(1);
+                            Negotiate newOrder = Negotiate(1);
+                            Negotiate& ref = newOrder;
+                            orderToPlay = ref;
                             orderName = "Negotiate";
                         }
                     }

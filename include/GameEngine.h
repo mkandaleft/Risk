@@ -7,6 +7,8 @@
 
 using std::string;
 
+class Deck;
+class Player;
 class GameEngine {
 
     private:
