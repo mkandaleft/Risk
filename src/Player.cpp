@@ -7,7 +7,7 @@
 */
 
 #include "../include/Player.h"
-#include "Orders.cpp"
+#include "../include/Orders.h"
 using std::string;
 
 Player::Player(const string& playerName) : name(playerName),reinformentPool(0) {

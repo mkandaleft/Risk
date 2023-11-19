@@ -7,8 +7,10 @@
 */
 #include "iostream"
 #include <vector>
-#include "../include/AllHeaders.h"
-#include "Player.cpp"
+#include "../include/Territory.h"
+#include "../include/Player.h"
+
+//#include "Player.cpp"
 //#include "Orders.cpp"
 
 void testPlayers() {

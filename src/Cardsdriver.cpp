@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include "../include/cards.h"
-#include "../include/AllHeaders.h"
 using namespace std;
 
 void testCards() {
