@@ -1,8 +1,6 @@
 
 #include "../include/GameEngine.h"
-#include "../include/AllHeaders.h"
-#include "cards.cpp"
-//#include "MapDriver.cpp"
+#include "MapDriver.cpp"
 #include <cstdlib>
 #include <algorithm>
 #include <random>

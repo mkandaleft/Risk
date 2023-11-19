@@ -1,9 +1,11 @@
 #include <iostream>
-#include "../include/AllHeaders.h"
-#include "MapDriver.cpp"
-#include "GameEngine.cpp"
-//#include "CommandProcessing.cpp"
-#include "Player.cpp"
+#include "../include/GameEngine.h"
+#include "../include/Map.h"
+#include "../include/Player.h"
+#include "../include/CommandProcessing.h"
+
+////#include "CommandProcessing.cpp"
+//#include "Player.cpp"
 
 using namespace std;
 
@@ -86,6 +88,7 @@ void testStartupPhase(){
     engine.setState("win");
     engine.end();
 }
+
 
 //int main(){
 //    testStartupPhase();
