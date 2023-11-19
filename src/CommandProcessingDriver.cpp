@@ -1,5 +1,8 @@
-#include "../include/AllHeaders.h"
-#include "CommandProcessing.cpp"
+
+#include "../include/GameEngine.h"
+#include "../include/CommandProcessing.h"
+
+//#include "CommandProcessing.cpp"
 //#include "GameEngineDriver.cpp"
 
 void ExecuteCommand(string command, GameEngine* engine) {

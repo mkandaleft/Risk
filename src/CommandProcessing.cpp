@@ -3,7 +3,8 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
-#include "../include/AllHeaders.h"
+
+#include "../include/CommandProcessing.h"
 
 using namespace std;
 

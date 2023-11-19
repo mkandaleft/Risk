@@ -2,8 +2,8 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-#include "../include/cards.h"
-#include "../include/Orders.h"
+#include "..\include\cards.h"
+#include "..\include\Orders.h"
 //#include "Orders.cpp"
 using namespace std;
 
