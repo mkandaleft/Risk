@@ -2,9 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include "Map.h"
-#include "Player.h"
-#include "cards.h"
+
 
 using std::string;
 

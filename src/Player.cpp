@@ -8,6 +8,8 @@
 
 #include "../include/Player.h"
 #include "../include/Orders.h"
+#include "../include/Territory.h"
+#include "../include/cards.h"
 using std::string;
 
 Player::Player(const string& playerName) : name(playerName),reinformentPool(0) {

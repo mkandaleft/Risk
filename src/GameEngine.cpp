@@ -1,5 +1,8 @@
 
 #include "../include/GameEngine.h"
+#include "../include/Map.h"
+#include "../include/Player.h"
+#include "../include/cards.h"
 #include "MapDriver.cpp"
 #include <cstdlib>
 #include <algorithm>

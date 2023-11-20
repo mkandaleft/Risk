@@ -8,13 +8,11 @@
 
 #pragma once
 
-#include "Territory.h"
-#include "cards.h"
-#include "Orders.h"
 #include <vector>
 
 using std::string;
 using std::vector;
+class Hand;
 
 
 class Player {
