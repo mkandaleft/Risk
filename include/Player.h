@@ -8,13 +8,11 @@
 
 #pragma once
 
-#include "Territory.h"
-#include "cards.h"
-#include "Orders.h"
 #include <vector>
 
 using std::string;
 using std::vector;
+class Hand;
 
 
 class Player {
@@ -25,6 +23,7 @@ class Player {
         OrdersList* ordersList;
         Hand* hand;
         int reinformentPool;
+        vector<Player*> alliances;
 
     public:
         Player(const string& playerName);
@@ -38,6 +37,9 @@ class Player {
         void earnReinforcement(int added);
         void useReinforcement(int used);
         Hand* getHand();
+        vector<Player*> getAlliances();
+        void addAlliance(Player* ally);
+        
         void setName(const string& newName);
 
 };

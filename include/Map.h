@@ -1,5 +1,5 @@
 #pragma once
-#include "Territory.h"
+
 using namespace std;
 class Continent {
 private:

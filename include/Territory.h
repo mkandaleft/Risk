@@ -9,6 +9,8 @@
 
 using namespace std;
 class Continent;
+class Player;
+
 
 class Territory {
 
@@ -17,6 +19,8 @@ private:
 	vector<Territory*> adjacents;
 	int x, y;
 	Continent* continent;
+	int armyUnits;
+	Player* owner;
 
 public:
 
@@ -27,12 +31,15 @@ public:
 	string getName() const;
 	Continent* getContinent() const;
 	vector<Territory*> getAdjacents() const;
-
-
+	int getUnits();
+	Player* getOwner();
+	
 	void connect(Territory* other);
 
 	void setContinent(Continent* newContinent);
 
 	void setCoordinates(int newx, int newy);
+	void setUnits(int units);
+	void setOwner(Player* ownerIn);
 
 };

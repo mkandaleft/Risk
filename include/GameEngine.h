@@ -7,6 +7,7 @@
 #include "cards.h"
 #include "CommandProcessing.h"
 
+
 using std::string;
 
 class GameEngine {
@@ -18,6 +19,8 @@ class GameEngine {
     Deck* gameDeck;
     CommandProcessor processor;
     
+    Player* neutralPlayer = new Player("neutralPlayer");
+
 
     public:
     GameEngine(const string& state);
@@ -37,6 +40,7 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
+    static Player* getNeutralPlayer();
 
     //for testStartupPhase
     Map* getMap();

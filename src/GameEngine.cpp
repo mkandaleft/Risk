@@ -1,5 +1,8 @@
 
 #include "../include/GameEngine.h"
+#include "../include/Map.h"
+#include "../include/Player.h"
+#include "../include/cards.h"
 #include "MapDriver.cpp"
 #include <cstdlib>
 #include <algorithm>
@@ -108,6 +111,7 @@ void GameEngine::assignCountries(){
             //loops through the participants, adding the back territory from the vector to a participant
             participants[i%participants.size()]->addTerritory(*gameTerritories.back());
 
+            *gameTerritories.back()->setOwner(participants[i % participants.size()]);
             //removes the last element to allow access to the next one
             gameTerritories.pop_back();
         }
@@ -176,6 +180,10 @@ void GameEngine::endExecOrders() {
     if (currentState == "execute orders"){
         currentState = "assign reinforcement";
         cout <<"current state: "<< currentState << endl;
+        for each (Player* player in participants)
+        {
+            *player->getAlliances().clear();
+        }
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -267,6 +275,11 @@ void GameEngine::startUpPhase(){
             cout<<"Unknown command"<<endl;
         }
     }
+}
+
+static Player* GameEngine::getNeutralPlayer()
+{
+    return neutralPlayer;
 }
 
 Map* GameEngine::getMap(){
