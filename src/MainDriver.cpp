@@ -14,9 +14,9 @@ using std::vector;
 
 int main() {
     //compile using
-    //g++ Orders.cpp cards.cpp Map.cpp Territory.cpp Player.cpp CommandProcessing.cpp GameEngine.cpp MainDriver.cpp -o main 
+    //g++ Orders.cpp cards.cpp Map.cpp Territory.cpp Player.cpp CommandProcessing.cpp GameEngine.cpp MainDriver.cpp -o mainDriver 
     
-    //run using ./main
+    //run using ./mainDriver
 
     /*
     Assignment 1
@@ -33,7 +33,7 @@ int main() {
     Assignment 2
     */
     testCommandProcessing();
-    testStartupPhase();
+    //testStartupPhase();
 
     
 

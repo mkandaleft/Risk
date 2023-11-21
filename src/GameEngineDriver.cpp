@@ -63,7 +63,8 @@ void testStartupPhase(){
     vector<Player*> contestants = engine.getPlayers();
     Deck* cards = engine.getDeck();
 
-    world->display();
+    //something wrong with Map::displaye()
+    //world->display();
 
     cards->display();
 

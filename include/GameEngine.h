@@ -2,6 +2,10 @@
 
 #include <iostream>
 #include <vector>
+#include "Map.h"
+#include "Player.h"
+#include "cards.h"
+#include "CommandProcessing.h"
 
 
 using std::string;
@@ -13,7 +17,10 @@ class GameEngine {
     Map* gameMap;
     vector<Player*> participants;
     Deck* gameDeck;
+    CommandProcessor processor;
+    
     Player* neutralPlayer = new Player("neutralPlayer");
+
 
     public:
     GameEngine(const string& state);
