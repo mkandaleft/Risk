@@ -10,8 +10,9 @@ using namespace std;
 
 int Card::idCounter;
 
+
 Card::Card() {
-	Orders* ord = new Orders();
+	Orders* ord = nullptr;
 	type = ord;
 	id = 0;
 }

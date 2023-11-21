@@ -2,9 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include "Map.h"
-#include "Player.h"
-#include "cards.h"
+
 
 using std::string;
 
@@ -15,6 +13,7 @@ class GameEngine {
     Map* gameMap;
     vector<Player*> participants;
     Deck* gameDeck;
+    Player* neutralPlayer = new Player("neutralPlayer");
 
     public:
     GameEngine(const string& state);
@@ -34,6 +33,7 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
+    static Player* getNeutralPlayer();
 
     //for testStartupPhase
     Map* getMap();
