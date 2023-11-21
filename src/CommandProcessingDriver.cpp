@@ -8,8 +8,8 @@
 void ExecuteCommand(string command, GameEngine* engine) {
 
 
-    if (command == "loadmap") {
-        engine->loadMap("loadmap Map/Earth.map");
+    if (command.find("loadmap",0)== 0) {
+       engine->loadMap(command);
     }
     else if (command.find("loadmap", 0) == 0) {
         engine->loadMap(command);
@@ -17,13 +17,12 @@ void ExecuteCommand(string command, GameEngine* engine) {
     else if (command == "validatemap") {
         engine->validateMap();
     }
-    else if (command == "addplayer") {
-        engine->addPlayer("player x");
-    }
     else if (command.find("addplayer", 0) == 0) {
-        
+        engine->addPlayer(command);
     }
-    
+    else if(command=="gamestart"){
+        engine->gameStart();
+    }
     else if (command == "assigncountries") {
         engine->assignCountries();
     }
@@ -49,6 +48,7 @@ void ExecuteCommand(string command, GameEngine* engine) {
         engine->play();
     }
     else if (command == "exit") {
+        engine->setState("start");
         return;
     }
     else {
@@ -84,7 +84,7 @@ int testCommandProcessing() {
                     ExecuteCommand(s, &engine);
                     //to do: find a better way to save effect
                     for (Command* cmd : processor.commands) {
-                        if (cmd->commandText == s) {
+                        if (cmd->commandText.find(s,0)==0) {
                             cmd->saveEffect(engine.getState());
                         }
                     }

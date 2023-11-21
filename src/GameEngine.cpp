@@ -106,7 +106,7 @@ void GameEngine::assignCountries(){
 
         for(int i =0;i<gameMap->getTerritories().size();i++){
             //loops through the participants, adding the back territory from the vector to a participant
-            participants[i%participants.size()]->addTerritory(*(new Territory(*gameTerritories.back())));
+            participants[i%participants.size()]->addTerritory(*gameTerritories.back());
 
             //removes the last element to allow access to the next one
             gameTerritories.pop_back();
@@ -237,7 +237,7 @@ void GameEngine::startUpPhase(){
     cout << "Welcome! Please enter a command to begin playing!" << endl;
 
     while(startingUp || (participants.size() < 2)){
-        getline(cin,command);
+        command = processor.getCommand();
         if (command.find("loadmap",0)==0){
             cout<<"Loading Map"<<endl;
             this->loadMap(command);
