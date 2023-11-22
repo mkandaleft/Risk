@@ -1,0 +1,1 @@
+ -M "map1.txt map2.txt map3.txt" -P "strategy1 strategy2 strategy3 strategy4" -G 5 -D 30
