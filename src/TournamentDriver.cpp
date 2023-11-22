@@ -1,50 +1,72 @@
 #include <iostream>
 #include <vector>
-#include <cstring>
+#include <string>
 #include <cstdlib>
-#include <getopt.h>
+#include <random>
+#include <sstream>
 
 using namespace std;
 
 vector<string> splitArguments(const string& input);
 
-int main(int argc, char* argv[]) {
-
-
+int main() {
     vector<string> mapFiles;
     vector<string> playerStrategies;
     int numGames = 0;
     int maxTurns = 0;
 
-    int opt;
-    while ((opt = getopt(argc, argv, "M:P:G:D:")) != -1) {
-        switch (opt) {
-        case 'M':
+    // Read all arguments in one line
+    cout << "Enter arguments in one line (e.g., -M map1.txt map2.txt -P strategy1 strategy2 -G 5 -D 20): ";
+    string inputLine;
+    getline(cin, inputLine);
+
+    // Split the input line into individual arguments
+    vector<string> arguments = splitArguments(inputLine);
+
+    // Parse the arguments
+    int i = 0;
+    while (i < arguments.size()) {
+        if (arguments[i] == "-M") {
             // Parse map files
-            mapFiles = splitArguments(optarg);
-            break;
-        case 'P':
+            i++;
+            while (i < arguments.size() && arguments[i][0] != '-') {
+                mapFiles.push_back(arguments[i]);
+                i++;
+            }
+        }
+        else if (arguments[i] == "-P") {
             // Parse player strategies
-            playerStrategies = splitArguments(optarg);
-            break;
-        case 'G':
+            i++;
+            while (i < arguments.size() && arguments[i][0] != '-') {
+                playerStrategies.push_back(arguments[i]);
+                i++;
+            }
+        }
+        else if (arguments[i] == "-G") {
             // Parse number of games
-            numGames = atoi(optarg);
-            break;
-        case 'D':
+            i++;
+            if (i < arguments.size()) {
+                numGames = atoi(arguments[i].c_str());
+                i++;
+            }
+        }
+        else if (arguments[i] == "-D") {
             // Parse maximum number of turns
-            maxTurns = atoi(optarg);
-            break;
-        default:
-            cerr << "Usage: " << argv[0] << " -M <mapfiles> -P <playerstrategies> -G <numgames> -D <maxturns>" << endl;
+            i++;
+            if (i < arguments.size()) {
+                maxTurns = atoi(arguments[i].c_str());
+                i++;
+            }
+        }
+        else {
+            cerr << "Invalid argument: " << arguments[i] << endl;
             return 1;
         }
     }
 
     // Validate input
     if (mapFiles.empty() || playerStrategies.empty() || numGames < 1 || maxTurns < 10 || maxTurns > 50) {
-        cerr << "Invalid command. Please provide valid arguments." << endl;
-        cerr << "Usage: " << argv[0] << " -M <mapfiles> -P <playerstrategies> -G <numgames> -D <maxturns>" << endl;
+        cerr << "Invalid input. Please provide valid arguments." << endl;
         return 1;
     }
 
@@ -66,29 +88,32 @@ int main(int argc, char* argv[]) {
 
     // Perform the tournament logic here
     // ...
+    cout << "Tournament ongoing.." << endl;
+
+    // Result:
+    cout << "Result:" << endl;
+    // Display winner (placeholder - display random)
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, playerStrategies.size() - 1);
+    int randomIndex;
+    for (const string& mapFile : mapFiles) {
+        cout << mapFile << ":" << endl;
+        for (int i = 0; i < numGames; i++) {
+            randomIndex = dist(gen);
+            cout << "Game " << i + 1 << ": " << playerStrategies[randomIndex] << "; ";
+        }
+        cout << endl;
+    }
 
     return 0;
 }
 
 vector<string> splitArguments(const string& input) {
     vector<string> arguments;
-    bool inQuotes = false;
+    istringstream iss(input);
     string argument;
-
-    for (char c : input) {
-        if (c == '"') {
-            inQuotes = !inQuotes;
-        }
-        else if (c == ' ' && !inQuotes) {
-            arguments.push_back(argument);
-            argument.clear();
-        }
-        else {
-            argument += c;
-        }
-    }
-
-    if (!argument.empty()) {
+    while (iss >> argument) {
         arguments.push_back(argument);
     }
     return arguments;
