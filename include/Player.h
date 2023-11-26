@@ -9,6 +9,8 @@
 #pragma once
 
 #include <vector>
+#include "../include/Orders.h"
+#include "../include/PlayerStrategies.h"
 
 using std::string;
 using std::vector;
@@ -24,6 +26,8 @@ class Player {
         Hand* hand;
         int reinformentPool;
         vector<Player*> alliances;
+        PlayerStrategy* strat;
+
 
     public:
         Player(const string& playerName);
@@ -41,5 +45,7 @@ class Player {
         void addAlliance(Player* ally);
         
         void setName(const string& newName);
+
+        void setStrategy(PlayerStrategy* plan);
 
 };

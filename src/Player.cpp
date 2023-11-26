@@ -32,7 +32,7 @@ const vector<Territory*>& Player::toAttack() const{
 
 // Creates an order object and adds it to the list of orders
 void Player::issueOrder(Orders& order){
-    ordersList->addOrder(order);
+    ordersList->addOrder(&order);
 }
 
 string Player::getName() const {
@@ -70,10 +70,13 @@ vector<Player*> Player::getAlliances()
     return alliances;
 }
 
-void Player::addAlliance(*Player ally)
+void Player::addAlliance(Player* ally)
 {
     alliances.push_back(ally);
 }
 
+void Player::setStrategy(PlayerStrategy* plan){
+    strat = plan;
+}
 
 

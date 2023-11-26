@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include "GameEngine.h"
 
 
 using namespace std;
@@ -20,7 +21,7 @@ public:
 
 	void play(Deck& gameDeck, Hand& playerHand);
 
-	Orders getType();
+	Orders* getType();
 	
 	int getId();
 	void addId();
@@ -34,7 +35,7 @@ private:
 class Deck {
 public:
 	Deck();
-	Deck(int size);
+	Deck(int size, GameEngine& playingMe);
 	Deck(const Deck& other);
 
 	void draw(Hand& hand);
@@ -50,10 +51,13 @@ public:
 	int getMaxSize();
 	int getSize();
 
+	GameEngine* getGame();
+
 	//void shuffle();
 private:
 	vector<Card*> cards;
 	int maxSize;
+	GameEngine* game;
 
 };
 

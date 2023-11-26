@@ -1,6 +1,7 @@
 
 #include "../include/GameEngine.h"
 #include "../include/Map.h"
+#include "../include/Territory.h"
 #include "../include/Player.h"
 #include "../include/cards.h"
 #include "MapDriver.cpp"
@@ -12,7 +13,7 @@ using namespace std;
 
 GameEngine::GameEngine(const string &state) : currentState(state){
     currentState = "start";
-    gameDeck = new Deck(100);
+    gameDeck = new Deck(100,*this);
     gameMap = new Map();
 }
 
@@ -111,7 +112,7 @@ void GameEngine::assignCountries(){
             //loops through the participants, adding the back territory from the vector to a participant
             participants[i%participants.size()]->addTerritory(*gameTerritories.back());
 
-            *gameTerritories.back()->setOwner(participants[i % participants.size()]);
+            gameTerritories.back()->setOwner(participants[i % participants.size()]);
             //removes the last element to allow access to the next one
             gameTerritories.pop_back();
         }
@@ -182,7 +183,7 @@ void GameEngine::endExecOrders() {
         cout <<"current state: "<< currentState << endl;
         for each (Player* player in participants)
         {
-            *player->getAlliances().clear();
+            player->getAlliances().clear();
         }
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
@@ -277,10 +278,14 @@ void GameEngine::startUpPhase(){
     }
 }
 
-static Player* GameEngine::getNeutralPlayer()
+//Uncomment this when you're done
+/*
+Player* GameEngine::getNeutralPlayer()
 {
     return neutralPlayer;
 }
+*/
+
 
 Map* GameEngine::getMap(){
     return gameMap;

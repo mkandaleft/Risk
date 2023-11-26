@@ -7,6 +7,7 @@
 #include "cards.h"
 #include "CommandProcessing.h"
 
+class Deck;
 
 using std::string;
 

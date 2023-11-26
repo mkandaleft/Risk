@@ -28,8 +28,8 @@ Card::Card(const Card& other) {
 	id = other.id;
 }
 
-Orders Card::getType() {
-	return *type;
+Orders* Card::getType() {
+	return type;
 }
 
 int Card::getId() {
@@ -41,7 +41,7 @@ void Card::addId() {
 }
 
 void Card::play(Deck& deck, Hand& hand) {
-	(*type).execute(); //calls execute for the card type
+	(*type).execute(deck.getGame()); //calls execute for the card type
 
 	if (deck.getSize() > deck.getMaxSize()) {//stops user from adding card to a full deck
 		cout << "The deck is full, where did you get that";
@@ -58,18 +58,21 @@ void Card::play(Deck& deck, Hand& hand) {
 }
 
 Deck::Deck() {
+	game = new GameEngine("start");
 	maxSize = 0;
 }
 
 Deck::Deck(const Deck& deck) {
 	maxSize = deck.maxSize;
 	cards = deck.cards;
+	game = deck.game;
 }
 
-Deck::Deck(int numCards) {
+Deck::Deck(int numCards, GameEngine& warzone) {
 
 	//limits the deck
 	maxSize = numCards;
+	game = &warzone;
 
 	//adds cards to the array
 	srand((unsigned int)time(NULL) * (unsigned int)time(NULL));//generate random seed
@@ -83,26 +86,26 @@ Deck::Deck(int numCards) {
 
 		cardType = i % numCardTypes;//alternates between different number of cards, for an equal amount (if the deck is a multiple of 5)
 		if (cardType == 0) {
-			Bomb* kaboom = new Bomb(1);
+			Bomb* kaboom;
 
 			//use insert instead of push_back so that the deck is randomized to begin with
 			cards.insert(cards.begin() + index, new Card(*kaboom));
 		}
 		else if (cardType == 1) {
-			Advance* reinforce = new Advance(1);
+			Advance* reinforce;
 			cards.insert(cards.begin() + index, new Card(*reinforce));
 		}
 		else if (cardType == 2) {
 
-			Blockade* block = new Blockade(1);
+			Blockade* block;
 			cards.insert(cards.begin() + index, new Card(*block));
 		}
 		else if (cardType == 3) {
-			Airlift* air = new Airlift(1);
+			Airlift* air;
 			cards.insert(cards.begin() + index, new Card(*air));
 		}
 		else if (cardType == 4) {
-			Negotiate* diplomacy = new Negotiate(1);
+			Negotiate* diplomacy;
 			cards.insert(cards.begin() + index, new Card(*diplomacy));
 		}
 	}
@@ -129,7 +132,7 @@ Card& Deck::draw() {
 
 void Deck::display() {
 	for (int i = 0; i < cards.size(); i++) {
-		cout << cards[i]->getType().getName() << endl;
+		cout<< cards[i]->getType()->getName()<<endl;
 	}
 	cout << "\n";
 }
@@ -145,6 +148,10 @@ int Deck::getMaxSize() {
 
 int Deck::getSize() {
 	return cards.size();
+}
+
+GameEngine* Deck::getGame(){
+	return game;
 }
 
 
@@ -176,7 +183,7 @@ Hand::Hand(const Hand& other) {
 
 void Hand::display() {
 	for (int i = 0; i < playerHand.size(); i++) {
-		cout << playerHand[i]->getType().getName() << endl;
+		cout << playerHand[i]->getType()->getName() <<endl;
 	}
 	cout << "\n";
 }
