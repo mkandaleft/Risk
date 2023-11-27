@@ -67,24 +67,11 @@ void Aggressive::execute(Player* aggresor){
             //if its an enemy territory
             if(targets->getOwner() != aggresor){
 
-                //attack while you still have troops
-                while (strongest->getUnits() > 1)
-                {
+                Advance attack(strongest->getUnits(),strongest,targets,aggresor);
+                /* TODO:
+                attack.execute();
+                */
 
-                    Advance attack(strongest->getUnits(),strongest,targets,aggresor);
-                    /* TODO:
-                    attack.execute();
-
-                    if win
-                        advance
-                        strongest = targets
-                        //once you've won, break out and check the surrounding territories of the country you just advanced to
-                        break;
-                    */
-                
-                    
-                }
-                break;
             }
 
             //all territories around the strongest are owned by the same player and shouldn't be attacked
