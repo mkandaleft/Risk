@@ -6,7 +6,7 @@ class PlayerStrategy{
     private:
 
     public:
-        virtual void execute() = 0;
+        virtual void execute(Player* player) = 0;
 
 };
 
@@ -16,7 +16,7 @@ computer player that focuses on attack (deploys or advances armies on its strong
 country, then always advances to enemy territories until it cannot do so anymore; will use any card with an
 aggressive purpose, as defined above). 
 */
-class Aggresive : public PlayerStrategy{
+class Aggressive : public PlayerStrategy{
     public:
         void execute(Player* player);
 };
@@ -47,6 +47,6 @@ computer player that automatically conquers all territories that are adjacent to
 territories (only once per turn). Does not use cards, though it may have or receive cards. 
 */
 class Cheater: public PlayerStrategy{
-    public:
+public:
         void execute(Player* player);
 };

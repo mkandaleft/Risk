@@ -40,12 +40,14 @@ class Player {
         vector<Territory*> getTerritories();
         void earnReinforcement(int added);
         void useReinforcement(int used);
+        int getPoolSize();
         Hand* getHand();
         vector<Player*> getAlliances();
         void addAlliance(Player* ally);
         
         void setName(const string& newName);
 
+        vector<Territory*> getSurroundings();
         void setStrategy(PlayerStrategy* plan);
 
 };

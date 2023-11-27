@@ -57,6 +57,10 @@ void Player::useReinforcement(int use){
     reinformentPool-= use;
 }
 
+int Player::getPoolSize(){
+    return reinformentPool;
+}
+
 vector<Territory*> Player::getTerritories(){
     return territories;
 }
@@ -73,6 +77,34 @@ vector<Player*> Player::getAlliances()
 void Player::addAlliance(Player* ally)
 {
     alliances.push_back(ally);
+}
+
+//Gets all territories not owned by me, that are touching a territory owned by me
+vector<Territory*> Player::getSurroundings(){
+    
+    vector<Territory*> surroundings;
+    vector<Territory*> nextToMe;
+
+    //check all owned territories
+    for(Territory* ownedTerr:getTerritories()){
+
+        //check all adjacent territories of owned territories
+        nextToMe = ownedTerr->getAdjacents();
+        for(Territory* adj:nextToMe){
+            auto it = find(nextToMe.begin(), nextToMe.end(), adj);
+
+            //if the adjacent territory was already added, or its owned by this player, don't add
+            if(it != nextToMe.end() || adj->getOwner() == this){
+                continue;
+            }
+            else{
+                surroundings.push_back(adj);
+            }
+        }
+    }
+
+    //all enemy territories surrounding owned territories
+    return surroundings;
 }
 
 void Player::setStrategy(PlayerStrategy* plan){
