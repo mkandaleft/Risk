@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../include/Orders.h"
+#include "../include/GameEngine.h"
 
 class PlayerStrategy{
     private:
 
     public:
-        virtual void execute(Player* player) = 0;
+        virtual void execute(Player* player,GameEngine* theGame) = 0;
 
 };
 
@@ -18,7 +19,7 @@ aggressive purpose, as defined above).
 */
 class Aggressive : public PlayerStrategy{
     public:
-        void execute(Player* player);
+        void execute(Player* player,GameEngine* theGame);
 };
 
 
@@ -29,7 +30,7 @@ that purposefully will harm anyone).
 */
 class Benevolent: public PlayerStrategy{
     public:
-        void execute(Player* player);
+        void execute(Player* player,GameEngine* theGame);
 };
 
 /*
@@ -38,7 +39,7 @@ cards. If a Neutral player is attacked, it becomes an Aggressive player.
 */
 class Neutral: public PlayerStrategy{
     public:
-        void execute(Player* player);
+        void execute(Player* player,GameEngine* theGame);
 };
 
 
@@ -48,5 +49,5 @@ territories (only once per turn). Does not use cards, though it may have or rece
 */
 class Cheater: public PlayerStrategy{
 public:
-        void execute(Player* player);
+        void execute(Player* player,GameEngine* theGame);
 };

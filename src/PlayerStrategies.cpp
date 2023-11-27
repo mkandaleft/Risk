@@ -4,7 +4,6 @@
 
 #include "../include/PlayerStrategies.h"
 #include "../include/cards.h"
-#include "../include/Orders.h"
 #include "../include/Territory.h"
 
 using namespace std;
@@ -15,7 +14,7 @@ computer player that focuses on attack (deploys or advances armies on its strong
 country, then always advances to enemy territories until it cannot do so anymore; will use any card with an
 aggressive purpose, as defined above). 
 */
-void Aggressive::execute(Player* aggresor){
+void Aggressive::execute(Player* aggresor,GameEngine* theGame){
     Territory* strongest = nullptr;
     vector<Territory*> myTerritories = aggresor->getTerritories();
 
@@ -31,7 +30,7 @@ void Aggressive::execute(Player* aggresor){
 
     for(Card* card:myHand){
         if(typeid(card->getType()) == typeid(Bomb)){
-            //TODO: card->play();
+            card->play(*theGame->getDeck(),*aggresor->getHand());
         }
     }
 
@@ -52,6 +51,7 @@ void Aggressive::execute(Player* aggresor){
     Deploy dep(dropIn,strongest,aggresor);
 
     //TODO: dep.execute();
+    dep.execute(theGame);
 
     aggresor->useReinforcement(dropIn);
     vector<Territory*> aroundMe;
@@ -68,10 +68,10 @@ void Aggressive::execute(Player* aggresor){
             if(targets->getOwner() != aggresor){
 
                 Advance attack(strongest->getUnits(),strongest,targets,aggresor);
-                /* TODO:
-                attack.execute();
-                */
+                attack.execute(theGame);
 
+                
+                break;
             }
 
             //all territories around the strongest are owned by the same player and shouldn't be attacked
@@ -96,7 +96,7 @@ computer player that focuses on protecting its weak countries (deploys or advanc
 on its weakest countries, never advances to enemy territories; may use cards but will never use a card in a way
 that purposefully will harm anyone). 
 */
-void Benevolent::execute(Player* peaceKeeper){
+void Benevolent::execute(Player* peaceKeeper,GameEngine* theGame){
     vector<Card*> myHand = peaceKeeper->getHand()->getHand();
     vector<Territory*> myLand = peaceKeeper->getTerritories();
 
@@ -119,7 +119,7 @@ void Benevolent::execute(Player* peaceKeeper){
 
             //50% chance to play the card
             if (playCard) {
-                //card->play();
+            card->play(*theGame->getDeck(),*peaceKeeper->getHand());
             }
         }
     }
@@ -135,7 +135,7 @@ void Benevolent::execute(Player* peaceKeeper){
     int dropIn = peaceKeeper->getPoolSize();
     Deploy dep(dropIn,weakest,peaceKeeper);
 
-    //TODO: dep.execute();
+    dep.execute(theGame);
 
     peaceKeeper->useReinforcement(dropIn);
 
@@ -145,7 +145,7 @@ void Benevolent::execute(Player* peaceKeeper){
 computer player that never issues any order, nor uses any cards, though it may have or receive
 cards. If a Neutral player is attacked, it becomes an Aggressive player. 
 */
-void Neutral::execute(Player* relaxed){
+void Neutral::execute(Player* relaxed,GameEngine* theGame){
 
     //TODO: if attacked
     relaxed->setStrategy(new Aggressive());
@@ -156,7 +156,7 @@ void Neutral::execute(Player* relaxed){
 computer player that automatically conquers all territories that are adjacent to its own
 territories (only once per turn). Does not use cards, though it may have or receive cards. 
 */
-void Cheater::execute(Player* hacker){
+void Cheater::execute(Player* hacker,GameEngine* theGame){
 
     //get all territories, adjacent to a territory owned by this player
 
