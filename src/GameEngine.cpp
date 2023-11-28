@@ -314,8 +314,7 @@ void GameEngine::mainGameLoop() {
 
 void GameEngine::reinforcementPhase() {
     // get the map and continents from it
-    Map* mapPointer = getMap();
-    map<string, Continent*> continents = mapPointer->getContinents();
+    map<string, Continent*> continents = gameMap->getContinents();
 
     // Give each player their units to play this turn
     for (const auto& playerPtr : participants) {
