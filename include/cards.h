@@ -14,9 +14,9 @@ class Card {
 public:
 	Card();
 
-	Card(Orders& type);//string as a stand in for Order
+	Card(Orders& type); //string as a stand in for Order
 
-	Card(const Card& other);//copy constructor
+	Card(const Card& other); //copy constructor
 
 	void play(Deck& gameDeck, Hand& playerHand);
 
