@@ -19,7 +19,7 @@ class GameEngine {
     Deck* gameDeck;
     CommandProcessor processor;
     
-    Player* neutralPlayer = new Player("neutralPlayer");
+    //Player* neutralPlayer = new Player("neutralPlayer");
 
 
     public:
@@ -40,6 +40,10 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
+    void mainGameLoop();
+    void reinforcementPhase();
+    void issueOrderPhase();
+    void executeOrdersPhase();
     static Player* getNeutralPlayer();
 
     //for testStartupPhase
