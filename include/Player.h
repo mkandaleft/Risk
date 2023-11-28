@@ -9,11 +9,14 @@
 #pragma once
 
 #include <vector>
+#include "Territory.h"
+#include "GameEngine.h"
+#include "Orders.h"
 
-using std::string;
 using std::vector;
-class Hand;
+using std::string;
 
+class Hand;
 
 class Player {
 
@@ -22,21 +25,25 @@ class Player {
         vector<Territory*> territories;
         OrdersList* ordersList;
         Hand* hand;
-        int reinformentPool;
+        int reinforcementPool;
         vector<Player*> alliances;
 
     public:
         Player(const string& playerName);
+        ~Player();
         void addTerritory(Territory& territory);
-        const vector<Territory*>& toDefend() const;
-        const vector<Territory*>& toAttack() const;
-        void issueOrder(Orders& order);
+        vector<Territory*>& toDefend() const;
+        vector<Territory*>& toAttack() const;
+        void issueOrder(GameEngine& engine);
         string getName() const;
         Player(const Player& player);
-        vector<Territory*> getTerritories();
+        vector<Territory*> getTerritories() const;
+        int getReinforcement() const;
         void earnReinforcement(int added);
         void useReinforcement(int used);
         Hand* getHand();
+        OrdersList* getOrdersList();
+        bool operator==(const Player& other) const;
         vector<Player*> getAlliances();
         void addAlliance(Player* ally);
         
