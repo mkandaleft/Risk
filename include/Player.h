@@ -30,6 +30,7 @@ class Player {
 
     public:
         Player(const string& playerName);
+        ~Player();
         void addTerritory(Territory& territory);
         vector<Territory*>& toDefend() const;
         vector<Territory*>& toAttack() const;

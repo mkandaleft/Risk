@@ -23,6 +23,19 @@ Player::Player(const string& playerName) : name(playerName),reinforcementPool(0)
     hand = new Hand();
 }
 
+Player::~Player() {
+    delete ordersList;
+    ordersList = nullptr;
+
+    delete hand;
+    hand = nullptr;
+
+    for (Territory* territory : territories) {
+        delete territory;
+    }
+    territories.clear();
+}
+
 void Player::addTerritory(Territory& territory) {
     territories.push_back(&territory);
 }

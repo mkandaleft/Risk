@@ -24,6 +24,7 @@ class GameEngine {
 
     public:
     GameEngine(const string& state);
+    ~GameEngine();
     string getState() const;
     void setState(string state);
     void loadMap(string map);

@@ -18,6 +18,19 @@ GameEngine::GameEngine(const string &state) : currentState(state){
     gameMap = new Map();
 }
 
+GameEngine::~GameEngine() {
+    delete gameMap;
+    gameMap = nullptr;
+
+    for (Player* player : participants) {
+        delete player;
+    }
+    participants.clear();
+
+    delete gameDeck;
+    gameDeck = nullptr;
+}
+
 string GameEngine::getState() const{
     return currentState;
 }
