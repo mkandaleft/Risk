@@ -174,6 +174,22 @@ bool Map::isMapConnected() {
 	return visited.size() == territories.size(); // check if all territories were visited
 }
 
+vector<Continent*> Map::getContinentsVector() {
+	vector<Continent*> continentVector;
+	for (const auto& pair : continents) {
+		continentVector.push_back(pair.second);
+	}
+	return continentVector;
+}
+
+vector<Territory*> Map::getTerritoriesVector() {
+	vector<Territory*> territoryVector;
+	for (const auto& pair : territories) {
+		territoryVector.push_back(pair.second);
+	}
+	return territoryVector;
+}
+
 bool Map::validate() {
 
 /*
