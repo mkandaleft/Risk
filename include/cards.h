@@ -20,7 +20,7 @@ public:
 
 	void play(Deck& gameDeck, Hand& playerHand);
 
-	Orders getType();
+	Orders* getType();
 	
 	int getId();
 	void addId();

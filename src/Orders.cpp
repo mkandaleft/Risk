@@ -57,12 +57,16 @@ Deploy::Deploy(int unitsIn, Territory* targetIn, Player* issuingPlayerIn) {
     setResult("Units have been deployed.");
 }
 
+string Deploy::getName() {
+    return "Deploy";
+}
+
 bool Deploy::validate(GameEngine* gameEngine){
     bool valid = false;
     std::cout << "Validating deploy action" << std::endl;
     //if element found, deploy is valid
 //should I be checking reinforcement pool as well?
-    if((this->issuingPlayer->getName().compare(this->target->getOwner()->getName()))==0){
+    if(((this->issuingPlayer->getName().compare(this->target->getOwner()->getName()))==0) && (this->issuingPlayer->getReinforcement()>= this->units)){
         valid = true;
     }
 
@@ -72,6 +76,7 @@ bool Deploy::validate(GameEngine* gameEngine){
 void Deploy::execute(GameEngine* gameEngine){
     if (Orders::validate(gameEngine)) {
         this->target->setUnits(this->target->getUnits() + this->units);
+        this->issuingPlayer->useReinforcement(this->units);
         std::cout << getResult() << std::endl;
     }
     else {
@@ -89,6 +94,10 @@ Advance::Advance(int unitsIn, Territory* sourceIn, Territory* targetIn, Player* 
     this->target = targetIn;
     units = unitsIn;
     this->issuingPlayer = issuingPlayerIn;
+}
+
+string Advance::getName() {
+    return "Advance";
 }
 
 bool Advance::validate(GameEngine* gameEngine){
@@ -166,10 +175,15 @@ Bomb::Bomb(Territory* targetIn, Player* issuingPlayerIn) {
     setResult("Bomb has detonated. Half of the units have been destroyed.");
 }
 
+string Bomb::getName() {
+    return "Bomb";
+}
+
 bool Bomb::validate(GameEngine* gameEngine){
     bool valid = false;
     bool isAdjacent = false;
     bool isAlly = false;
+    bool hasCard = false;
     for (Territory* territory : this->target->getAdjacents())
     {
         if ((territory->getOwner()->getName().compare(this->issuingPlayer->getName())) == 0) {
@@ -183,8 +197,13 @@ bool Bomb::validate(GameEngine* gameEngine){
             }
         }
     }
+    for (Card* card : this->issuingPlayer->getHand()->getHand()) {
+        if (card->getType()->getName().compare(this->getName())) {
+            hasCard = true;
+        }
+    }
     std::cout << "Validating bomb action" << std::endl;
-    if (((this->target->getOwner()->getName().compare(this->issuingPlayer->getName()))!=0) && isAdjacent && !isAlly) {
+    if (((this->target->getOwner()->getName().compare(this->issuingPlayer->getName()))!=0) && isAdjacent && !isAlly && hasCard) {
         valid = true;
     }
     
@@ -210,13 +229,22 @@ Blockade::Blockade(Territory* targetIn, Player* issuingPlayerIn) {
     setResult("Blockade has been created. Army units have tripled.");
 }
 
+string Blockade::getName() {
+    return "Blockade";
+}
+
 bool Blockade::validate(GameEngine* gameEngine){
     bool valid = false;
-    if ((this->target->getOwner()->getName().compare(this->issuingPlayer->getName())) == 0) {
+    bool hasCard = false;
+    for (Card* card : this->issuingPlayer->getHand()->getHand()) {
+        if (card->getType()->getName().compare(this->getName())) {
+            hasCard = true;
+        }
+    }
+    if (((this->target->getOwner()->getName().compare(this->issuingPlayer->getName())) == 0) && hasCard){
         valid = true;
     }
-    std::cout << "Validating bomb action" << std::endl;
-    //No way of validating yet.
+    std::cout << "Validating blockade action" << std::endl;
     return valid;
 }
 
@@ -244,11 +272,21 @@ Airlift::Airlift(int unitsIn, Territory* sourceIn, Territory* targetIn, Player* 
     setResult("Airlift successful. Army units have moved.");
 }
 
+string Airlift::getName() {
+    return "Airlift";
+}
+
 bool Airlift::validate(GameEngine* gameEngine){
     bool valid = false;
+    bool hasCard = false;
     std::cout << "Validating airlift action" << std::endl;
+    for (Card* card : this->issuingPlayer->getHand()->getHand()) {
+        if (card->getType()->getName().compare(this->getName())) {
+            hasCard = true;
+        }
+    }
     //target and source territories have same owner
-    if ((this->source->getOwner()->getName().compare(this->target->getOwner()->getName()))==0) {
+    if ((this->source->getOwner()->getName().compare(this->target->getOwner()->getName()))==0 && hasCard) {
         valid = true;
     }
     return valid;
@@ -274,9 +312,19 @@ Negotiate::Negotiate(Player* targetIn, Player* issuingPlayerIn) {
     setResult("Attacks have been prevented.");
 }
 
+string Negotiate::getName() {
+    return "Negotiate";
+}
+
 bool Negotiate::validate(GameEngine* gameEngine) {
     bool valid = false;
-    if ((this->issuingPlayer->getName().compare(this->target->getName())) != 0) {
+    bool hasCard = false;
+    for (Card* card : this->issuingPlayer->getHand()->getHand()) {
+        if (card->getType()->getName().compare(this->getName())) {
+            hasCard = true;
+        }
+    }
+    if ((this->issuingPlayer->getName().compare(this->target->getName())) != 0 && hasCard) {
         valid = true;
     }
     std::cout << "Validating negotiate action" << std::endl;

@@ -47,6 +47,7 @@ public:
     Deploy(int units, Territory* target, Player* issuingPlayer);
     bool validate(GameEngine* gameEngine) override;
     void execute(GameEngine* gameEngine)override;
+    string getName();
 };
 
 class Advance : public Orders {
@@ -62,6 +63,7 @@ public:
     Advance(int units, Territory* source, Territory* target, Player* issuingPlayer);
     bool validate(GameEngine* gameEngine) override;
     void execute(GameEngine* gameEngine) override;
+    string getName();
 };
 
 class Bomb : public Orders {
@@ -73,6 +75,7 @@ public:
     Bomb(Territory* target, Player* issuingPlayer);
     bool validate(GameEngine* gameEngine) override;
     void execute(GameEngine* gameEngine) override;
+    string getName();
 };
 
 class Blockade : public Orders {
@@ -84,6 +87,7 @@ public:
     Blockade(Territory* target, Player* issuingPlayer);
     bool validate(GameEngine* gameEngine) override;
     void execute(GameEngine* gameEngine) override;
+    string getName();
 };
 
 class Airlift : public Orders {
@@ -97,6 +101,7 @@ public:
     Airlift(int units, Territory* source, Territory* target, Player* issuingPlayer);
     bool validate(GameEngine* gameEngine) override;
     void execute(GameEngine* gameEngine) override;
+    string getName();
 };
 
 class Negotiate : public Orders {
@@ -108,6 +113,7 @@ public:
     Negotiate(Player* target, Player* issuingPlayer);
     bool validate(GameEngine* gameEngine) override;
     void execute(GameEngine* gameEngine) override;
+    string getName();
 };
 
 class  OrdersList {
