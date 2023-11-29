@@ -20,7 +20,7 @@ void testPlayerStrategies(){
 
 
     for(Player* player: gamers){
-        player->setStrategy(new Benevolent);
+        player->setStrategy(new Benevolent());
     }
     
 

@@ -307,11 +307,11 @@ void GameEngine::mainGameLoop() {
     Player *winningPlayer = nullptr;
     while(winningPlayer == nullptr){
         reinforcementPhase();
-        cout<<"reinforments gained"<<endl;
+        cout<<"Reinforments gained"<<endl;
         issueOrderPhase();
-        cout<<"orders issued"<<endl;
+        cout<<"Orders issued"<<endl;
         executeOrdersPhase();
-        cout<<"executing them"<<endl;
+        cout<<"Executing orders"<<endl;
 
         // remove players than have no more territories
         for (const auto& playerPtr : participants) {
@@ -324,12 +324,14 @@ void GameEngine::mainGameLoop() {
                 delete playerPtr;
             }
         }
+
         if (participants.size() == 1) {
             cout << "Player " << participants[0]->getName() << " has won the game!!!" << endl;
             winningPlayer = participants[0];
         }
-
-        cout<<"keep going"<<endl;
+        else{
+            cout<<"Next Round!"<<endl;
+        }
     }
 }
 

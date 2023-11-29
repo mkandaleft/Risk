@@ -295,6 +295,7 @@ void Aggressive::issueOrder(Player* aggressor,GameEngine* theGame){
         Advance* atkPtr = &attack;
 
         
+        //if aggresssor loses early, you'll get a bunch of unable to move messages when executing
         aggressor->getOrdersList()->addOrder(atkPtr);
 
 
@@ -450,51 +451,55 @@ void Benevolent::issueOrder(Player* peaceKeeper,GameEngine* theGame){
 
     vector<Territory*> defendUs = peaceKeeper->toDefend();
 
-    //couldn't make just an array using defendUs.size() w/o it being a pointer to a dynamic array, 
-    //that it wouldn't let me delete later
-    vector<int> deploymentDistribution;
-
     int units = peaceKeeper->getPoolSize();
 
-    int baseAmount = units / defendUs.size();
+    int index = 0;
+    int unitsLeft = peaceKeeper->getPoolSize();
 
-    int leftOvers = units % defendUs.size();
+    int numLandDeployedOn = 0;
 
-    int count = 0;
+    size_t size = defendUs.size();
+    int* deploymentDistribution = new int[size];
 
-    //distribute all troops evenly even when # of troops%# of territories != 0
-    for(Territory* distribute: defendUs){
-        if(count < leftOvers){
-            deploymentDistribution.push_back(baseAmount+1);
-        }
-        else{
-            deploymentDistribution.push_back(baseAmount);
-        }
+    //evenly distributes across owned territories, while they are left in the pool
+    while(peaceKeeper->getPoolSize() > 0){
+        //keeps track of how many territories actually earn troops, incase there are more weak territories than, troops available
+        numLandDeployedOn++;
+        deploymentDistribution[(index++)%defendUs.size()] += 1;
+        peaceKeeper->useReinforcement(1);
     }
 
-    if(deploymentDistribution.size() == defendUs.size()){
-        for(int i=0;i<defendUs.size();i++){
+    //if there are enough troops that each territory gets at least one, caps out numLandDeployedOn
+    if(numLandDeployedOn > size)
+        numLandDeployedOn = size;
 
+
+    cout<<"distr size: "<<numLandDeployedOn;
+    cout<<" land size: "<<defendUs.size();
+
+        //Goes based 
+        for(int i=0;i<numLandDeployedOn;i++){
                 //neither work, vector push_back doesn't seem to work inside addOrder()
+                
                 /*
                 Deploy* dep = new Deploy(deploymentDistribution[i],defendUs[i],peaceKeeper);
                 peaceKeeper->getOrdersList()->addOrder(dep);
+                
                 */
 
-                /*
+                
                 Deploy dep(deploymentDistribution[i],defendUs[i],peaceKeeper);
                 Deploy* depPtr = &dep;
                 peaceKeeper->getOrdersList()->addOrder(depPtr);
-               */
+               
         }
-    }
-    else{
-        cout<<"Something went wrong"<<endl;
-    }
     
+    delete[] deploymentDistribution;
+
+
 
     //ATTACK ORDERS
-    cout<<"No Attacking for me, thanks:)"<<endl;
+    cout<<peaceKeeper->getName()<< ": No Attacking for me, thanks:)"<<endl;
 
 }
 

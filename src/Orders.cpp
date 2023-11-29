@@ -57,6 +57,7 @@ Deploy::Deploy(int unitsIn, Territory* targetIn, Player* issuingPlayerIn) {
     setResult("Units have been deployed.");
 }
 
+
 bool Deploy::validate(GameEngine* gameEngine){
     bool valid = false;
     std::cout << "Validating deploy action" << std::endl;
