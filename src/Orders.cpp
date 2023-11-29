@@ -70,7 +70,7 @@ bool Deploy::validate(GameEngine* gameEngine){
 }
 
 void Deploy::execute(GameEngine* gameEngine){
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         this->target->setUnits(this->target->getUnits() + this->units);
         std::cout << getResult() << std::endl;
     }
@@ -87,6 +87,7 @@ Advance::Advance(int unitsIn, Territory* sourceIn, Territory* targetIn, Player* 
     setResult("Units have been moved.");
     this->source = sourceIn;
     this->target = targetIn;
+    
     units = unitsIn;
     this->issuingPlayer = issuingPlayerIn;
 }
@@ -104,14 +105,14 @@ bool Advance::validate(GameEngine* gameEngine){
 
 void Advance::execute(GameEngine* gameEngine){
  
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         if ((this->target->getOwner()->getName().compare(this->issuingPlayer->getName())) == 0) {
             this->target->setUnits(this->target->getUnits() + this->units);
             this->source->setUnits(this->source->getUnits() - this->units);
             std::cout << getResult() << std::endl;
         }
     }
-    else if(Orders::validate(gameEngine) && !isAlly(source->getOwner(), target->getOwner())){
+    else if(validate(gameEngine) && !isAlly(source->getOwner(), target->getOwner())){
             Battle(this->source, this->target, this->issuingPlayer);
             std::cout << getResult() << std::endl;
         }
@@ -121,7 +122,7 @@ void Advance::execute(GameEngine* gameEngine){
     }
 }
 
-bool isAlly(Player* player1, Player* player2) {
+bool Advance::isAlly(Player* player1, Player* player2) {
     bool isAlly = false;
  
     for (Player * players1 : player1->getAlliances()) {
@@ -192,7 +193,7 @@ bool Bomb::validate(GameEngine* gameEngine){
 }
 
 void Bomb::execute(GameEngine* gameEngine){
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         std::cout << getResult() << std::endl;
         this->target->setUnits((this->target->getUnits()) / 2);
     }
@@ -221,7 +222,7 @@ bool Blockade::validate(GameEngine* gameEngine){
 }
 
 void Blockade::execute(GameEngine* gameEngine) {
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         this->target->setUnits((this->target->getUnits()) * 2);
         this->target->setOwner(gameEngine->getNeutralPlayer());
         gameEngine->getNeutralPlayer()->addTerritory(*this->target);
@@ -255,7 +256,7 @@ bool Airlift::validate(GameEngine* gameEngine){
 }
 
 void Airlift::execute(GameEngine* gameEngine){
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         std::cout << getResult() << std::endl;
         this->target->setUnits(this->target->getUnits() + this->units);
         this->source->setUnits(this->source->getUnits() - this->units);
@@ -285,7 +286,7 @@ bool Negotiate::validate(GameEngine* gameEngine) {
 }
 
 void Negotiate::execute(GameEngine* gameEngine) {
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         std::cout << getResult() << std::endl;
         this->target->addAlliance(this->issuingPlayer);
         this->issuingPlayer->addAlliance(this->target);

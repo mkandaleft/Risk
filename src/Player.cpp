@@ -10,10 +10,23 @@
 #include "../include/Orders.h"
 #include "../include/Territory.h"
 #include "../include/cards.h"
+#include "../include/GameEngine.h"
+#include "../include/PlayerStrategies.h"
+
+#include <algorithm>
+
 using std::string;
 
-Player::Player(const string& playerName) : name(playerName),reinformentPool(0) {
+Player::Player(const string& playerName) : name(playerName),reinformentPool(0){
     hand = new Hand();
+    beenAttacked = false;
+    strat = new Neutral();
+}
+
+Player::Player(const string& playerName, PlayerStrategy* plan) : name(playerName),reinformentPool(0){
+    hand = new Hand();
+    beenAttacked = false;
+    strat = plan;
 }
 
 void Player::addTerritory(Territory& territory) {
@@ -21,18 +34,18 @@ void Player::addTerritory(Territory& territory) {
 }
 
 // Returns a list of territories to be defended
-const vector<Territory*>& Player::toDefend() const{
-    return territories;
+const vector<Territory*>& Player::toDefend(){
+    return strat->toDefend(this);
 }
 
 // Returns a list of territories to be attacked
-const vector<Territory*>& Player::toAttack() const{
-    return territories;
+const vector<Territory*>& Player::toAttack(){
+    return strat->toAttack(this);
 }
 
 // Creates an order object and adds it to the list of orders
-void Player::issueOrder(Orders& order){
-    ordersList->addOrder(&order);
+void Player::issueOrder(Player* player, GameEngine* engine){
+    strat->issueOrder(this,engine);
 }
 
 string Player::getName() const {
@@ -59,6 +72,10 @@ void Player::useReinforcement(int use){
 
 int Player::getPoolSize(){
     return reinformentPool;
+}
+
+OrdersList* Player::getOrderList(){
+    return ordersList;
 }
 
 vector<Territory*> Player::getTerritories(){
@@ -107,7 +124,20 @@ vector<Territory*> Player::getSurroundings(){
     return surroundings;
 }
 
+void Player::setBeenAttacked(bool status){
+    beenAttacked = status;
+}
+
+bool Player::getBeenAttacked(){
+    return beenAttacked;
+}
+
 void Player::setStrategy(PlayerStrategy* plan){
+
+    //reset so neutral player doesn't immediately become aggressive
+    if(typeid(plan) == typeid(Neutral))
+        beenAttacked = false;
+
     strat = plan;
 }
 

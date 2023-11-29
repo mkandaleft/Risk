@@ -11,10 +11,13 @@
 
 using namespace std;
 
+class Player;
+
 GameEngine::GameEngine(const string &state) : currentState(state){
     currentState = "start";
-    gameDeck = new Deck(100,*this);
+    gameDeck = new Deck(100);
     gameMap = new Map();
+    neutralPlayer  = new Player("neutralPlayer");
 }
 
 string GameEngine::getState() const{
@@ -181,7 +184,7 @@ void GameEngine::endExecOrders() {
     if (currentState == "execute orders"){
         currentState = "assign reinforcement";
         cout <<"current state: "<< currentState << endl;
-        for each (Player* player in participants)
+        for(Player* player: participants)
         {
             player->getAlliances().clear();
         }
@@ -278,13 +281,10 @@ void GameEngine::startUpPhase(){
     }
 }
 
-//Uncomment this when you're done
-/*
-Player* GameEngine::getNeutralPlayer()
-{
+Player* GameEngine::getNeutralPlayer(){
     return neutralPlayer;
 }
-*/
+
 
 
 Map* GameEngine::getMap(){

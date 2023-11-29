@@ -25,9 +25,9 @@ int main() {
     myMap.validate();
     testPlayers(); // Call the testPlayer method in PlayerDriver.cpp
     testOrdersLists();
+    testCards();
 
     */
-       testCards();
 
 
     /*

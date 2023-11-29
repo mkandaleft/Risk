@@ -8,6 +8,7 @@
 #include "CommandProcessing.h"
 
 class Deck;
+class Player;
 
 using std::string;
 
@@ -19,8 +20,7 @@ class GameEngine {
     vector<Player*> participants;
     Deck* gameDeck;
     CommandProcessor processor;
-    
-    Player* neutralPlayer = new Player("neutralPlayer");
+    Player* neutralPlayer;
 
 
     public:
@@ -41,7 +41,7 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
-    static Player* getNeutralPlayer();
+    Player* getNeutralPlayer();
 
     //for testStartupPhase
     Map* getMap();

@@ -30,8 +30,8 @@ void Territory::setUnits(int units) {
 	this->armyUnits = units;
 }
 
-void Territory::setOwner(Player)
-{
+void Territory::addUnits(int units){
+	this->armyUnits += units;
 }
 
 void Territory::setContinent(Continent* newContinent) {

@@ -79,7 +79,7 @@ void testStartupPhase(){
         }
         cout<<"\nHand: ";
         for(Card* card: player->getHand()->getHand()){
-            cout<<card->getType().getName()<< " ";
+            cout<<card->getType()->getName()<< " ";
         }
         cout<<"\n";
 

@@ -35,7 +35,7 @@ private:
 class Deck {
 public:
 	Deck();
-	Deck(int size, GameEngine& playingMe);
+	Deck(int size);
 	Deck(const Deck& other);
 
 	void draw(Hand& hand);

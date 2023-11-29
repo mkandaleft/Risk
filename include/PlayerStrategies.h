@@ -1,16 +1,29 @@
 #pragma once
 
-#include "../include/Orders.h"
-#include "../include/GameEngine.h"
+#include "Orders.h"
+#include "GameEngine.h"
+#include "Player.h"
 
 class PlayerStrategy{
     private:
 
     public:
-        virtual void execute(Player* player,GameEngine* theGame) = 0;
+        virtual void issueOrder(Player* player,GameEngine* theGame) = 0;
+        virtual vector<Territory*>& toAttack(Player* player) = 0;
+        virtual vector<Territory*>& toDefend(Player* player) = 0;
 
 };
 
+/*
+requires user interactions to make decisions, including deploy and advance orders, as well as
+playing any card. 
+*/
+class Human : public PlayerStrategy{
+    public: 
+        void issueOrder(Player* player,GameEngine* theGame);
+        vector<Territory*>& toAttack(Player* player);
+        vector<Territory*>& toDefend(Player* player);
+};
 
 /*
 computer player that focuses on attack (deploys or advances armies on its strongest
@@ -19,7 +32,10 @@ aggressive purpose, as defined above).
 */
 class Aggressive : public PlayerStrategy{
     public:
-        void execute(Player* player,GameEngine* theGame);
+        void issueOrder(Player* player,GameEngine* theGame);
+        vector<Territory*>& toAttack(Player* player);
+        vector<Territory*>& toDefend(Player* player);
+
 };
 
 
@@ -30,7 +46,9 @@ that purposefully will harm anyone).
 */
 class Benevolent: public PlayerStrategy{
     public:
-        void execute(Player* player,GameEngine* theGame);
+        void issueOrder(Player* player,GameEngine* theGame);        
+        vector<Territory*>& toAttack(Player* player);
+        vector<Territory*>& toDefend(Player* player);
 };
 
 /*
@@ -39,7 +57,9 @@ cards. If a Neutral player is attacked, it becomes an Aggressive player.
 */
 class Neutral: public PlayerStrategy{
     public:
-        void execute(Player* player,GameEngine* theGame);
+        void issueOrder(Player* player,GameEngine* theGame);
+        vector<Territory*>& toAttack(Player* player);
+        vector<Territory*>& toDefend(Player* player);
 };
 
 
@@ -49,5 +69,7 @@ territories (only once per turn). Does not use cards, though it may have or rece
 */
 class Cheater: public PlayerStrategy{
 public:
-        void execute(Player* player,GameEngine* theGame);
+        void issueOrder(Player* player,GameEngine* theGame);
+        vector<Territory*>& toAttack(Player* player);
+        vector<Territory*>& toDefend(Player* player);
 };

@@ -4,7 +4,6 @@
 #include <ctime>
 #include "../include/cards.h"
 #include "../include/Orders.h"
-//#include "Orders.cpp"
 using namespace std;
 
 
@@ -68,17 +67,16 @@ Deck::Deck(const Deck& deck) {
 	game = deck.game;
 }
 
-Deck::Deck(int numCards, GameEngine& warzone) {
+Deck::Deck(int numCards) {
 
 	//limits the deck
 	maxSize = numCards;
-	game = &warzone;
 
 	//adds cards to the array
 	srand((unsigned int)time(NULL) * (unsigned int)time(NULL));//generate random seed
 	int index = 0;
 	int cardType = 0;
-	int numCardTypes = 5;
+	int numCardTypes = 4;
 	for (int i = 0; i < numCards; i++) {
 		//generate random index to insert card at
 		index = rand() % (cards.size() + 1);
@@ -92,19 +90,15 @@ Deck::Deck(int numCards, GameEngine& warzone) {
 			cards.insert(cards.begin() + index, new Card(*kaboom));
 		}
 		else if (cardType == 1) {
-			Advance* reinforce;
-			cards.insert(cards.begin() + index, new Card(*reinforce));
-		}
-		else if (cardType == 2) {
 
 			Blockade* block;
 			cards.insert(cards.begin() + index, new Card(*block));
 		}
-		else if (cardType == 3) {
+		else if (cardType == 2) {
 			Airlift* air;
 			cards.insert(cards.begin() + index, new Card(*air));
 		}
-		else if (cardType == 4) {
+		else if (cardType == 3) {
 			Negotiate* diplomacy;
 			cards.insert(cards.begin() + index, new Card(*diplomacy));
 		}

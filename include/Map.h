@@ -1,5 +1,11 @@
 #pragma once
 
+#include <map>
+#include <unordered_set>
+#include <vector>
+
+#include "Territory.h"
+
 using namespace std;
 class Continent {
 private:
