@@ -35,19 +35,6 @@ GameEngine::~GameEngine() {
     gameDeck = nullptr;
 }
 
-GameEngine::~GameEngine() {
-    delete gameMap;
-    gameMap = nullptr;
-
-    for (Player* player : participants) {
-        delete player;
-    }
-    participants.clear();
-
-    delete gameDeck;
-    gameDeck = nullptr;
-}
-
 string GameEngine::getState() const{
     return currentState;
 }
@@ -211,7 +198,7 @@ void GameEngine::endExecOrders() {
     if (currentState == "execute orders"){
         currentState = "assign reinforcement";
         cout <<"current state: "<< currentState << endl;
-        for each (Player* player in participants)
+        for(Player* player : participants)
         {
             player->getAlliances().clear();
         }
@@ -310,6 +297,102 @@ void GameEngine::startUpPhase(){
 
 Player* GameEngine::getNeutralPlayer(){
     return neutralPlayer;
+}
+
+// go through each phase of the main game loop
+void GameEngine::mainGameLoop() {
+    // null player pointer
+    // assign to winner
+
+    Player *winningPlayer = nullptr;
+    while(winningPlayer == nullptr){
+        reinforcementPhase();
+        cout<<"reinforments gained"<<endl;
+        issueOrderPhase();
+        cout<<"orders issued"<<endl;
+        executeOrdersPhase();
+        cout<<"executing them"<<endl;
+
+        // remove players than have no more territories
+        for (const auto& playerPtr : participants) {
+            int numOfTerritories = 0;
+            for (const auto& thisTerritory : playerPtr->getTerritories()) {
+                numOfTerritories++;
+            }
+            if (numOfTerritories <= 0) {
+                cout << "Player " << playerPtr->getName() << " has no territories, they have lost!" << endl;
+                delete playerPtr;
+            }
+        }
+        if (participants.size() == 1) {
+            cout << "Player " << participants[0]->getName() << " has won the game!!!" << endl;
+            winningPlayer = participants[0];
+        }
+
+        cout<<"keep going"<<endl;
+    }
+}
+
+void GameEngine::reinforcementPhase() {
+    // get the map and continents from it
+    map<string, Continent*> continents = gameMap->getContinents();
+
+    // Give each player their units to play this turn
+    for (const auto& playerPtr : participants) {
+        // get the territories owned by this player
+        vector<Territory*> playerTerritories = playerPtr->getTerritories();
+        int earnedUnits = (playerTerritories.size()) / 3;
+        // implement the determining of bonus units awarded upon having all territories in a continent
+        // for each pair in map<string, Continent*>, we only want Continent here.
+        for (const auto& pair : continents) {
+            Continent* continentPtr = pair.second;
+            vector<Territory*> contTerritories = continentPtr->getTerritory();
+            // We start by saying the player has the continent. If it is found that there is a missing
+            // territory, we will say that the player doesn't have it.
+            bool hasContinent = true;
+            for (const auto& territoryPtr : contTerritories) {
+                // use find to try and find the territory in the continent. This is done for every territory.
+                auto it = find(playerTerritories.begin(), playerTerritories.end(), territoryPtr);
+                // if it is found continue the loop
+                if (it != playerTerritories.end()) {
+                    hasContinent = true;
+                    continue;
+                }
+                else { // if not found, the continent isn't claimed, so break the loop
+                    hasContinent = false;
+                    break;
+                }
+            }
+            if (hasContinent) earnedUnits += continentPtr->getValue();
+        }
+        // adjust if this player has less than 3 units
+        if (earnedUnits < 3) earnedUnits = 3;
+        playerPtr->earnReinforcement(earnedUnits);
+        cout << playerPtr->getName() << " has earned " << earnedUnits << " as a bonus!" << endl;
+    }
+}
+
+void GameEngine::issueOrderPhase() {
+    // Have each player issue their orders
+    for (const auto& playerPtr : participants) {
+        playerPtr->issueOrder(playerPtr,this);
+    }
+}
+
+void GameEngine::executeOrdersPhase() {
+    for (const auto& playerPtr : participants) {
+        OrdersList* list = playerPtr->getOrdersList();
+        if(list->getOrders().size() > 0){
+            vector<Orders*> orders = list->getOrders();
+            for (const auto& orderPtr : orders) {
+                execOrder();
+            }
+        }
+        else{
+            cout<<"nothing to execute"<<endl;
+        }
+        
+    }
 }
 
 Map* GameEngine::getMap(){

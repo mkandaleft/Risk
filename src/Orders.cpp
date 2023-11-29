@@ -299,6 +299,7 @@ void Negotiate::execute(GameEngine* gameEngine) {
 //ORDER LIST
 
 void OrdersList::addOrder(Orders* order) {
+    //benevolent player can't push back order
     ordersList.push_back(order);
 }
 
@@ -342,6 +343,6 @@ void OrdersList::printOrders()
     }
 }
 
-const vector<Orders*> OrdersList::getOrders() {
+vector<Orders*> OrdersList::getOrders() {
     return ordersList;
 }

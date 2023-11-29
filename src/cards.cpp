@@ -40,7 +40,8 @@ void Card::addId() {
 }
 
 void Card::play(Deck& deck, Hand& hand) {
-	(*type).execute(deck.getGame()); //calls execute for the card type
+	//should be added to order list from player strategy instead
+	//(*type).execute(deck.getGame()); //calls execute for the card type
 
 	if (deck.getSize() > deck.getMaxSize()) {//stops user from adding card to a full deck
 		cout << "The deck is full, where did you get that";
@@ -76,7 +77,7 @@ Deck::Deck(int numCards) {
 	srand((unsigned int)time(NULL) * (unsigned int)time(NULL));//generate random seed
 	int index = 0;
 	int cardType = 0;
-	int numCardTypes = 4;
+	int numCardTypes = 5;
 	for (int i = 0; i < numCards; i++) {
 		//generate random index to insert card at
 		index = rand() % (cards.size() + 1);
@@ -89,16 +90,22 @@ Deck::Deck(int numCards) {
 			//use insert instead of push_back so that the deck is randomized to begin with
 			cards.insert(cards.begin() + index, new Card(*kaboom));
 		}
-		else if (cardType == 1) {
+		else if (cardType == 1){
+			Deploy* reinforcement;
+
+			//use insert instead of push_back so that the deck is randomized to begin with
+			cards.insert(cards.begin() + index, new Card(*reinforcement));
+		}
+		else if (cardType == 2) {
 
 			Blockade* block;
 			cards.insert(cards.begin() + index, new Card(*block));
 		}
-		else if (cardType == 2) {
+		else if (cardType == 3) {
 			Airlift* air;
 			cards.insert(cards.begin() + index, new Card(*air));
 		}
-		else if (cardType == 3) {
+		else if (cardType == 4) {
 			Negotiate* diplomacy;
 			cards.insert(cards.begin() + index, new Card(*diplomacy));
 		}
@@ -164,15 +171,27 @@ void Deck::addCard(Card& added) {
 
 Hand::Hand() {
 	maxSize = 10;
+	owner = new Player("Player");
+}
+
+Hand::Hand(Player* player){
+	maxSize = 10;
+	owner = player;
 }
 
 Hand::Hand(int max) {
 	maxSize = max;
 }
 
+Hand::Hand(int max,Player* player){
+	maxSize = max;
+	owner = player;
+}
+
 Hand::Hand(const Hand& other) {
 	maxSize = other.maxSize;
 	playerHand = other.playerHand;
+	owner = other.owner;
 }
 
 void Hand::display() {
@@ -214,4 +233,8 @@ int Hand::getMax() {
 
 int Hand::getSize() {
 	return playerHand.size();
+}
+
+Player* Hand::getOwner(){
+	return owner;
 }

@@ -12,13 +12,13 @@
 #include "Territory.h"
 #include "GameEngine.h"
 #include "Orders.h"
-#include "Orders.h"
 #include "PlayerStrategies.h"
 
 using std::vector;
 using std::string;
 
 class Hand;
+class PlayerStrategy;
 
 
 class Player {
@@ -36,10 +36,12 @@ class Player {
 
     public:
         Player(const string& playerName);
+        Player(const string& playerName, PlayerStrategy* plan);
+        ~Player();
         void addTerritory(Territory& territory);
-        const vector<Territory*>& toDefend() const;
-        const vector<Territory*>& toAttack() const;
-        void issueOrder(Orders& order);
+        const vector<Territory*> toDefend();
+        const vector<Territory*> toAttack();
+        void issueOrder(Player* player, GameEngine* game);
         string getName() const;
         Player(const Player& player);
         vector<Territory*> getTerritories() const;
@@ -57,8 +59,6 @@ class Player {
 
         void setBeenAttacked(bool status);
         bool getBeenAttacked();
-        OrdersList* getOrderList();
-
         vector<Territory*> getSurroundings();
         void setStrategy(PlayerStrategy* plan);
 

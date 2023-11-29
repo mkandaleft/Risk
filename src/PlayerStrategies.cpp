@@ -15,6 +15,7 @@ requires user interactions to make decisions, including deploy and advance order
 playing any card. 
 */
 void Human::issueOrder(Player* person, GameEngine* theGame){
+    cout<<"Am human"<<endl;
      // Make the player decide which territories they want to attack/defend
     const vector<Territory*>& toAttackResult = person->toAttack();
     const vector<Territory*>& toDefendResult = person->toDefend();
@@ -32,27 +33,11 @@ void Human::issueOrder(Player* person, GameEngine* theGame){
             cin >> armiesToSend;
             Deploy newDeploy(armiesToSend, thisDefendable, person);
             Deploy* deployPtr = &newDeploy;
-            person->getOrderList()->addOrder(deployPtr);
+            person->getOrdersList()->addOrder(deployPtr);
             reinforcementRef -= armiesToSend;
         }
     }
-    // Issue Advance orders to defend
-    for (const auto& thisDefendable : toDefendResult){
-        cout << "How many armies would you like to send to " << thisDefendable->getName() << "? (enter an integer)" << endl;
-        int armiesToSend = 0;
-        cin >> armiesToSend;
-        cout << "Enter the territory you'd like to send from: ";
-        string sendFrom = "";
-        cin >> sendFrom;
-        for (const auto& thisTerritory : person->getTerritories()) {
-            if (thisTerritory->getName() == sendFrom) {
-                Advance newAdvance(armiesToSend, thisTerritory, thisDefendable, person);
-                Advance* advancePtr = &newAdvance;
-                person->getOrderList()->addOrder(advancePtr);
-                break;
-            }
-        }
-    }
+    
     // Issue Advance orders to attack
     for (const auto& thisAttackable : toAttackResult){
         cout << "How many armies would you like to send to attack " << thisAttackable->getName() << "? (enter an integer)" << endl;
@@ -65,7 +50,7 @@ void Human::issueOrder(Player* person, GameEngine* theGame){
             if (thisTerritory->getName() == attackFrom) {
                 Advance newAdvance(armiesToSend, thisTerritory, thisAttackable, person);
                 Advance* advancePtr = &newAdvance;
-                person->getOrderList()->addOrder(advancePtr);
+                person->getOrdersList()->addOrder(advancePtr);
                 break;
             }
         }
@@ -102,7 +87,7 @@ void Human::issueOrder(Player* person, GameEngine* theGame){
                         if (targetTerritory->getName() == bombTerritory) {
                             Bomb newBomb(targetTerritory, person);
                             Bomb* bombPtr = &newBomb;
-                            person->getOrderList()->addOrder(bombPtr);
+                            person->getOrdersList()->addOrder(bombPtr);
                             found = true;
                             break;
                         }
@@ -124,7 +109,7 @@ void Human::issueOrder(Player* person, GameEngine* theGame){
                     if (targetTerritory->getName() == blockadeThis){
                         Blockade newBlockade(targetTerritory, person);
                         Blockade* blockadePtr = &newBlockade;
-                        person->getOrderList()->addOrder(blockadePtr);
+                        person->getOrdersList()->addOrder(blockadePtr);
                         break;
                     }
                 }
@@ -159,7 +144,7 @@ void Human::issueOrder(Player* person, GameEngine* theGame){
                 }
                 Airlift newAirlift(unitsToAirlift, fromPtr, toPtr, person);
                 Airlift* airliftPtr = &newAirlift;
-                person->getOrderList()->addOrder(airliftPtr);
+                person->getOrdersList()->addOrder(airliftPtr);
                 break; }
             case 4: {
                 // Play a negotiate card. Prompt the player to choose another player to target for negotiation.
@@ -174,7 +159,7 @@ void Human::issueOrder(Player* person, GameEngine* theGame){
                         if (targetPlayer->getName() == playerName) {
                             Negotiate newNegotiate(targetPlayer, person);
                             Negotiate* negotiatePtr = &newNegotiate;
-                            person->getOrderList()->addOrder(negotiatePtr);
+                            person->getOrdersList()->addOrder(negotiatePtr);
                             break;
                         }
                     }
@@ -188,7 +173,7 @@ void Human::issueOrder(Player* person, GameEngine* theGame){
     cout << person->getName() << " has finished issuing orders." << endl;
 }
 
-vector<Territory*>& Human::toAttack(Player* person){
+vector<Territory*> Human::toAttack(Player* person){
     vector<Territory*> attacking;
 
     vector<Territory*> enemies = person->getSurroundings();
@@ -224,7 +209,7 @@ vector<Territory*>& Human::toAttack(Player* person){
     return attacking;
 }
 
-vector<Territory*>& Human::toDefend(Player* person){
+vector<Territory*> Human::toDefend(Player* person){
      vector<Territory*> defending;
     int armyCounter;
     // ask how many armies they want to deploy to
@@ -261,58 +246,74 @@ computer player that focuses on attack (deploys or advances armies on its strong
 country, then always advances to enemy territories until it cannot do so anymore; will use any card with an
 aggressive purpose, as defined above). 
 */
-void Aggressive::issueOrder(Player* aggresor,GameEngine* theGame){
+void Aggressive::issueOrder(Player* aggressor,GameEngine* theGame){
 
+/*
     //CARDS PHASE
 
     //check player hand for aggressive cards
-    vector<Card*> myHand = aggresor->getHand()->getHand();
+    vector<Card*> myHand = aggressor->getHand()->getHand();
+
+    vector<Tarritory*> victims = aggressor->getSurroundings();
 
     for(Card* card:myHand){
         if(typeid(card->getType()) == typeid(Bomb)){
-            card->play(*theGame->getDeck(),*aggresor->getHand());
+            card->play(*theGame->getDeck(),*aggressor->getHand()); //play no longer executes it, just removes it from hand and adds to deck
+
+            for(Territory* land: targets){
+                Bomb kaboom(land,aggressor);
+                Bomb* kaboomPtr = &kaboom;
+                aggressor->getOrderslist()->addOrder(kaboomPtr);
+            }
+
         }
     }
+    */
+
+   
 
     //DEFENSE PHASE
 
     //only one territory is being deployed on
-    Territory* champion = aggresor->toDefend().back();
+    Territory* champion = aggressor->toDefend().back();
 
-    int dropIn = aggresor->getPoolSize();
+    int dropIn = aggressor->getPoolSize();
 
     //deploys all units to strongest territory
-    Deploy dep(dropIn,champion,aggresor);
-    dep.execute(theGame);
+    Deploy dep(dropIn,champion,aggressor);
+    Deploy* depPtr = &dep;
+    aggressor->getOrdersList()->addOrder(depPtr);
 
     //remove units from pool
-    aggresor->useReinforcement(dropIn);
-
+    aggressor->useReinforcement(dropIn);
 
     //ATTACK PHASE
-
-    vector<Territory*> attackThem = aggresor->toAttack();
+    vector<Territory*> attackThem = aggressor->toAttack();
     
     for(Territory* targets: attackThem){
-        Advance attack(champion->getUnits(),champion,targets,aggresor);
-        attack.execute(theGame);
+        Advance attack(champion->getUnits(),champion,targets,aggressor);
+        Advance* atkPtr = &attack;
 
-        if(targets->getOwner() == aggresor){
-            cout<< aggresor->getName() << "'s " << champion->getName() <<" has won against" << targets->getName()<<endl;
+        
+        aggressor->getOrdersList()->addOrder(atkPtr);
+
+
+        if(targets->getOwner() == aggressor){
+            cout<< aggressor->getName() << "'s " << champion->getName() <<" has won against" << targets->getName()<<endl;
         }
         else{
-            cout<< aggresor->getName() << "'s " << champion->getName() <<" has lost against" << targets->getName()<<endl;
+            cout<< aggressor->getName() << "'s " << champion->getName() <<" has lost against" << targets->getName()<<endl;
             break;
         }
     }
 
 }
 
-vector<Territory*>& Aggressive::toAttack(Player* aggresor){
+vector<Territory*> Aggressive::toAttack(Player* aggressor){
         vector<Territory*> attacking;
         vector<Territory*> aroundMe;
 
-        Territory* strongest = (aggresor->toDefend()).back();
+        Territory* strongest = (aggressor->toDefend()).back();
 
         //using the name instead of the pointer to avoid issues checking
         string oldStrongest = strongest->getName();
@@ -326,7 +327,7 @@ vector<Territory*>& Aggressive::toAttack(Player* aggresor){
 
             for(Territory* targets:aroundMe){
                 //if its an enemy territory
-                if(targets->getOwner() != aggresor){
+                if(targets->getOwner() != aggressor){
                     attacking.push_back(targets);
 
                     //assuming you win the fight you'd end up here
@@ -349,11 +350,11 @@ vector<Territory*>& Aggressive::toAttack(Player* aggresor){
 
 }
 
-vector<Territory*>& Aggressive::toDefend(Player* aggresor){
+vector<Territory*> Aggressive::toDefend(Player* aggressor){
     vector<Territory*> defending;
 
     Territory* strongest = nullptr;
-    vector<Territory*> myLand = aggresor->getTerritories();
+    vector<Territory*> myLand = aggressor->getTerritories();
 
     int armyCount;
     int most = 0;
@@ -381,66 +382,132 @@ that purposefully will harm anyone).
 */
 void Benevolent::issueOrder(Player* peaceKeeper,GameEngine* theGame){
 
+
     //CARDS PHASE
 
+/*
     vector<Card*> myHand = peaceKeeper->getHand()->getHand();
 
+
     random_device rd;
+    bool playCard = false;
+
+    for(Card* card:myHand){
     mt19937 gen(rd());
 
     bernoulli_distribution distribution(0.5);
 
-    bool playCard = distribution(gen);
+    playCard = distribution(gen);
 
-    for(Card* card:myHand){
         //check that the card isn't harmful
-        if(typeid(card->getType()) == typeid(Blockade) 
-        || typeid(card->getType()) == typeid(Negotiate)
-        || typeid(card->getType()) == typeid(Airlift)){
-
+        if(typeid(card->getType()) == typeid(Blockade)){
             //50% chance to play the card
             if (playCard) {
-            card->play(*theGame->getDeck(),*peaceKeeper->getHand());
+                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
+
+                Territory* blocked = peaceKeeper->getTerritories().back();
+                Blockade* blocking = new Blockade(blocked,peaceKeeper);
+                peaceKeeper->getOrdersList->addOrder(blocking);
+            }
+        } 
+        else if(typeid(card->getType()) == typeid(Negotiate)){
+            //50% chance to play the card
+            if (playCard) {
+                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
+
+                Player* friend = nullptr;
+
+                for(Player* buddy:theGame->getPlayers()){
+                    if(buddy->getName() != peaceKeeper->getName()){
+                        friend = buddy;
+                        break;
+                    }
+                }
+
+                Negotiate* friendly = new Negotiate(friend,peaceKeeper);
+                peaceKeeper->getOrdersList->addOrder(friendly);
             }
         }
+        else if (typeid(card->getType()) == typeid(Airlift)){
+            //50% chance to play the card
+            if (playCard) {
+                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
+
+                Territory* from = peaceKeeper->getTerritories().back();
+                peaceKeeper->getTerritories().pop_back();
+
+                Territory* to = peaceKeeper->getTerritories().back();
+
+                Airlift* ride = new Airlift(1,from,to,peaceKeeper);
+                peaceKeeper->getOrdersList->addOrder(ride);
+            }
+
+        }
     }
+    */
 
     //DEFENSE ORDERS
 
     vector<Territory*> defendUs = peaceKeeper->toDefend();
-    vector<Territory*> deploymentDistribution;
+
+    //couldn't make just an array using defendUs.size() w/o it being a pointer to a dynamic array, 
+    //that it wouldn't let me delete later
+    vector<int> deploymentDistribution;
 
     int units = peaceKeeper->getPoolSize();
-    int index = 0;
 
     int baseAmount = units / defendUs.size();
+
     int leftOvers = units % defendUs.size();
 
-    for(Territory* defend:defendUs){
-        Deploy dep(baseAmount,defend,peaceKeeper);  
-        dep.execute(theGame);
+    int count = 0;
+
+    //distribute all troops evenly even when # of troops%# of territories != 0
+    for(Territory* distribute: defendUs){
+        if(count < leftOvers){
+            deploymentDistribution.push_back(baseAmount+1);
+        }
+        else{
+            deploymentDistribution.push_back(baseAmount);
+        }
     }
 
-    //incase there's an uneven distribution of units/territory
-    for(int i = 0;i<leftOvers;i++){
-        //modding i by the size is redundant, but leave it
-        Deploy dep(1,defendUs.at(i%defendUs.size()),peaceKeeper);
-        dep.execute(theGame);
+    if(deploymentDistribution.size() == defendUs.size()){
+        for(int i=0;i<defendUs.size();i++){
+
+                //neither work, vector push_back doesn't seem to work inside addOrder()
+                /*
+                Deploy* dep = new Deploy(deploymentDistribution[i],defendUs[i],peaceKeeper);
+                peaceKeeper->getOrdersList()->addOrder(dep);
+                */
+
+                /*
+                Deploy dep(deploymentDistribution[i],defendUs[i],peaceKeeper);
+                Deploy* depPtr = &dep;
+                peaceKeeper->getOrdersList()->addOrder(depPtr);
+               */
+        }
     }
+    else{
+        cout<<"Something went wrong"<<endl;
+    }
+    
 
     //ATTACK ORDERS
     cout<<"No Attacking for me, thanks:)"<<endl;
 
 }
 
-vector<Territory*>& Benevolent::toAttack(Player* peaceKeeper){
-        vector<Territory*> attacking;
+vector<Territory*> Benevolent::toAttack(Player* peaceKeeper){
+        vector<Territory*> attacking = peaceKeeper->getTerritories();
         return attacking;
 }
 
-vector<Territory*>& Benevolent::toDefend(Player* peaceKeeper){
+vector<Territory*> Benevolent::toDefend(Player* peaceKeeper){
     vector<Card*> myHand = peaceKeeper->getHand()->getHand();
+
     vector<Territory*> myLand = peaceKeeper->getTerritories();
+
 
     vector<Territory*> weaklings;
 
@@ -452,13 +519,13 @@ vector<Territory*>& Benevolent::toDefend(Player* peaceKeeper){
             least = eachTerr->getUnits();
         }
     }
-
     //All units that are equally the weakest are put together
     for(Territory* eachTerr:myLand){
         if(eachTerr->getUnits() <= least){
             weaklings.push_back(eachTerr);
         }
     }
+
 
     return weaklings;
 }
@@ -469,18 +536,23 @@ cards. If a Neutral player is attacked, it becomes an Aggressive player.
 */
 void Neutral::issueOrder(Player* relaxed,GameEngine* theGame){
 
+    //causes problems when trying to execute orders (because i'm not adding anything to order list??)
+    //still doesn't execute properly when I add an order
+
     if(relaxed->getBeenAttacked())
         relaxed->setStrategy(new Aggressive());
+    
+
 }
 
-vector<Territory*>& Neutral::toAttack(Player* passive){
-        vector<Territory*> attacking;
+vector<Territory*> Neutral::toAttack(Player* passive){
+        vector<Territory*> attacking = passive->getTerritories();
         return attacking;
 
 }
 
-vector<Territory*>& Neutral::toDefend(Player* passive){
-    vector<Territory*> defending;    
+vector<Territory*> Neutral::toDefend(Player* passive){
+    vector<Territory*> defending = passive->getTerritories();    
     return defending;
 }
 
@@ -491,6 +563,7 @@ territories (only once per turn). Does not use cards, though it may have or rece
 void Cheater::issueOrder(Player* hacker,GameEngine* theGame){
 
     //DEFENSE PHASE
+
 
     //ATTACK PHASE
     
@@ -507,7 +580,7 @@ void Cheater::issueOrder(Player* hacker,GameEngine* theGame){
    
 }
 
-vector<Territory*>& Cheater::toAttack(Player* hacker){
+vector<Territory*> Cheater::toAttack(Player* hacker){
 
     //all enemy territories surrounding owned territories
     vector<Territory*> surroundings = hacker->getSurroundings();
@@ -517,9 +590,7 @@ vector<Territory*>& Cheater::toAttack(Player* hacker){
 
 }
 
-vector<Territory*>& Cheater::toDefend(Player* hacker){
-    vector<Territory*> defending;
-    int armyCounter;
-    
+vector<Territory*> Cheater::toDefend(Player* hacker){
+    vector<Territory*> defending = hacker->getTerritories();
     return defending;
 }

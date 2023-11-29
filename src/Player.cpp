@@ -25,7 +25,7 @@ using std::string;
 using std::vector;
 
 Player::Player(const string& playerName) : name(playerName),reinforcementPool(0){
-    hand = new Hand();
+    hand = new Hand(10,this);
     beenAttacked = false;
     strat = new Neutral();
 }
@@ -54,12 +54,12 @@ void Player::addTerritory(Territory& territory) {
 }
 
 // Returns a list of territories to be defended
-const vector<Territory*>& Player::toDefend(){
+const vector<Territory*> Player::toDefend(){
     return strat->toDefend(this);
 }
 
 // Returns a list of territories to be attacked
-const vector<Territory*>& Player::toAttack(){
+const vector<Territory*> Player::toAttack(){
     return strat->toAttack(this);
 }
 
@@ -102,15 +102,7 @@ int Player::getPoolSize(){
     return reinforcementPool;
 }
 
-OrdersList* Player::getOrderList(){
-    return ordersList;
-}
-
-int Player::getPoolSize(){
-    return reinforcementPool;
-}
-
-OrdersList* Player::getOrderList(){
+OrdersList* Player::getOrdersList(){
     return ordersList;
 }
 

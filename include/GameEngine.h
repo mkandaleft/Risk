@@ -42,7 +42,11 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
-    static Player* getNeutralPlayer();
+    void mainGameLoop();
+    void reinforcementPhase();
+    void issueOrderPhase();
+    void executeOrdersPhase();
+    Player* getNeutralPlayer();
 
     //for testStartupPhase
     Map* getMap();

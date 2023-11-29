@@ -120,5 +120,5 @@ public:
     void move(int oldPosition, int newPosition);
     void printOrders();
 
-    const vector<Orders*> getOrders();
+    vector<Orders*> getOrders();
 };

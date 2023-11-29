@@ -9,8 +9,8 @@ class PlayerStrategy{
 
     public:
         virtual void issueOrder(Player* player,GameEngine* theGame) = 0;
-        virtual vector<Territory*>& toAttack(Player* player) = 0;
-        virtual vector<Territory*>& toDefend(Player* player) = 0;
+        virtual vector<Territory*> toAttack(Player* player) = 0;
+        virtual vector<Territory*> toDefend(Player* player) = 0;
 
 };
 
@@ -21,8 +21,8 @@ playing any card.
 class Human : public PlayerStrategy{
     public: 
         void issueOrder(Player* player,GameEngine* theGame);
-        vector<Territory*>& toAttack(Player* player);
-        vector<Territory*>& toDefend(Player* player);
+        vector<Territory*> toAttack(Player* player);
+        vector<Territory*> toDefend(Player* player);
 };
 
 /*
@@ -33,8 +33,8 @@ aggressive purpose, as defined above).
 class Aggressive : public PlayerStrategy{
     public:
         void issueOrder(Player* player,GameEngine* theGame);
-        vector<Territory*>& toAttack(Player* player);
-        vector<Territory*>& toDefend(Player* player);
+        vector<Territory*> toAttack(Player* player);
+        vector<Territory*> toDefend(Player* player);
 
 };
 
@@ -47,8 +47,8 @@ that purposefully will harm anyone).
 class Benevolent: public PlayerStrategy{
     public:
         void issueOrder(Player* player,GameEngine* theGame);        
-        vector<Territory*>& toAttack(Player* player);
-        vector<Territory*>& toDefend(Player* player);
+        vector<Territory*> toAttack(Player* player);
+        vector<Territory*> toDefend(Player* player);
 };
 
 /*
@@ -58,8 +58,8 @@ cards. If a Neutral player is attacked, it becomes an Aggressive player.
 class Neutral: public PlayerStrategy{
     public:
         void issueOrder(Player* player,GameEngine* theGame);
-        vector<Territory*>& toAttack(Player* player);
-        vector<Territory*>& toDefend(Player* player);
+        vector<Territory*> toAttack(Player* player);
+        vector<Territory*> toDefend(Player* player);
 };
 
 
@@ -70,6 +70,6 @@ territories (only once per turn). Does not use cards, though it may have or rece
 class Cheater: public PlayerStrategy{
 public:
         void issueOrder(Player* player,GameEngine* theGame);
-        vector<Territory*>& toAttack(Player* player);
-        vector<Territory*>& toDefend(Player* player);
+        vector<Territory*> toAttack(Player* player);
+        vector<Territory*> toDefend(Player* player);
 };
