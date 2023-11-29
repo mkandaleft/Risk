@@ -45,6 +45,12 @@ public:
 	map<string, Territory*> getTerritories() ;
 
 	map<string, Continent*> getContinents() ;
+<<<<<<< Updated upstream
+=======
+	vector<Continent*> getContinentsVector();
+	vector<Territory*> getTerritoriesVector();
+
+>>>>>>> Stashed changes
 
 	//create a new territry, add it to territories map, and return its pointer
 	Territory* addTerritory(const string& name);
@@ -63,6 +69,9 @@ public:
 
 	bool validate();
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 };
