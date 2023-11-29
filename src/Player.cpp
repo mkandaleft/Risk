@@ -28,12 +28,14 @@ Player::Player(const string& playerName) : name(playerName),reinforcementPool(0)
     hand = new Hand(10,this);
     beenAttacked = false;
     strat = new Neutral();
+    ordersList = new OrdersList();
 }
 
 Player::Player(const string& playerName, PlayerStrategy* plan) : name(playerName),reinforcementPool(0){
     hand = new Hand();
     beenAttacked = false;
     strat = plan;
+        ordersList = new OrdersList();
 }
 
 Player::~Player() {

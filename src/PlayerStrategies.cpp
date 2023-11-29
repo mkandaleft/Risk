@@ -404,17 +404,18 @@ void Benevolent::issueOrder(Player* peaceKeeper,GameEngine* theGame){
         if(typeid(card->getType()) == typeid(Blockade)){
             //50% chance to play the card
             if (playCard) {
-                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
 
                 Territory* blocked = peaceKeeper->getTerritories().back();
                 Blockade* blocking = new Blockade(blocked,peaceKeeper);
                 peaceKeeper->getOrdersList->addOrder(blocking);
+
+                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
+
             }
         } 
         else if(typeid(card->getType()) == typeid(Negotiate)){
             //50% chance to play the card
             if (playCard) {
-                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
 
                 Player* friend = nullptr;
 
@@ -427,12 +428,14 @@ void Benevolent::issueOrder(Player* peaceKeeper,GameEngine* theGame){
 
                 Negotiate* friendly = new Negotiate(friend,peaceKeeper);
                 peaceKeeper->getOrdersList->addOrder(friendly);
+
+                                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
+
             }
         }
         else if (typeid(card->getType()) == typeid(Airlift)){
             //50% chance to play the card
             if (playCard) {
-                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
 
                 Territory* from = peaceKeeper->getTerritories().back();
                 peaceKeeper->getTerritories().pop_back();
@@ -441,6 +444,8 @@ void Benevolent::issueOrder(Player* peaceKeeper,GameEngine* theGame){
 
                 Airlift* ride = new Airlift(1,from,to,peaceKeeper);
                 peaceKeeper->getOrdersList->addOrder(ride);
+
+                                card->play(*theGame->getDeck(),*peaceKeeper->getHand());
             }
 
         }
@@ -473,24 +478,23 @@ void Benevolent::issueOrder(Player* peaceKeeper,GameEngine* theGame){
     if(numLandDeployedOn > size)
         numLandDeployedOn = size;
 
-
-    cout<<"distr size: "<<numLandDeployedOn;
-    cout<<" land size: "<<defendUs.size();
-
-        //Goes based 
         for(int i=0;i<numLandDeployedOn;i++){
                 //neither work, vector push_back doesn't seem to work inside addOrder()
                 
                 /*
                 Deploy* dep = new Deploy(deploymentDistribution[i],defendUs[i],peaceKeeper);
                 peaceKeeper->getOrdersList()->addOrder(dep);
-                
                 */
-
+               /*
+                Deploy* newNegotiate = new Deploy(deploymentDistribution[i],defendUs[i],peaceKeeper);
+                peaceKeeper->getOrdersList()->addOrder(newNegotiate);
+                */
                 
+            
                 Deploy dep(deploymentDistribution[i],defendUs[i],peaceKeeper);
                 Deploy* depPtr = &dep;
                 peaceKeeper->getOrdersList()->addOrder(depPtr);
+                
                
         }
     
@@ -541,8 +545,7 @@ cards. If a Neutral player is attacked, it becomes an Aggressive player.
 */
 void Neutral::issueOrder(Player* relaxed,GameEngine* theGame){
 
-    //causes problems when trying to execute orders (because i'm not adding anything to order list??)
-    //still doesn't execute properly when I add an order
+    
 
     if(relaxed->getBeenAttacked())
         relaxed->setStrategy(new Aggressive());
