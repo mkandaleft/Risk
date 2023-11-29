@@ -25,6 +25,7 @@ class GameEngine {
 
     public:
     GameEngine(const string& state);
+    ~GameEngine();
     string getState() const;
     void setState(string state);
     void loadMap(string map);
@@ -41,7 +42,7 @@ class GameEngine {
     void end();
     void play();
     void startUpPhase();
-    Player* getNeutralPlayer();
+    static Player* getNeutralPlayer();
 
     //for testStartupPhase
     Map* getMap();

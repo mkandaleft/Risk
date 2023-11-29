@@ -51,6 +51,9 @@ public:
 	map<string, Territory*> getTerritories() ;
 
 	map<string, Continent*> getContinents() ;
+	vector<Continent*> getContinentsVector();
+	vector<Territory*> getTerritoriesVector();
+
 
 	//create a new territry, add it to territories map, and return its pointer
 	Territory* addTerritory(const string& name);
@@ -68,7 +71,5 @@ public:
 	bool isMapConnected() ;
 
 	bool validate();
-
-
 
 };

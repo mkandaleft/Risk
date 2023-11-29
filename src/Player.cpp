@@ -9,24 +9,44 @@
 #include "../include/Player.h"
 #include "../include/Orders.h"
 #include "../include/Territory.h"
-#include "../include/cards.h"
+#include "../include/GameEngine.h"
 #include "../include/GameEngine.h"
 #include "../include/PlayerStrategies.h"
 
 #include <algorithm>
 
-using std::string;
+#include <vector>
+#include <iostream>
+#include <sstream>
+#include <string>
 
-Player::Player(const string& playerName) : name(playerName),reinformentPool(0){
+using std::cout;
+using std::string;
+using std::vector;
+
+Player::Player(const string& playerName) : name(playerName),reinforcementPool(0){
     hand = new Hand();
     beenAttacked = false;
     strat = new Neutral();
 }
 
-Player::Player(const string& playerName, PlayerStrategy* plan) : name(playerName),reinformentPool(0){
+Player::Player(const string& playerName, PlayerStrategy* plan) : name(playerName),reinforcementPool(0){
     hand = new Hand();
     beenAttacked = false;
     strat = plan;
+}
+
+Player::~Player() {
+    delete ordersList;
+    ordersList = nullptr;
+
+    delete hand;
+    hand = nullptr;
+
+    for (Territory* territory : territories) {
+        delete territory;
+    }
+    territories.clear();
 }
 
 void Player::addTerritory(Territory& territory) {
@@ -52,6 +72,14 @@ string Player::getName() const {
     return name;
 }
 
+int Player::getReinforcement() const {
+    return reinforcementPool;
+}
+
+bool Player::operator==(const Player& other) const {
+    return (getName() == other.getName());
+}
+
 Player::Player(const Player& player) {
     name = player.name;
     territories = player.territories;
@@ -63,22 +91,30 @@ void Player::setName(const string& newName) {
 }
 
 void Player::earnReinforcement(int add){
-    reinformentPool+= add;
+    reinforcementPool+= add;
 }
 
 void Player::useReinforcement(int use){
-    reinformentPool-= use;
+    reinforcementPool-= use;
 }
 
 int Player::getPoolSize(){
-    return reinformentPool;
+    return reinforcementPool;
 }
 
 OrdersList* Player::getOrderList(){
     return ordersList;
 }
 
-vector<Territory*> Player::getTerritories(){
+int Player::getPoolSize(){
+    return reinforcementPool;
+}
+
+OrdersList* Player::getOrderList(){
+    return ordersList;
+}
+
+vector<Territory*> Player::getTerritories() const {
     return territories;
 }
 

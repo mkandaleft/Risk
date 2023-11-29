@@ -4,6 +4,8 @@
 #include "../include/Territory.h"
 #include "../include/Player.h"
 #include "../include/cards.h"
+#include "../include/Orders.h"
+#include "../include/Territory.h"
 #include "MapDriver.cpp"
 #include <cstdlib>
 #include <algorithm>
@@ -20,6 +22,32 @@ GameEngine::GameEngine(const string &state) : currentState(state){
     neutralPlayer  = new Player("neutralPlayer");
 }
 
+GameEngine::~GameEngine() {
+    delete gameMap;
+    gameMap = nullptr;
+
+    for (Player* player : participants) {
+        delete player;
+    }
+    participants.clear();
+
+    delete gameDeck;
+    gameDeck = nullptr;
+}
+
+GameEngine::~GameEngine() {
+    delete gameMap;
+    gameMap = nullptr;
+
+    for (Player* player : participants) {
+        delete player;
+    }
+    participants.clear();
+
+    delete gameDeck;
+    gameDeck = nullptr;
+}
+
 string GameEngine::getState() const{
     return currentState;
 }
@@ -27,7 +55,6 @@ string GameEngine::getState() const{
 void GameEngine::setState(string state) {
     currentState = state;
 }
-
 
 void GameEngine::loadMap(string command) {
     if (currentState == "start" || currentState == "maploaded") {
@@ -184,7 +211,7 @@ void GameEngine::endExecOrders() {
     if (currentState == "execute orders"){
         currentState = "assign reinforcement";
         cout <<"current state: "<< currentState << endl;
-        for(Player* player: participants)
+        for each (Player* player in participants)
         {
             player->getAlliances().clear();
         }
@@ -284,8 +311,6 @@ void GameEngine::startUpPhase(){
 Player* GameEngine::getNeutralPlayer(){
     return neutralPlayer;
 }
-
-
 
 Map* GameEngine::getMap(){
     return gameMap;
