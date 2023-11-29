@@ -6,9 +6,9 @@
 #include <vector>
 #include <iomanip>
 
-#include "../include/Map.h"
 using namespace std;
-
+#include "../include/Map.h"
+#include "../include/Territory.h"
 
 Map testLoadMap(string mapFileName) {
 
@@ -122,3 +122,10 @@ void printMapInfo(map<string, string> map_info) {
     }
 }
 
+int main() {
+    Map myMap = testLoadMap("Map/Earth.map");
+    myMap.display();
+    myMap.validate();
+    
+    return 0;
+}

@@ -1,6 +1,9 @@
 #pragma once
-
+#include <unordered_set>
+#include <vector>
 using namespace std;
+
+class Territory;
 class Continent {
 private:
 	string name;
