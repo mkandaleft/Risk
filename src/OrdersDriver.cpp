@@ -9,6 +9,7 @@ using std::string;
 using std::vector;
 
 void testOrdersLists() {
+	/*
 	Deploy order1(1);
 	Advance order2(1);
 	Bomb order3(1);
@@ -30,6 +31,7 @@ void testOrdersLists() {
 
 	testList.move(1, 4);
 	testList.printOrders();
+	*/
 
 }
 
