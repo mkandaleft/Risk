@@ -12,7 +12,14 @@ Command::Command(std::string text) : commandText(text) {}
 
 void Command::saveEffect(std::string eff) {
     effect = eff;
+    notify(this);
 }
+
+// log methods
+string Command::stringToLog() {
+    return "Command: " + commandText + ", Effect: " + effect;
+}
+
 
 std::string CommandProcessor::readCommand() {
     std::string userInput;
@@ -31,12 +38,22 @@ std::string CommandProcessor::getCommand() {
 
 void CommandProcessor::saveCommand(Command* c) {
     commands.push_back(c);
+    notify(this);
 }
 
 void CommandProcessor::displayCommands() {
     for (Command* cmd : commands) {
         std::cout << "Command: " << cmd->commandText << ", Effect: " << cmd->effect << std::endl;
     }
+}
+
+// logging methods
+string CommandProcessor::stringToLog() {
+    std::string logString = "Command Processor: ";
+    for (Command* cmd : commands) {
+        logString += cmd->stringToLog() + ", ";
+    }
+    return logString;
 }
 
 FileLineReader::FileLineReader(std::string filename) {

@@ -7,3 +7,4 @@
 #include "Territory.h"
 #include "Map.h"
 #include "CommandProcessing.h"
+#include "LoggingObserver.h"

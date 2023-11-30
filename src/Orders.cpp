@@ -15,12 +15,28 @@ Orders::Orders() {
     name = "default order name";
     description = "default order description";
     result = "default order result";
+    _observers = new list<Observer*>;
 }
 
 //parameterized constructor
 Orders::Orders(string& name) : name(name) {}
+/*
+bool Orders::validate()
+{
+    return false;
+}
 
-
+void Orders::execute()
+{
+    if (Orders::validate()) {
+        std::cout << getResult() << std::endl;
+    }
+    else {
+        std::cout << "Could not perform default action." << std::endl;
+    }
+    notify(this);
+}
+*/
 Orders::~Orders()
 {
 }
@@ -44,6 +60,11 @@ void Orders::setDescription(string s) {
 }
 void Orders::setResult(string s) {
     result = s;
+}
+
+//write to log
+string Orders::stringToLog() {
+    return "Order Name: " + getName() + ", Description: " + getDescription() + ", Result: " + getResult();
 }
 
 //DEPLOY
@@ -302,6 +323,7 @@ void Negotiate::execute(GameEngine* gameEngine) {
 void OrdersList::addOrder(Orders* order) {
     //benevolent player can't push back order
     ordersList.push_back(order);
+    notify(this);                        // Causes runtime error ):
 }
 
 
@@ -346,4 +368,13 @@ void OrdersList::printOrders()
 
 vector<Orders*> OrdersList::getOrders() {
     return ordersList;
+}
+
+//Log method
+string OrdersList::stringToLog() {
+    std::string logString = "Orders List: ";
+    for (Orders* order : ordersList) {
+        logString += order->stringToLog() + ", ";
+    }
+    return logString;
 }

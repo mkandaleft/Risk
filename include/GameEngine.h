@@ -12,7 +12,7 @@ class Player;
 
 using std::string;
 
-class GameEngine {
+class GameEngine: public Subject, public ILoggable {
 
     private:
     string currentState;
@@ -52,4 +52,6 @@ class GameEngine {
     Map* getMap();
     vector<Player*> getPlayers();
     Deck* getDeck();
+
+    string stringToLog() override;
 };
