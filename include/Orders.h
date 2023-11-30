@@ -123,7 +123,7 @@ public:
     void move(int oldPosition, int newPosition);
     void printOrders();
 
-    const vector<Orders>& getOrders() const;
+    vector<Orders*> getOrders();
 
     string stringToLog() override;
 };

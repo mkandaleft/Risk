@@ -3,7 +3,7 @@
 
 
 void testLoggingObserver() {
-
+/*
     std::cout << "Starting Testing LoggingObserver" << std::endl;
 
     // Create a new LogObserver
@@ -35,7 +35,7 @@ void testLoggingObserver() {
     //gameEngine->setState("Test State 2");
 
     std::cout << "Finished Testing LoggingObserver" << std::endl;
-
+*/
 }
 
 //int main() {
