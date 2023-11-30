@@ -8,6 +8,7 @@
 #include "OrdersDriver.cpp"
 #include "Cardsdriver.cpp"
 #include "LoggingObserverDriver.cpp"
+#include "PlayerStrategiesDriver.cpp"
 
 using std::string;
 using std::vector;

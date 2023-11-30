@@ -20,7 +20,7 @@ Orders::Orders() {
 
 //parameterized constructor
 Orders::Orders(string& name) : name(name) {}
-
+/*
 bool Orders::validate()
 {
     return false;
@@ -36,7 +36,7 @@ void Orders::execute()
     }
     notify(this);
 }
-
+*/
 Orders::~Orders()
 {
 }
@@ -373,8 +373,8 @@ vector<Orders*> OrdersList::getOrders() {
 //Log method
 string OrdersList::stringToLog() {
     std::string logString = "Orders List: ";
-    for (Orders& order : ordersList) {
-        logString += order.stringToLog() + ", ";
+    for (Orders* order : ordersList) {
+        logString += order->stringToLog() + ", ";
     }
     return logString;
 }
