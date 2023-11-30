@@ -7,7 +7,7 @@
 #include "CommandProcessingDriver.cpp"
 #include "OrdersDriver.cpp"
 #include "Cardsdriver.cpp"
-#include "PlayerStrategiesDriver.cpp"
+#include "LoggingObserverDriver.cpp"
 
 using std::string;
 using std::vector;
@@ -36,7 +36,7 @@ int main() {
     */
     //testCommandProcessing();
     //testStartupPhase();
-
+    //testLoggingObserver();
     /*
     Assignment 3
     */
@@ -45,4 +45,3 @@ int main() {
 
     return 0;
 }
-

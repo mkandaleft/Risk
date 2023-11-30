@@ -406,3 +406,8 @@ vector<Player*> GameEngine::getPlayers(){
 Deck* GameEngine::getDeck(){
     return gameDeck;
 }
+
+//logging methods
+string GameEngine::stringToLog() {
+    return "GameEngine: " + currentState;
+}
