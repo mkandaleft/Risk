@@ -95,6 +95,7 @@ void Deploy::execute(GameEngine* gameEngine){
     if (validate(gameEngine)) {
         this->target->setUnits(this->target->getUnits() + this->units);
         std::cout << getResult() << std::endl;
+        notify(this);
     }
     else {
         std::cout << "Could not deploy army units." << std::endl;
@@ -132,11 +133,13 @@ void Advance::execute(GameEngine* gameEngine){
             this->target->setUnits(this->target->getUnits() + this->units);
             this->source->setUnits(this->source->getUnits() - this->units);
             std::cout << getResult() << std::endl;
+            notify(this);
         }
     }
     else if(validate(gameEngine) && !isAlly(source->getOwner(), target->getOwner())){
             Battle(this->source, this->target, this->issuingPlayer);
             std::cout << getResult() << std::endl;
+            notify(this);
         }
         
     else {
@@ -218,6 +221,7 @@ void Bomb::execute(GameEngine* gameEngine){
     if (validate(gameEngine)) {
         std::cout << getResult() << std::endl;
         this->target->setUnits((this->target->getUnits()) / 2);
+        notify(this);
     }
     else {
         std::cout << "Could not detonate bomb." << std::endl;
@@ -249,6 +253,7 @@ void Blockade::execute(GameEngine* gameEngine) {
         this->target->setOwner(gameEngine->getNeutralPlayer());
         gameEngine->getNeutralPlayer()->addTerritory(*this->target);
         std::cout << getResult() << std::endl;
+        notify(this);
     }
     else {
         std::cout << "Could not create blockade." << std::endl;
@@ -282,6 +287,7 @@ void Airlift::execute(GameEngine* gameEngine){
         std::cout << getResult() << std::endl;
         this->target->setUnits(this->target->getUnits() + this->units);
         this->source->setUnits(this->source->getUnits() - this->units);
+        notify(this);
     }
     else {
         std::cout << "Could not airlift." << std::endl;
@@ -312,6 +318,7 @@ void Negotiate::execute(GameEngine* gameEngine) {
         std::cout << getResult() << std::endl;
         this->target->addAlliance(this->issuingPlayer);
         this->issuingPlayer->addAlliance(this->target);
+        notify(this);
     }
     else {
         std::cout << "Could not negotiate." << std::endl;
@@ -323,7 +330,7 @@ void Negotiate::execute(GameEngine* gameEngine) {
 void OrdersList::addOrder(Orders* order) {
     //benevolent player can't push back order
     ordersList.push_back(order);
-    notify(this);                        // Causes runtime error ):
+    notify(this);
 }
 
 
