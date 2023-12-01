@@ -33,7 +33,8 @@ void ExecuteCommand(string command, GameEngine* engine) {
         engine->endIssueOrders();
     }
     else if (command == "execorder") {
-        engine->execOrder();
+        // execorder cant be called here, as it need an order to be passed. This is fine because it is only ever called form the executeOrdersPhase()
+        //engine->execOrder();
     }
     else if (command == "endexecorders") {
         engine->endExecOrders();

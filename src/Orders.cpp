@@ -15,12 +15,32 @@ Orders::Orders() {
     name = "default order name";
     description = "default order description";
     result = "default order result";
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
 }
 
 //parameterized constructor
-Orders::Orders(string& name) : name(name) {}
+Orders::Orders(string& name) : name(name) {
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
+}
+/*
+bool Orders::validate()
+{
+    return false;
+}
 
-
+void Orders::execute()
+{
+    if (Orders::validate()) {
+        std::cout << getResult() << std::endl;
+    }
+    else {
+        std::cout << "Could not perform default action." << std::endl;
+    }
+    notify(this);
+}
+*/
 Orders::~Orders()
 {
 }
@@ -46,6 +66,11 @@ void Orders::setResult(string s) {
     result = s;
 }
 
+//write to log
+string Orders::stringToLog() {
+    return "Order Name: " + getName() + ", Description: " + getDescription() + ", Result: " + getResult();
+}
+
 //DEPLOY
 Deploy::Deploy(int unitsIn, Territory* targetIn, Player* issuingPlayerIn) {
     setName("Deploy");
@@ -61,6 +86,7 @@ string Deploy::getName() {
     return "Deploy";
 }
 
+
 bool Deploy::validate(GameEngine* gameEngine){
     bool valid = false;
     std::cout << "Validating deploy action" << std::endl;
@@ -74,10 +100,11 @@ bool Deploy::validate(GameEngine* gameEngine){
 }
 
 void Deploy::execute(GameEngine* gameEngine){
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         this->target->setUnits(this->target->getUnits() + this->units);
         this->issuingPlayer->useReinforcement(this->units);
         std::cout << getResult() << std::endl;
+        notify(this);
     }
     else {
         std::cout << "Could not deploy army units." << std::endl;
@@ -92,6 +119,7 @@ Advance::Advance(int unitsIn, Territory* sourceIn, Territory* targetIn, Player* 
     setResult("Units have been moved.");
     this->source = sourceIn;
     this->target = targetIn;
+    
     units = unitsIn;
     this->issuingPlayer = issuingPlayerIn;
 }
@@ -113,16 +141,18 @@ bool Advance::validate(GameEngine* gameEngine){
 
 void Advance::execute(GameEngine* gameEngine){
  
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         if ((this->target->getOwner()->getName().compare(this->issuingPlayer->getName())) == 0) {
             this->target->setUnits(this->target->getUnits() + this->units);
             this->source->setUnits(this->source->getUnits() - this->units);
             std::cout << getResult() << std::endl;
+            notify(this);
         }
     }
-    else if(Orders::validate(gameEngine) && !isAlly(source->getOwner(), target->getOwner())){
+    else if(validate(gameEngine) && !isAlly(source->getOwner(), target->getOwner())){
             Battle(this->source, this->target, this->issuingPlayer);
             std::cout << getResult() << std::endl;
+            notify(this);
         }
         
     else {
@@ -130,7 +160,7 @@ void Advance::execute(GameEngine* gameEngine){
     }
 }
 
-bool isAlly(Player* player1, Player* player2) {
+bool Advance::isAlly(Player* player1, Player* player2) {
     bool isAlly = false;
  
     for (Player * players1 : player1->getAlliances()) {
@@ -211,9 +241,10 @@ bool Bomb::validate(GameEngine* gameEngine){
 }
 
 void Bomb::execute(GameEngine* gameEngine){
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         std::cout << getResult() << std::endl;
         this->target->setUnits((this->target->getUnits()) / 2);
+        notify(this);
     }
     else {
         std::cout << "Could not detonate bomb." << std::endl;
@@ -249,11 +280,12 @@ bool Blockade::validate(GameEngine* gameEngine){
 }
 
 void Blockade::execute(GameEngine* gameEngine) {
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         this->target->setUnits((this->target->getUnits()) * 2);
         this->target->setOwner(gameEngine->getNeutralPlayer());
         gameEngine->getNeutralPlayer()->addTerritory(*this->target);
         std::cout << getResult() << std::endl;
+        notify(this);
     }
     else {
         std::cout << "Could not create blockade." << std::endl;
@@ -293,10 +325,11 @@ bool Airlift::validate(GameEngine* gameEngine){
 }
 
 void Airlift::execute(GameEngine* gameEngine){
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         std::cout << getResult() << std::endl;
         this->target->setUnits(this->target->getUnits() + this->units);
         this->source->setUnits(this->source->getUnits() - this->units);
+        notify(this);
     }
     else {
         std::cout << "Could not airlift." << std::endl;
@@ -333,10 +366,11 @@ bool Negotiate::validate(GameEngine* gameEngine) {
 }
 
 void Negotiate::execute(GameEngine* gameEngine) {
-    if (Orders::validate(gameEngine)) {
+    if (validate(gameEngine)) {
         std::cout << getResult() << std::endl;
         this->target->addAlliance(this->issuingPlayer);
         this->issuingPlayer->addAlliance(this->target);
+        notify(this);
     }
     else {
         std::cout << "Could not negotiate." << std::endl;
@@ -345,8 +379,15 @@ void Negotiate::execute(GameEngine* gameEngine) {
 
 //ORDER LIST
 
+OrdersList::OrdersList() {
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
+}
+
 void OrdersList::addOrder(Orders* order) {
+    //benevolent player can't push back order
     ordersList.push_back(order);
+    notify(this);
 }
 
 
@@ -389,6 +430,13 @@ void OrdersList::printOrders()
     }
 }
 
-const vector<Orders*> OrdersList::getOrders() {
+vector<Orders*> OrdersList::getOrders() {
     return ordersList;
+}
+
+//Log method
+string OrdersList::stringToLog() {
+    std::string logString = "Orders List: ";
+    logString += ordersList.back()->getName(); // Add the order type of the last order in the list
+    return logString;
 }

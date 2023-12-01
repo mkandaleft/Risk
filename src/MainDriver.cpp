@@ -7,12 +7,27 @@
 #include "CommandProcessingDriver.cpp"
 #include "OrdersDriver.cpp"
 #include "Cardsdriver.cpp"
+#include "LoggingObserverDriver.cpp"
+#include "PlayerStrategiesDriver.cpp"
 
 using std::string;
 using std::vector;
 
 
 int main() {
+
+    std::ofstream file("gamelog.txt", std::ofstream::out | std::ofstream::trunc); // delete the content of the log file each time the program is run
+
+    // Check if the file is successfully opened
+    if (file.is_open()) {
+        // Erase the content of the file
+        file.close();
+    } else {
+        // Handle error if the file cannot be opened
+        std::cout << "Error opening the file." << std::endl;
+        return 1;
+    }
+    
     //compile using
     //g++ Orders.cpp cards.cpp Map.cpp Territory.cpp Player.cpp CommandProcessing.cpp GameEngine.cpp MainDriver.cpp -o mainDriver 
     
@@ -29,14 +44,18 @@ int main() {
 
     */
 
+
     /*
     Assignment 2
     */
-    testCommandProcessing();
+    //testCommandProcessing();
     //testStartupPhase();
+    //testLoggingObserver();
+    /*
+    Assignment 3
+    */
 
-    
+    testPlayerStrategies();
 
     return 0;
 }
-

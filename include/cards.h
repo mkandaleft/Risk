@@ -3,6 +3,9 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "GameEngine.h"
+#include "Orders.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -14,9 +17,9 @@ class Card {
 public:
 	Card();
 
-	Card(Orders& type); //string as a stand in for Order
+	Card(Orders& type); 
 
-	Card(const Card& other); //copy constructor
+	Card(const Card& other);
 
 	void play(Deck& gameDeck, Hand& playerHand);
 
@@ -50,10 +53,13 @@ public:
 	int getMaxSize();
 	int getSize();
 
+	GameEngine* getGame();
+
 	//void shuffle();
 private:
 	vector<Card*> cards;
 	int maxSize;
+	GameEngine* game;
 
 };
 
@@ -61,6 +67,8 @@ class Hand {
 public:
 	Hand();
 	Hand(int max);
+	Hand(Player* player);
+	Hand(int max, Player* player);
 	Hand(const Hand& other);
 
 	int getMax();
@@ -72,9 +80,13 @@ public:
 
 	void addCard(Card& add);
 	void removeCard(Card removed);
+
+	Player* getOwner();
+
 private:
 	vector<Card*> playerHand;
 	int maxSize;
+	Player* owner;
 };
 
 void testCards();

@@ -42,4 +42,7 @@ public:
 	void setUnits(int units);
 	void setOwner(Player* ownerIn);
 
+	//adds specific amount to existing armyUnits count, unlike setUnits
+	void addUnits(int units);
+
 };

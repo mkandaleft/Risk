@@ -8,10 +8,24 @@
 
 using namespace std;
 
-Command::Command(std::string text) : commandText(text) {}
+Command::Command(std::string text) : commandText(text) {
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
+}
 
 void Command::saveEffect(std::string eff) {
     effect = eff;
+    notify(this);
+}
+
+// log methods
+string Command::stringToLog() {
+    return "Command: " + commandText + ", Effect: " + effect;
+}
+
+CommandProcessor::CommandProcessor() {
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
 }
 
 std::string CommandProcessor::readCommand() {
@@ -31,12 +45,20 @@ std::string CommandProcessor::getCommand() {
 
 void CommandProcessor::saveCommand(Command* c) {
     commands.push_back(c);
+    notify(this);
 }
 
 void CommandProcessor::displayCommands() {
     for (Command* cmd : commands) {
         std::cout << "Command: " << cmd->commandText << ", Effect: " << cmd->effect << std::endl;
     }
+}
+
+// logging methods
+string CommandProcessor::stringToLog() {
+    std::string logString = "Command Processor: ";
+    logString += commands.back()->commandText; // Add the command text of the last command in the list
+    return logString;
 }
 
 FileLineReader::FileLineReader(std::string filename) {

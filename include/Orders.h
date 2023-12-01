@@ -4,16 +4,17 @@
 #include <vector>
 #include <time.h>
 #include <stdlib.h>
-
-
+#include "LoggingObserver.h"
 using std::string;
 using std::vector;
+
+
 class Territory;
 class Player;
 class Hand;
 class GameEngine;
 
-class  Orders {
+class  Orders: public Subject, public ILoggable {
 private:
     string name;
     string description;
@@ -35,6 +36,8 @@ public:
     void setName(string s);
     void setDescription(string s);
     void setResult(string s);
+
+    string stringToLog() override;
 };
 
 class Deploy : public Orders {
@@ -116,15 +119,18 @@ public:
     string getName();
 };
 
-class  OrdersList {
+class  OrdersList: public Subject, public ILoggable {
 private:
     vector<Orders*> ordersList;
 
 public:
+    OrdersList();
     void addOrder(Orders* order);
     void remove(int position);
     void move(int oldPosition, int newPosition);
     void printOrders();
 
-    const vector<Orders*> getOrders();
+    vector<Orders*> getOrders();
+
+    string stringToLog() override;
 };

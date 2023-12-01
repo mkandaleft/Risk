@@ -9,13 +9,13 @@ using std::string;
 using std::vector;
 
 void testOrdersLists() {
-	/*
-	Deploy order1(1);
-	Advance order2(1);
-	Bomb order3(1);
-	Blockade order4(1);
-	Airlift order5(1);
-	Negotiate order6(1);
+
+	Deploy* order1;
+	Advance* order2;
+	Bomb* order3;
+	Blockade* order4;
+	Airlift* order5;
+	Negotiate* order6;
 
 	OrdersList testList;
 	testList.addOrder(order1);
