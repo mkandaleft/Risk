@@ -36,7 +36,7 @@ class GameEngine: public Subject, public ILoggable {
     void gameStart();
     void issueOrder();
     void endIssueOrders();
-    void execOrder();
+    void execOrder(Orders* order);
     void endExecOrders();
     void win();
     void end();

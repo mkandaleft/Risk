@@ -35,7 +35,7 @@ void testGameStates(){
         } else if (command == "endissueorders") {
             engine.endIssueOrders();
         } else if (command == "execorder") {
-            engine.execOrder();
+            //engine.execOrder();
         } else if (command == "endexecorders") {
             engine.endExecOrders();
         } else if (command == "win") {
@@ -56,7 +56,7 @@ void testGameStates(){
 
 
 void testStartupPhase(){
-    GameEngine engine("start");
+    GameEngine engine("execute orders");
     engine.startUpPhase();
 
     Map* world = engine.getMap();

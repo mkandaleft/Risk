@@ -16,7 +16,7 @@ using namespace std;
 class Player;
 
 GameEngine::GameEngine(const string &state) : currentState(state){
-    currentState = "start";
+    currentState = state;
     gameDeck = new Deck(100);
     gameMap = new Map();
     neutralPlayer  = new Player("neutralPlayer");
@@ -52,8 +52,8 @@ void GameEngine::loadMap(string command) {
         if(spaceIdx < command.length()-1){
             string map = command.substr(spaceIdx + 1);
             *gameMap = testLoadMap(map); //assignment operator called
-            setState("maploaded");
             cout << "current state: " << getState() << endl;
+            setState("maploaded");
         }
         else{
             cout<<"No map file provided"<<endl;
@@ -67,10 +67,10 @@ void GameEngine::loadMap(string command) {
 void GameEngine::validateMap() {
     
     if (getState() == "maploaded") {
+        cout <<"current state: "<< currentState << endl;
         if (gameMap->validate()) {
             setState("mapvalidated");
         }
-        cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
     }
@@ -92,8 +92,8 @@ void GameEngine::addPlayer(string command) {
                 Player* gamer = new Player(name);
         
                 participants.push_back(gamer);
-                currentState = "playersadded";
                 cout <<"current state: "<< currentState << endl;
+                currentState = "playersadded";
         }
         else{
             cout<<"No name provided"<<endl;
@@ -112,6 +112,7 @@ void GameEngine::addPlayerObject(Player* player) {
 void GameEngine::assignCountries(){
     if (currentState == "playersadded"){
         //used to randomize the distribution of territories
+        cout <<"adding countries" << endl;
         random_device rd;
         mt19937 ran(rd());
 
@@ -159,9 +160,8 @@ if (currentState == "playersadded"){
         gamer->getHand()->addCard(gameDeck->draw());
         gamer->getHand()->addCard(gameDeck->draw());
     }
-
-        currentState = "assignreinforcement";
         cout <<"current state: "<< currentState << endl;
+        currentState = "assignreinforcement";
     } else {
         cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
     }
@@ -169,7 +169,7 @@ if (currentState == "playersadded"){
 
 void GameEngine::issueOrder(){
     if (currentState == "assignreinforcement" || currentState == "issueorders"){
-        currentState = "issueorders";
+        setState("issue orders");
         cout <<"current state: "<< currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
@@ -178,17 +178,18 @@ void GameEngine::issueOrder(){
 
 void GameEngine::endIssueOrders(){
     if (currentState == "issue orders") {
-        currentState = "execute orders";
         cout <<"current state: "<< currentState << endl;
+        setState("execute orders");
     } else {
         cout << "Unable to load state, must be at state 'issue orders' to load" << endl;
     }
 }
 
-void GameEngine::execOrder() {
+void GameEngine::execOrder(Orders* order) {
     if (currentState == "execute orders"){
-        currentState = "execute orders";
-        cout <<"current state: "<< currentState << endl;
+        order->execute(this);
+        setState("execute orders");
+        cout << currentState << endl;
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -196,12 +197,12 @@ void GameEngine::execOrder() {
 
 void GameEngine::endExecOrders() {
     if (currentState == "execute orders"){
-        currentState = "assign reinforcement";
         cout <<"current state: "<< currentState << endl;
         for(Player* player : participants)
         {
             player->getAlliances().clear();
         }
+        currentState = "assign reinforcement";
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -336,10 +337,11 @@ void GameEngine::mainGameLoop() {
 }
 
 void GameEngine::reinforcementPhase() {
+    setState("assign reinforcement");
     // get the map and continents from it
     map<string, Continent*> continents = gameMap->getContinents();
 
-    // Give each player their units to play this turn
+    // Give each player their units to play this turnS
     for (const auto& playerPtr : participants) {
         // get the territories owned by this player
         vector<Territory*> playerTerritories = playerPtr->getTerritories();
@@ -376,25 +378,23 @@ void GameEngine::reinforcementPhase() {
 
 void GameEngine::issueOrderPhase() {
     // Have each player issue their orders
+    setState("issue orders");
     for (const auto& playerPtr : participants) {
         playerPtr->issueOrder(playerPtr,this);
     }
+    endIssueOrders();
 }
 
 void GameEngine::executeOrdersPhase() {
+    setState("execute orders");
     for (const auto& playerPtr : participants) {
         OrdersList* list = playerPtr->getOrdersList();
-        if(list->getOrders().size() > 0){
-            vector<Orders*> orders = list->getOrders();
-            for (const auto& orderPtr : orders) {
-                execOrder();
-            }
+        for (const auto& orderPtr : list->getOrders()) {
+            cout << "executing order" << endl;
+            execOrder(orderPtr);
         }
-        else{
-            cout<<"nothing to execute"<<endl;
-        }
-        
     }
+    endExecOrders();
 }
 
 Map* GameEngine::getMap(){

@@ -1,5 +1,4 @@
 
-#include "../include/AllHeaders.h"
 
 
 void testLoggingObserver() {
