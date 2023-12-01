@@ -28,8 +28,8 @@ Card::Card(const Card& other) {
 	id = other.id;
 }
 
-Orders Card::getType() {
-	return *type;
+Orders* Card::getType() {
+	return type;
 }
 
 int Card::getId() {

@@ -30,7 +30,6 @@ void Territory::setUnits(int units) {
 	this->armyUnits = units;
 }
 
-
 void Territory::setContinent(Continent* newContinent) {
 	continent = newContinent;
 }
