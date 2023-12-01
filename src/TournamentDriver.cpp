@@ -74,42 +74,56 @@ int testTournament() {
         return 1;
     }
 
-    // Print parsed values
-    cout << "Map Files: ";
+    // Redirect the output stream to a file
+    ofstream outputFile("game_result.txt");
+    if (!outputFile.is_open()) {
+        cerr << "Error opening file for writing." << endl;
+        return 1;
+    }
+
+    // Use the outputFile instead of cout for output
+    outputFile << "Map Files: ";
     for (const string& mapFile : mapFiles) {
-        cout << mapFile << " ";
-        warzone.loadMap("loadmap Map/"+mapFile);
+        outputFile << mapFile << " ";
+        warzone.loadMap("loadmap Map/" + mapFile);
     }
-    cout << endl;
+    outputFile << endl;
 
-    cout << "Player Strategies: ";
+    outputFile << "Player Strategies: ";
     for (const string& strategy : playerStrategies) {
-        cout << strategy << " ";
+        outputFile << strategy << " ";
     }
-    cout << endl;
+    outputFile << endl;
 
-    cout << "Number of Games: " << numGames << endl;
-    cout << "Maximum Turns: " << maxTurns << endl;
+    outputFile << "Number of Games: " << numGames << endl;
+    outputFile << "Maximum Turns: " << maxTurns << endl;
 
-    // Perform the tournament logic here
     // ...
-    cout << "Tournament ongoing.." << endl;
+
+    // Redirect output to outputFile
+    outputFile << "Tournament ongoing.." << endl;
 
     // Result:
-    cout << "Result:" << endl;
-    // Display winner (placeholder - display random)
+    outputFile << "Result:" << endl;
+
+    // Redirect output to outputFile
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, playerStrategies.size() - 1);
     int randomIndex;
     for (const string& mapFile : mapFiles) {
-        cout << mapFile << ":" << endl;
+        outputFile << mapFile << ":" << endl;
         for (int i = 0; i < numGames; i++) {
             randomIndex = dist(gen);
-            cout << "Game " << i + 1 << ": " << playerStrategies[randomIndex] << "; ";
+            outputFile << "Game " << i + 1 << ": " << playerStrategies[randomIndex] << "; ";
         }
-        cout << endl;
+        outputFile << endl;
     }
+
+    // Close the outputFile when you're done
+    outputFile.close();
+
+    return 0;
 
     return 0;
 }
