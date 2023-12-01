@@ -4,23 +4,23 @@
 #include <cstdlib>
 #include <random>
 #include <sstream>
-#include "../include/CommandProcessing.h"
 using namespace std;
 
 vector<string> splitArguments(const string& input);
-int testCommandProcessing();
 
-int main() {
-    testCommandProcessing();
+int testTournament() {
+
     vector<string> mapFiles;
     vector<string> playerStrategies;
     int numGames = 0;
     int maxTurns = 0;
 
+    GameEngine warzone("start");
+    CommandProcessor processor;
+
     // Read all arguments in one line
     cout << "Enter arguments in one line (e.g., -M map1.txt map2.txt -P strategy1 strategy2 -G 5 -D 20): ";
-    string inputLine;
-    getline(cin, inputLine);
+    string inputLine = processor.readCommand();
 
     // Split the input line into individual arguments
     vector<string> arguments = splitArguments(inputLine);
@@ -66,6 +66,8 @@ int main() {
         }
     }
 
+    
+
     // Validate input
     if (mapFiles.empty() || playerStrategies.empty() || numGames < 1 || maxTurns < 10 || maxTurns > 50) {
         cerr << "Invalid input. Please provide valid arguments." << endl;
@@ -76,6 +78,7 @@ int main() {
     cout << "Map Files: ";
     for (const string& mapFile : mapFiles) {
         cout << mapFile << " ";
+        warzone.loadMap("loadmap Map/"+mapFile);
     }
     cout << endl;
 

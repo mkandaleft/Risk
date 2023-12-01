@@ -1,13 +1,16 @@
-
-#include "../include/GameEngine.h"
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <random>
+#include <sstream>
 #include "../include/CommandProcessing.h"
-
-//#include "CommandProcessing.cpp"
-//#include "GameEngineDriver.cpp"
 
 void ExecuteCommand(string command, GameEngine* engine) {
 
-
+    if (command.find("tournament", 0) == 0) {
+        
+    }
     if (command.find("loadmap",0)== 0) {
        engine->loadMap(command);
     }

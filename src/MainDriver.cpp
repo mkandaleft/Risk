@@ -9,6 +9,7 @@
 #include "Cardsdriver.cpp"
 #include "LoggingObserverDriver.cpp"
 #include "PlayerStrategiesDriver.cpp"
+#include "TournamentDriver.cpp"
 
 using std::string;
 using std::vector;
@@ -55,7 +56,10 @@ int main() {
     Assignment 3
     */
 
+    testTournament();
+
     testPlayerStrategies();
+    
 
     return 0;
 }

@@ -12,7 +12,7 @@ using namespace std;
 
 Map testLoadMap(string mapFileName) {
 
-    cout<<"Starting to read file1"<<mapFileName<<endl;
+    cout<<"Starting to read"<<mapFileName<<endl;
 
     bool printLogs = true; //toggle print loading detail on/off
 
