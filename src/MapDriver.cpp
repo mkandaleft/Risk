@@ -7,6 +7,7 @@
 #include <iomanip>
 
 #include "../include/Map.h"
+#include "../include/Territory.h"
 using namespace std;
 
 
