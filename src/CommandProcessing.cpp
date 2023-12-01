@@ -23,6 +23,10 @@ string Command::stringToLog() {
     return "Command: " + commandText + ", Effect: " + effect;
 }
 
+CommandProcessor::CommandProcessor() {
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
+}
 
 std::string CommandProcessor::readCommand() {
     std::string userInput;
@@ -53,9 +57,7 @@ void CommandProcessor::displayCommands() {
 // logging methods
 string CommandProcessor::stringToLog() {
     std::string logString = "Command Processor: ";
-    for (Command* cmd : commands) {
-        logString += cmd->stringToLog() + ", ";
-    }
+    logString += commands.back()->commandText; // Add the command text of the last command in the list
     return logString;
 }
 

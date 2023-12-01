@@ -19,6 +19,7 @@ class CommandProcessor: public Subject, public ILoggable  {
 public:
     std::vector<Command*> commands;
 
+    CommandProcessor();
     std::string readCommand();
     std::string getCommand();
     void saveCommand(Command* c);

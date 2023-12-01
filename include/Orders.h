@@ -118,6 +118,7 @@ private:
     vector<Orders*> ordersList;
 
 public:
+    OrdersList();
     void addOrder(Orders* order);
     void remove(int position);
     void move(int oldPosition, int newPosition);

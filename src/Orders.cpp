@@ -331,6 +331,11 @@ void Negotiate::execute(GameEngine* gameEngine) {
 
 //ORDER LIST
 
+OrdersList::OrdersList() {
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
+}
+
 void OrdersList::addOrder(Orders* order) {
     //benevolent player can't push back order
     ordersList.push_back(order);
@@ -384,8 +389,6 @@ vector<Orders*> OrdersList::getOrders() {
 //Log method
 string OrdersList::stringToLog() {
     std::string logString = "Orders List: ";
-    for (Orders* order : ordersList) {
-        logString += order->stringToLog() + ", ";
-    }
+    logString += ordersList.back()->getName(); // Add the order type of the last order in the list
     return logString;
 }

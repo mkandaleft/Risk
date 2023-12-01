@@ -1,8 +1,5 @@
 
-<<<<<<< Updated upstream
-=======
 #include "../include/LoggingObserver.h"
->>>>>>> Stashed changes
 
 
 void testLoggingObserver() {

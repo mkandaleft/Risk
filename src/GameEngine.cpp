@@ -20,6 +20,8 @@ GameEngine::GameEngine(const string &state) : currentState(state){
     gameDeck = new Deck(100);
     gameMap = new Map();
     neutralPlayer  = new Player("neutralPlayer");
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
 }
 
 GameEngine::~GameEngine() {
@@ -54,6 +56,7 @@ void GameEngine::loadMap(string command) {
             *gameMap = testLoadMap(map); //assignment operator called
             cout << "current state: " << getState() << endl;
             setState("maploaded");
+            notify(this);
         }
         else{
             cout<<"No map file provided"<<endl;
@@ -70,6 +73,7 @@ void GameEngine::validateMap() {
         cout <<"current state: "<< currentState << endl;
         if (gameMap->validate()) {
             setState("mapvalidated");
+            notify(this);
         }
     } else {
         cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
@@ -94,6 +98,8 @@ void GameEngine::addPlayer(string command) {
                 participants.push_back(gamer);
                 cout <<"current state: "<< currentState << endl;
                 currentState = "playersadded";
+
+                notify(this);
         }
         else{
             cout<<"No name provided"<<endl;
@@ -134,6 +140,7 @@ void GameEngine::assignCountries(){
             //removes the last element to allow access to the next one
             gameTerritories.pop_back();
         }
+        notify(this);
         //currentState = "assign reinforcement";
         //cout << currentState << endl;
     } else {
@@ -142,28 +149,29 @@ void GameEngine::assignCountries(){
 }
 
 void GameEngine::gameStart(){
-if (currentState == "playersadded"){
-    //4a
-    assignCountries();
-    //4b
-    random_device rd;
-    mt19937 ran(rd());
-                
-    shuffle(participants.begin(),participants.end(),ran);
+    if (currentState == "playersadded"){
+        //4a
+        assignCountries();
+        //4b
+        random_device rd;
+        mt19937 ran(rd());
+                    
+        shuffle(participants.begin(),participants.end(),ran);
 
-    for(Player* gamer: participants){
-        //4c
-        gamer->earnReinforcement(50);
+        for(Player* gamer: participants){
+            //4c
+            gamer->earnReinforcement(50);
 
-        //4d
+            //4d
 
-        gamer->getHand()->addCard(gameDeck->draw());
-        gamer->getHand()->addCard(gameDeck->draw());
-    }
+            gamer->getHand()->addCard(gameDeck->draw());
+            gamer->getHand()->addCard(gameDeck->draw());
+            }
         cout <<"current state: "<< currentState << endl;
         currentState = "assignreinforcement";
+        notify(this);
     } else {
-        cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
+            cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
     }
 }
 
@@ -171,6 +179,7 @@ void GameEngine::issueOrder(){
     if (currentState == "assignreinforcement" || currentState == "issueorders"){
         setState("issue orders");
         cout <<"current state: "<< currentState << endl;
+        notify(this);
     } else {
         cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
     }
@@ -180,6 +189,7 @@ void GameEngine::endIssueOrders(){
     if (currentState == "issue orders") {
         cout <<"current state: "<< currentState << endl;
         setState("execute orders");
+        notify(this);
     } else {
         cout << "Unable to load state, must be at state 'issue orders' to load" << endl;
     }
@@ -190,6 +200,7 @@ void GameEngine::execOrder(Orders* order) {
         order->execute(this);
         setState("execute orders");
         cout << currentState << endl;
+        notify(this);
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -203,6 +214,7 @@ void GameEngine::endExecOrders() {
             player->getAlliances().clear();
         }
         currentState = "assign reinforcement";
+        notify(this);
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -212,6 +224,7 @@ void GameEngine::win() {
     if (currentState == "execute orders"){
         currentState = "win";
         cout <<"current state: "<< currentState << endl;
+        notify(this);
     } else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
@@ -250,6 +263,7 @@ void GameEngine::play() {
 
         currentState = "start";
         cout <<"current state: "<< currentState << endl;
+        notify(this);
     } else {
         cout << "Unable to load state, must be at state 'win' to load" << endl;
     }
