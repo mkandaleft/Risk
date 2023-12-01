@@ -19,6 +19,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <typeinfo>
 
 using std::cout;
 using std::string;

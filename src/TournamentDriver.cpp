@@ -4,12 +4,14 @@
 #include <cstdlib>
 #include <random>
 #include <sstream>
-
+#include "../include/CommandProcessing.h"
 using namespace std;
 
 vector<string> splitArguments(const string& input);
+int testCommandProcessing();
 
 int main() {
+    testCommandProcessing();
     vector<string> mapFiles;
     vector<string> playerStrategies;
     int numGames = 0;

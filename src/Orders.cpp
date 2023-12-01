@@ -256,7 +256,7 @@ Blockade::Blockade(Territory* targetIn, Player* issuingPlayerIn) {
     setName("Blockade");
     this->target = targetIn;
     this->issuingPlayer = issuingPlayerIn;
-    setDescription("Triple the number of army units on a target territory and make it a neutral territory.");
+    setDescription("Triple the number of army units on a target territory and make it a territory.");
     setResult("Blockade has been created. Army units have tripled.");
 }
 

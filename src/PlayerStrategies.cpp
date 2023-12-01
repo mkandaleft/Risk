@@ -2,6 +2,7 @@
 #include <iostream>
 #include <random>
 #include <sstream>
+#include <typeinfo>
 
 #include "../include/PlayerStrategies.h"
 #include "../include/cards.h"

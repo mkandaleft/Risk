@@ -31,7 +31,6 @@ void testOrdersLists() {
 
 	testList.move(1, 4);
 	testList.printOrders();
-	*/
 
 }
 

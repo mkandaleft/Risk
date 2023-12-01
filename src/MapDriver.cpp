@@ -122,10 +122,10 @@ void printMapInfo(map<string, string> map_info) {
     }
 }
 
-int main() {
-    Map myMap = testLoadMap("Map/Earth.map");
-    myMap.display();
-    myMap.validate();
-    
-    return 0;
-}
+//int main() {
+//    Map myMap = testLoadMap("Map/Earth.map");
+//    myMap.display();
+//    myMap.validate();
+//    
+//    return 0;
+//}
