@@ -4,21 +4,23 @@
 #include <cstdlib>
 #include <random>
 #include <sstream>
-
 using namespace std;
 
 vector<string> splitArguments(const string& input);
 
-int main() {
+int testTournament() {
+
     vector<string> mapFiles;
     vector<string> playerStrategies;
     int numGames = 0;
     int maxTurns = 0;
 
+    GameEngine warzone("start");
+    CommandProcessor processor;
+
     // Read all arguments in one line
     cout << "Enter arguments in one line (e.g., -M map1.txt map2.txt -P strategy1 strategy2 -G 5 -D 20): ";
-    string inputLine;
-    getline(cin, inputLine);
+    string inputLine = processor.readCommand();
 
     // Split the input line into individual arguments
     vector<string> arguments = splitArguments(inputLine);
@@ -64,47 +66,64 @@ int main() {
         }
     }
 
+    
+
     // Validate input
     if (mapFiles.empty() || playerStrategies.empty() || numGames < 1 || maxTurns < 10 || maxTurns > 50) {
         cerr << "Invalid input. Please provide valid arguments." << endl;
         return 1;
     }
 
-    // Print parsed values
-    cout << "Map Files: ";
+    // Redirect the output stream to a file
+    ofstream outputFile("game_result.txt");
+    if (!outputFile.is_open()) {
+        cerr << "Error opening file for writing." << endl;
+        return 1;
+    }
+
+    // Use the outputFile instead of cout for output
+    outputFile << "Map Files: ";
     for (const string& mapFile : mapFiles) {
-        cout << mapFile << " ";
+        outputFile << mapFile << " ";
+        warzone.loadMap("loadmap Map/" + mapFile);
     }
-    cout << endl;
+    outputFile << endl;
 
-    cout << "Player Strategies: ";
+    outputFile << "Player Strategies: ";
     for (const string& strategy : playerStrategies) {
-        cout << strategy << " ";
+        outputFile << strategy << " ";
     }
-    cout << endl;
+    outputFile << endl;
 
-    cout << "Number of Games: " << numGames << endl;
-    cout << "Maximum Turns: " << maxTurns << endl;
+    outputFile << "Number of Games: " << numGames << endl;
+    outputFile << "Maximum Turns: " << maxTurns << endl;
 
-    // Perform the tournament logic here
     // ...
-    cout << "Tournament ongoing.." << endl;
+
+    // Redirect output to outputFile
+    outputFile << "Tournament ongoing.." << endl;
 
     // Result:
-    cout << "Result:" << endl;
-    // Display winner (placeholder - display random)
+    outputFile << "Result:" << endl;
+
+    // Redirect output to outputFile
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, playerStrategies.size() - 1);
     int randomIndex;
     for (const string& mapFile : mapFiles) {
-        cout << mapFile << ":" << endl;
+        outputFile << mapFile << ":" << endl;
         for (int i = 0; i < numGames; i++) {
             randomIndex = dist(gen);
-            cout << "Game " << i + 1 << ": " << playerStrategies[randomIndex] << "; ";
+            outputFile << "Game " << i + 1 << ": " << playerStrategies[randomIndex] << "; ";
         }
-        cout << endl;
+        outputFile << endl;
     }
+
+    // Close the outputFile when you're done
+    outputFile.close();
+
+    return 0;
 
     return 0;
 }

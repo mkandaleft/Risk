@@ -6,14 +6,13 @@
 #include <vector>
 #include <iomanip>
 
+using namespace std;
 #include "../include/Map.h"
 #include "../include/Territory.h"
-using namespace std;
-
 
 Map testLoadMap(string mapFileName) {
 
-    cout<<"Starting to read file1"<<mapFileName<<endl;
+    cout<<"Starting to read"<<mapFileName<<endl;
 
     bool printLogs = true; //toggle print loading detail on/off
 
@@ -123,3 +122,10 @@ void printMapInfo(map<string, string> map_info) {
     }
 }
 
+//int main() {
+//    Map myMap = testLoadMap("Map/Earth.map");
+//    myMap.display();
+//    myMap.validate();
+//    
+//    return 0;
+//}

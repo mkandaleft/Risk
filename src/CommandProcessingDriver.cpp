@@ -1,13 +1,16 @@
-
-#include "../include/GameEngine.h"
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <random>
+#include <sstream>
 #include "../include/CommandProcessing.h"
-
-//#include "CommandProcessing.cpp"
-//#include "GameEngineDriver.cpp"
 
 void ExecuteCommand(string command, GameEngine* engine) {
 
-
+    if (command.find("tournament", 0) == 0) {
+        
+    }
     if (command.find("loadmap",0)== 0) {
        engine->loadMap(command);
     }
@@ -33,7 +36,8 @@ void ExecuteCommand(string command, GameEngine* engine) {
         engine->endIssueOrders();
     }
     else if (command == "execorder") {
-        engine->execOrder();
+        // execorder cant be called here, as it need an order to be passed. This is fine because it is only ever called form the executeOrdersPhase()
+        //engine->execOrder();
     }
     else if (command == "endexecorders") {
         engine->endExecOrders();

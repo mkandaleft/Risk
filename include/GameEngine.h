@@ -7,10 +7,12 @@
 #include "cards.h"
 #include "CommandProcessing.h"
 
+class Deck;
+class Player;
 
 using std::string;
 
-class GameEngine {
+class GameEngine: public Subject, public ILoggable {
 
     private:
     string currentState;
@@ -18,8 +20,7 @@ class GameEngine {
     vector<Player*> participants;
     Deck* gameDeck;
     CommandProcessor processor;
-    
-    //Player* neutralPlayer = new Player("neutralPlayer");
+    Player* neutralPlayer;
 
 
     public:
@@ -35,7 +36,7 @@ class GameEngine {
     void gameStart();
     void issueOrder();
     void endIssueOrders();
-    void execOrder();
+    void execOrder(Orders* order);
     void endExecOrders();
     void win();
     void end();
@@ -45,10 +46,12 @@ class GameEngine {
     void reinforcementPhase();
     void issueOrderPhase();
     void executeOrdersPhase();
-    static Player* getNeutralPlayer();
+    Player* getNeutralPlayer();
 
     //for testStartupPhase
     Map* getMap();
     vector<Player*> getPlayers();
     Deck* getDeck();
+
+    string stringToLog() override;
 };
