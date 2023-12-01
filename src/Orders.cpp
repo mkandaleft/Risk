@@ -16,10 +16,14 @@ Orders::Orders() {
     description = "default order description";
     result = "default order result";
     _observers = new list<Observer*>;
+    this->attach(logObserver);
 }
 
 //parameterized constructor
-Orders::Orders(string& name) : name(name) {}
+Orders::Orders(string& name) : name(name) {
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
+}
 /*
 bool Orders::validate()
 {

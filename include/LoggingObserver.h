@@ -36,3 +36,5 @@ class LogObserver : public Observer {
         ~LogObserver();
         virtual void update(ILoggable* loggable);
 };
+
+extern LogObserver* logObserver;

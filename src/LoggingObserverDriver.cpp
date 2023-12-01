@@ -1,13 +1,17 @@
 
+<<<<<<< Updated upstream
+=======
+#include "../include/LoggingObserver.h"
+>>>>>>> Stashed changes
 
 
 void testLoggingObserver() {
-/*
-    std::cout << "Starting Testing LoggingObserver" << std::endl;
+
+    //std::cout << "Starting Testing LoggingObserver" << std::endl;
 
     // Create a new LogObserver
-    LogObserver* logObserver = new LogObserver();
-
+    //LogObserver* logObserver = new LogObserver();
+/*
     //Create a new Order and execute
     Orders* order = new Orders("Test Order");
     order->attach(logObserver);

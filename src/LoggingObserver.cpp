@@ -40,3 +40,5 @@ void LogObserver::update(ILoggable* loggable) {
         std::cerr << "Unable to open log file" << std::endl;
     }
 }
+
+LogObserver* logObserver = new LogObserver;

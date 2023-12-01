@@ -8,7 +8,10 @@
 
 using namespace std;
 
-Command::Command(std::string text) : commandText(text) {}
+Command::Command(std::string text) : commandText(text) {
+    _observers = new list<Observer*>;
+    this->attach(logObserver);
+}
 
 void Command::saveEffect(std::string eff) {
     effect = eff;
