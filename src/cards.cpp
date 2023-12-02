@@ -85,28 +85,28 @@ Deck::Deck(int numCards) {
 
 		cardType = i % numCardTypes;//alternates between different number of cards, for an equal amount (if the deck is a multiple of 5)
 		if (cardType == 0) {
-			Bomb* kaboom;
+			Bomb* kaboom = nullptr;
 
 			//use insert instead of push_back so that the deck is randomized to begin with
 			cards.insert(cards.begin() + index, new Card(*kaboom));
 		}
-		else if (cardType == 1){
-			Deploy* reinforcement;
+		else if (cardType == 1) {
+			Deploy* reinforcement = nullptr;
 
 			//use insert instead of push_back so that the deck is randomized to begin with
 			cards.insert(cards.begin() + index, new Card(*reinforcement));
 		}
 		else if (cardType == 2) {
 
-			Blockade* block;
+			Blockade* block = nullptr;
 			cards.insert(cards.begin() + index, new Card(*block));
 		}
 		else if (cardType == 3) {
-			Airlift* air;
+			Airlift* air = nullptr;
 			cards.insert(cards.begin() + index, new Card(*air));
 		}
 		else if (cardType == 4) {
-			Negotiate* diplomacy;
+			Negotiate* diplomacy = nullptr;
 			cards.insert(cards.begin() + index, new Card(*diplomacy));
 		}
 	}
@@ -125,7 +125,7 @@ Card& Deck::draw() {
 
 	//remove card from hand
 	cards.erase(cards.begin() + index);
-	
+
 	return *drawn;
 
 }
@@ -133,7 +133,7 @@ Card& Deck::draw() {
 
 void Deck::display() {
 	for (int i = 0; i < cards.size(); i++) {
-		cout<< cards[i]->getType()->getName()<<endl;
+		cout << cards[i]->getType()->getName() << endl;
 	}
 	cout << "\n";
 }
@@ -151,7 +151,7 @@ int Deck::getSize() {
 	return cards.size();
 }
 
-GameEngine* Deck::getGame(){
+GameEngine* Deck::getGame() {
 	return game;
 }
 
@@ -174,7 +174,7 @@ Hand::Hand() {
 	owner = new Player("Player");
 }
 
-Hand::Hand(Player* player){
+Hand::Hand(Player* player) {
 	maxSize = 10;
 	owner = player;
 }
@@ -183,7 +183,7 @@ Hand::Hand(int max) {
 	maxSize = max;
 }
 
-Hand::Hand(int max,Player* player){
+Hand::Hand(int max, Player* player) {
 	maxSize = max;
 	owner = player;
 }
@@ -196,7 +196,7 @@ Hand::Hand(const Hand& other) {
 
 void Hand::display() {
 	for (int i = 0; i < playerHand.size(); i++) {
-		cout << playerHand[i]->getType()->getName() <<endl;
+		cout << playerHand[i]->getType()->getName() << endl;
 	}
 	cout << "\n";
 }
@@ -235,6 +235,6 @@ int Hand::getSize() {
 	return playerHand.size();
 }
 
-Player* Hand::getOwner(){
+Player* Hand::getOwner() {
 	return owner;
 }

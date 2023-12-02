@@ -7,7 +7,7 @@ class Continent;
 Territory::Territory() {}
 Territory::Territory(const string& name) : name(name), armyUnits(0) {}
 
-Territory::Territory(const Territory& other):name(other.name),adjacents(other.adjacents),x(other.x),y(other.y),continent(other.continent), armyUnits(other.armyUnits){}
+Territory::Territory(const Territory& other) : name(other.name), adjacents(other.adjacents), x(other.x), y(other.y), continent(other.continent), armyUnits(other.armyUnits) {}
 
 string Territory::getName() const { return name; }
 Continent* Territory::getContinent() const { return continent; }
@@ -30,7 +30,7 @@ void Territory::setUnits(int units) {
 	this->armyUnits = units;
 }
 
-void Territory::addUnits(int units){
+void Territory::addUnits(int units) {
 	this->armyUnits += units;
 }
 

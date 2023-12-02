@@ -9,53 +9,64 @@
 
 using namespace std;
 
-void testGameStates(){
+void testGameStates() {
     GameEngine engine("start");
 
     CommandProcessor processor;
-    
+
     string command;
-    bool exit = false;  
+    bool exit = false;
     Map myMap;
 
     cout << "Welcome! Please enter a command to begin playing!" << endl;
 
-    while (exit == false){
+    while (exit == false) {
         command = processor.getCommand();
-        if (command == "loadmap"){
+        if (command == "loadmap") {
             engine.loadMap(command);
-        } else if (command == "validatemap") {
+        }
+        else if (command == "validatemap") {
             engine.validateMap();
-        } else if (command == "addplayer") {
+        }
+        else if (command == "addplayer") {
             engine.addPlayer("");
-        } else if (command == "assigncountries") {
+        }
+        else if (command == "assigncountries") {
             engine.assignCountries();
-        } else if (command == "issueorder") {
+        }
+        else if (command == "issueorder") {
             engine.issueOrder();
-        } else if (command == "endissueorders") {
+        }
+        else if (command == "endissueorders") {
             engine.endIssueOrders();
-        } else if (command == "execorder") {
+        }
+        else if (command == "execorder") {
             //engine.execOrder();
-        } else if (command == "endexecorders") {
+        }
+        else if (command == "endexecorders") {
             engine.endExecOrders();
-        } else if (command == "win") {
+        }
+        else if (command == "win") {
             engine.win();
-        } else if (command == "end") {
+        }
+        else if (command == "end") {
             engine.end();
-        } else if (command == "play") {
+        }
+        else if (command == "play") {
             engine.play();
-        }else if (command == "exit") {
+        }
+        else if (command == "exit") {
             exit = true;
         }
         else {
             cout << "Incorrect command. Please retry." << endl;
-            cout << command<< endl;
+            cout << command << endl;
         }
     }
 }
 
 
-void testStartupPhase(){
+void testStartupPhase() {
     GameEngine engine("execute orders");
     engine.startUpPhase();
 
@@ -70,18 +81,18 @@ void testStartupPhase(){
 
     int playerCount = 1;
 
-    for(Player* player: contestants){
-        cout<<"\nPlayer "<<playerCount++<<endl;
-        cout<<"Name: "<<player->getName()<<endl;
-        cout<<"Territories: ";
-        for(Territory* land: player->getTerritories()){
-            cout<<land->getName()<<" ";
+    for (Player* player : contestants) {
+        cout << "\nPlayer " << playerCount++ << endl;
+        cout << "Name: " << player->getName() << endl;
+        cout << "Territories: ";
+        for (Territory* land : player->getTerritories()) {
+            cout << land->getName() << " ";
         }
-        cout<<"\nHand: ";
-        for(Card* card: player->getHand()->getHand()){
-            cout<<card->getType()->getName()<< " ";
+        cout << "\nHand: ";
+        for (Card* card : player->getHand()->getHand()) {
+            cout << card->getType()->getName() << " ";
         }
-        cout<<"\n";
+        cout << "\n";
 
     }
 
@@ -101,4 +112,3 @@ void testStartupPhase(){
 //    testGameStates();
 //    return 0;
 //}
-

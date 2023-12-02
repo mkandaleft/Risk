@@ -3,7 +3,7 @@
 *   for testing the functionalities of a Player object.
 *
 *   Written by: Mark Kandaleft
-*   For COMP 345 
+*   For COMP 345
 */
 #include "iostream"
 #include <vector>
@@ -40,3 +40,4 @@ void testPlayers() {
     std::cout << std::endl;
 
 }
+

@@ -15,11 +15,13 @@ using namespace std;
 
 class Player;
 
-GameEngine::GameEngine(const string &state) : currentState(state){
+GameEngine::GameEngine(const string& state) :
+    currentState(state)
+{
     currentState = state;
     gameDeck = new Deck(100);
     gameMap = new Map();
-    neutralPlayer  = new Player("neutralPlayer");
+    neutralPlayer = new Player("neutralPlayer");
     _observers = new list<Observer*>;
     this->attach(logObserver);
 }
@@ -37,7 +39,7 @@ GameEngine::~GameEngine() {
     gameDeck = nullptr;
 }
 
-string GameEngine::getState() const{
+string GameEngine::getState() const {
     return currentState;
 }
 
@@ -47,65 +49,68 @@ void GameEngine::setState(string state) {
 
 void GameEngine::loadMap(string command) {
     if (currentState == "start" || currentState == "maploaded") {
-        
+
         int spaceIdx = command.find(' ');
 
         //if spaceIdx is less, than the space either does not exist, or is the last character, so there was no file provided
-        if(spaceIdx < command.length()-1){
+        if (spaceIdx < command.length() - 1) {
             string map = command.substr(spaceIdx + 1);
-            *gameMap = testLoadMap(map); //assignment operator called
+            gameMap = testLoadMap(map); //assignment operator called
             cout << "current state: " << getState() << endl;
             setState("maploaded");
             notify(this);
         }
-        else{
-            cout<<"No map file provided"<<endl;
+        else {
+            cout << "No map file provided" << endl;
         }
-        
-    } else {
+
+    }
+    else {
         cout << "Unable to load state, must be at state 'start' or 'map loaded' to load" << endl;
     }
 }
 
 void GameEngine::validateMap() {
-    
+
     if (getState() == "maploaded") {
-        cout <<"current state: "<< currentState << endl;
+        cout << "current state: " << currentState << endl;
         if (gameMap->validate()) {
             setState("mapvalidated");
             notify(this);
         }
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'map loaded' to load" << endl;
     }
 }
 
 void GameEngine::addPlayer(string command) {
 
-    if (currentState == "mapvalidated" || currentState == "playersadded" ) {
+    if (currentState == "mapvalidated" || currentState == "playersadded") {
 
-        
+
         int spaceIdx = command.find(' ');
 
         //if spaceIdx is less, than the space either does not exist, or is the last character, so there was no name added
-        if(spaceIdx < command.length()-1){
+        if (spaceIdx < command.length() - 1) {
             //if command is properly called (e.g. "addplayer name"), "addplayer" will be disregarded
-            string name = command.substr(spaceIdx+1);
+            string name = command.substr(spaceIdx + 1);
 
             //stops players from having no name
-                Player* gamer = new Player(name);
-        
-                participants.push_back(gamer);
-                cout <<"current state: "<< currentState << endl;
-                currentState = "playersadded";
+            Player* gamer = new Player(name);
 
-                notify(this);
+            participants.push_back(gamer);
+            cout << "current state: " << currentState << endl;
+            currentState = "playersadded";
+
+            notify(this);
         }
-        else{
-            cout<<"No name provided"<<endl;
+        else {
+            cout << "No name provided" << endl;
 
         }
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'map validated' or 'players added' to load" << endl;
     }
 }
@@ -115,10 +120,10 @@ void GameEngine::addPlayerObject(Player* player) {
 }
 
 
-void GameEngine::assignCountries(){
-    if (currentState == "playersadded"){
+void GameEngine::assignCountries() {
+    if (currentState == "playersadded") {
         //used to randomize the distribution of territories
-        cout <<"adding countries" << endl;
+        cout << "adding countries" << endl;
         random_device rd;
         mt19937 ran(rd());
 
@@ -130,11 +135,11 @@ void GameEngine::assignCountries(){
         }
 
         //as a vector the elements can be shuffled randomly
-        shuffle(gameTerritories.begin(),gameTerritories.end(),ran);
+        shuffle(gameTerritories.begin(), gameTerritories.end(), ran);
 
-        for(int i =0;i<gameMap->getTerritories().size();i++){
+        for (int i = 0; i < gameMap->getTerritories().size(); i++) {
             //loops through the participants, adding the back territory from the vector to a participant
-            participants[i%participants.size()]->addTerritory(*gameTerritories.back());
+            participants[i % participants.size()]->addTerritory(*gameTerritories.back());
 
             gameTerritories.back()->setOwner(participants[i % participants.size()]);
             //removes the last element to allow access to the next one
@@ -143,22 +148,23 @@ void GameEngine::assignCountries(){
         notify(this);
         //currentState = "assign reinforcement";
         //cout << currentState << endl;
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'players added' to load" << endl;
     }
 }
 
-void GameEngine::gameStart(){
-    if (currentState == "playersadded"){
+void GameEngine::gameStart() {
+    if (currentState == "playersadded") {
         //4a
         assignCountries();
         //4b
         random_device rd;
         mt19937 ran(rd());
-                    
-        shuffle(participants.begin(),participants.end(),ran);
 
-        for(Player* gamer: participants){
+        shuffle(participants.begin(), participants.end(), ran);
+
+        for (Player* gamer : participants) {
             //4c
             gamer->earnReinforcement(50);
 
@@ -166,75 +172,82 @@ void GameEngine::gameStart(){
 
             gamer->getHand()->addCard(gameDeck->draw());
             gamer->getHand()->addCard(gameDeck->draw());
-            }
-        cout <<"current state: "<< currentState << endl;
+        }
+        cout << "current state: " << currentState << endl;
         currentState = "assignreinforcement";
         notify(this);
-    } else {
-            cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
     }
-}
-
-void GameEngine::issueOrder(){
-    if (currentState == "assignreinforcement" || currentState == "issueorders"){
-        setState("issue orders");
-        cout <<"current state: "<< currentState << endl;
-        notify(this);
-    } else {
+    else {
         cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
     }
 }
 
-void GameEngine::endIssueOrders(){
+void GameEngine::issueOrder() {
+    if (currentState == "assignreinforcement" || currentState == "issueorders") {
+        setState("issue orders");
+        cout << "current state: " << currentState << endl;
+        notify(this);
+    }
+    else {
+        cout << "Unable to load state, must be at state 'assign reinforcement' or 'issue orders' to load" << endl;
+    }
+}
+
+void GameEngine::endIssueOrders() {
     if (currentState == "issue orders") {
-        cout <<"current state: "<< currentState << endl;
+        cout << "current state: " << currentState << endl;
         setState("execute orders");
         notify(this);
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'issue orders' to load" << endl;
     }
 }
 
 void GameEngine::execOrder(Orders* order) {
-    if (currentState == "execute orders"){
+    if (currentState == "execute orders") {
         order->execute(this);
         setState("execute orders");
         cout << currentState << endl;
         notify(this);
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
 }
 
 void GameEngine::endExecOrders() {
-    if (currentState == "execute orders"){
-        cout <<"current state: "<< currentState << endl;
-        for(Player* player : participants)
+    if (currentState == "execute orders") {
+        cout << "current state: " << currentState << endl;
+        for (Player* player : participants)
         {
+            player->getOrdersList()->clearOrders();
             player->getAlliances().clear();
         }
         currentState = "assign reinforcement";
         notify(this);
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
 }
 
 void GameEngine::win() {
-    if (currentState == "execute orders"){
+    if (currentState == "execute orders") {
         currentState = "win";
-        cout <<"current state: "<< currentState << endl;
+        cout << "current state: " << currentState << endl;
         notify(this);
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'execute orders' to load" << endl;
     }
 }
 
 void GameEngine::end() {
-    if (currentState == "win"){
+    if (currentState == "win") {
         cout << "Game Over. Thanks for playing!" << endl;
 
-        for(Card* card:gameDeck->getDeck()){
+        for (Card* card : gameDeck->getDeck()) {
             delete card;
             card = nullptr;
         }
@@ -242,75 +255,82 @@ void GameEngine::end() {
         gameDeck = nullptr;
         delete gameMap;
         gameMap = nullptr;
-        for(Player* gamer:participants){
-            for(Card* card:gamer->getHand()->getHand()){
+        for (Player* gamer : participants) {
+            for (Card* card : gamer->getHand()->getHand()) {
                 delete card;
                 card = nullptr;
             }
             delete gamer->getHand();
-            
+
             gamer = nullptr;
         }
 
         abort();
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'win' to load" << endl;
     }
 }
 
 void GameEngine::play() {
-    if (currentState == "win" ||currentState == "start"){
+    if (currentState == "win" || currentState == "start") {
 
         currentState = "start";
-        cout <<"current state: "<< currentState << endl;
+        cout << "current state: " << currentState << endl;
         notify(this);
-    } else {
+    }
+    else {
         cout << "Unable to load state, must be at state 'win' to load" << endl;
     }
 }
 
-void GameEngine::startUpPhase(){
+void GameEngine::startUpPhase() {
 
-    string command ="";
+    string command = "";
 
     bool startingUp = true;
 
     cout << "Welcome! Please enter a command to begin playing!" << endl;
 
-    while(startingUp || (participants.size() < 2)){
+    while (startingUp || (participants.size() < 2)) {
         command = processor.getCommand();
-        if (command.find("loadmap",0)==0){
-            cout<<"Loading Map"<<endl;
+        if (command.find("loadmap", 0) == 0) {
+            cout << "Loading Map" << endl;
             this->loadMap(command);
-        } else if (command == "validatemap") {
-            cout<<"Validating Map"<<endl;
+        }
+        else if (command == "validatemap") {
+            cout << "Validating Map" << endl;
             this->validateMap();
-        } else if (command.find("addplayer",0)==0) {
-            cout<<"Adding Player"<<endl;
-            if(participants.size() < 6){
-                    this->addPlayer(command);
-            }else{
-                cout<<"Maximum number of players reached"<<endl;
+        }
+        else if (command.find("addplayer", 0) == 0) {
+            cout << "Adding Player" << endl;
+            if (participants.size() < 6) {
+                this->addPlayer(command);
             }
-        } else if (command == "gamestart") {
-            if(participants.size()>=2){
-                cout<<"Starting Game"<<endl;
+            else {
+                cout << "Maximum number of players reached" << endl;
+            }
+        }
+        else if (command == "gamestart") {
+            if (participants.size() >= 2) {
+                cout << "Starting Game" << endl;
                 gameStart();
 
                 //4e
                 startingUp = false;
-                
-            }else{
-                cout<<"Not enough players have been added"<<endl;
+
+            }
+            else {
+                cout << "Not enough players have been added" << endl;
             }
         }
-        else{
-            cout<<"Unknown command"<<endl;
+        else {
+            cout << "Unknown command" << endl;
         }
     }
 }
 
-Player* GameEngine::getNeutralPlayer(){
+Player* GameEngine::getNeutralPlayer() {
     return neutralPlayer;
 }
 
@@ -319,16 +339,17 @@ void GameEngine::mainGameLoop() {
     // null player pointer
     // assign to winner
 
-    Player *winningPlayer = nullptr;
-    while(winningPlayer == nullptr){
+    Player* winningPlayer = nullptr;
+    while (winningPlayer == nullptr) {
         reinforcementPhase();
-        cout<<"Reinforments gained"<<endl;
+        cout << "Reinforments gained" << endl;
         issueOrderPhase();
-        cout<<"Orders issued"<<endl;
+        cout << "Orders issued" << endl;
         executeOrdersPhase();
-        cout<<"Executing orders"<<endl;
+        cout << "Executing orders" << endl;
 
         // remove players than have no more territories
+        std::vector<Player*> losers;
         for (const auto& playerPtr : participants) {
             int numOfTerritories = 0;
             for (const auto& thisTerritory : playerPtr->getTerritories()) {
@@ -336,16 +357,32 @@ void GameEngine::mainGameLoop() {
             }
             if (numOfTerritories <= 0) {
                 cout << "Player " << playerPtr->getName() << " has no territories, they have lost!" << endl;
-                delete playerPtr;
+                losers.push_back(playerPtr);
             }
+        }
+
+        for (Player* loser : losers) {
+            participants.erase(std::remove(participants.begin(), participants.end(), loser), participants.end());
+            delete loser;
         }
 
         if (participants.size() == 1) {
             cout << "Player " << participants[0]->getName() << " has won the game!!!" << endl;
             winningPlayer = participants[0];
         }
-        else{
-            cout<<"Next Round!"<<endl;
+        else if (participants.size() == 0) {
+            cout << "EVERYBODY LOST OH NO" << endl;
+            break;
+        }
+        else {
+            for (const auto& playerPtr : participants) {
+                int unitsDeployed = 0;
+                for (const auto& territory : playerPtr->getTerritories()) {
+                    unitsDeployed += territory->getUnits();
+                }
+                cout << "LOL" << endl;
+            }
+            cout << "Next Round!" << endl;
         }
     }
 }
@@ -394,7 +431,7 @@ void GameEngine::issueOrderPhase() {
     // Have each player issue their orders
     setState("issue orders");
     for (const auto& playerPtr : participants) {
-        playerPtr->issueOrder(playerPtr,this);
+        playerPtr->issueOrder(playerPtr, this);
     }
     endIssueOrders();
 }
@@ -403,7 +440,7 @@ void GameEngine::executeOrdersPhase() {
     setState("execute orders");
     for (const auto& playerPtr : participants) {
         OrdersList* list = playerPtr->getOrdersList();
-        for (const auto& orderPtr : list->getOrders()) {
+        for (Orders* orderPtr : list->getOrders()) {
             cout << "executing order" << endl;
             execOrder(orderPtr);
         }
@@ -411,13 +448,13 @@ void GameEngine::executeOrdersPhase() {
     endExecOrders();
 }
 
-Map* GameEngine::getMap(){
+Map* GameEngine::getMap() {
     return gameMap;
 }
-vector<Player*> GameEngine::getPlayers(){
+vector<Player*> GameEngine::getPlayers() {
     return participants;
 }
-Deck* GameEngine::getDeck(){
+Deck* GameEngine::getDeck() {
     return gameDeck;
 }
 

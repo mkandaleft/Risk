@@ -4,7 +4,7 @@
 #include <fstream>
 #include "LoggingObserver.h"
 
-class Command: public Subject, public ILoggable {
+class Command : public Subject, public ILoggable {
 public:
     std::string commandText;
     std::string effect;
@@ -15,7 +15,7 @@ public:
     string stringToLog() override;
 };
 
-class CommandProcessor: public Subject, public ILoggable  {
+class CommandProcessor : public Subject, public ILoggable {
 public:
     std::vector<Command*> commands;
 

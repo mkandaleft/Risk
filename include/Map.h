@@ -29,10 +29,10 @@ class Map {
 
 private:
 	map<string, Territory*> territories;
-	map<string, Continent*> continents;	
+	map<string, Continent*> continents;
 
 public:
-	
+
 	// Default constructor
 	Map();
 
@@ -46,12 +46,12 @@ public:
 	// Destructor
 	~Map();
 
-	
+
 	void dfs(Territory* territory, unordered_set<string>& visited) const;
 
-	map<string, Territory*> getTerritories() ;
+	map<string, Territory*> getTerritories();
 
-	map<string, Continent*> getContinents() ;
+	map<string, Continent*> getContinents();
 	vector<Continent*> getContinentsVector();
 	vector<Territory*> getTerritoriesVector();
 
@@ -59,17 +59,17 @@ public:
 	//create a new territry, add it to territories map, and return its pointer
 	Territory* addTerritory(const string& name);
 
-	Continent* addContinent(const string& name) ;
+	Continent* addContinent(const string& name);
 
 	//connect 2 territories in map
 	void connect(const string& name1, const string& name2);
 
-	void display() const ;
+	void display() const;
 
 
-	bool areContinentsSubgraphs() ;
+	bool areContinentsSubgraphs();
 
-	bool isMapConnected() ;
+	bool isMapConnected();
 
 	bool validate();
 
