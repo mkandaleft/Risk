@@ -17,14 +17,14 @@ class Card {
 public:
 	Card();
 
-	Card(Orders& type); 
+	Card(Orders& type);
 
 	Card(const Card& other);
 
 	void play(Deck& gameDeck, Hand& playerHand);
 
 	Orders* getType();
-	
+
 	int getId();
 	void addId();
 

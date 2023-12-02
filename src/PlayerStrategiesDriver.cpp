@@ -1,9 +1,9 @@
 #include "../include/PlayerStrategies.h"
 
-void testPlayerStrategies(){
+void testPlayerStrategies() {
     GameEngine warzone("start");
 
-    warzone.loadMap("loadmap Map/Earth.map");
+    warzone.loadMap("loadmap src/Map/Earth.map");
 
     warzone.validateMap();
 
@@ -19,10 +19,9 @@ void testPlayerStrategies(){
     vector<Player*> gamers = warzone.getPlayers();
 
 
-    for(Player* player: gamers){
-        player->setStrategy(new Benevolent());
-    }
-    
+    gamers[0]->setStrategy(new Benevolent());
+    gamers[1]->setStrategy(new Aggressive());
+
 
     warzone.gameStart();
 

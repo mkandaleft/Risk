@@ -23,15 +23,16 @@ int main() {
     if (file.is_open()) {
         // Erase the content of the file
         file.close();
-    } else {
+    }
+    else {
         // Handle error if the file cannot be opened
         std::cout << "Error opening the file." << std::endl;
         return 1;
     }
-    
+
     //compile using
     //g++ Orders.cpp cards.cpp Map.cpp Territory.cpp Player.cpp CommandProcessing.cpp GameEngine.cpp MainDriver.cpp -o mainDriver 
-    
+
     //run using ./mainDriver
 
     /*
@@ -59,7 +60,7 @@ int main() {
     testTournament();
 
     testPlayerStrategies();
-    
+
 
     return 0;
 }

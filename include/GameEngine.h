@@ -12,9 +12,9 @@ class Player;
 
 using std::string;
 
-class GameEngine: public Subject, public ILoggable {
+class GameEngine : public Subject, public ILoggable {
 
-    private:
+private:
     string currentState;
     Map* gameMap;
     vector<Player*> participants;
@@ -23,7 +23,7 @@ class GameEngine: public Subject, public ILoggable {
     Player* neutralPlayer;
 
 
-    public:
+public:
     GameEngine(const string& state);
     ~GameEngine();
     string getState() const;

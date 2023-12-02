@@ -137,13 +137,13 @@ void Map::connect(const string& name1, const string& name2) {
 
 void Map::display() const {
 	for (const auto& pair : continents) {
-		cout<<"Continent: " <<pair.second->getName() <<endl;
-		for (const auto& territory : pair.second->getTerritory()){
-			cout<<"\t Territory: "<<territory->getName()<<": ";
+		cout << "Continent: " << pair.second->getName() << endl;
+		for (const auto& territory : pair.second->getTerritory()) {
+			cout << "\t Territory: " << territory->getName() << ": ";
 			for (const auto& adj : territory->getAdjacents()) {
-				cout<< adj->getName()<<", ";
+				cout << adj->getName() << ", ";
 			}
-			cout<<endl;
+			cout << endl;
 		}
 	}
 }
@@ -166,7 +166,7 @@ bool Map::areContinentsSubgraphs() {
 
 bool Map::isMapConnected() {
 	if (territories.empty()) {
-		cout<<"Validation failed: Map is empty.";
+		cout << "Validation failed: Map is empty.";
 		return false;
 	}
 	unordered_set<string> visited;
@@ -192,31 +192,32 @@ vector<Territory*> Map::getTerritoriesVector() {
 
 bool Map::validate() {
 
-/*
-	if (areContinentsSubgraphs()) {
-		cout << "Validated: All Continents are Sub-graphs!\n";
-	}
-	else {
-		cout << "Validation failed: Continents are not sub-graphs of map\n";
-	}
+	/*
+		if (areContinentsSubgraphs()) {
+			cout << "Validated: All Continents are Sub-graphs!\n";
+		}
+		else {
+			cout << "Validation failed: Continents are not sub-graphs of map\n";
+		}
 
-	*/
+		*/
 
-	//disabled , it cause program to exit
-	/*if (isMapConnected()) {
-		cout << "Validated: Map is Connected!\n";
-	}
-	else {
-		cout << "Validation failed: Map is not connected.\n";
-	}*/
-		
+		//disabled , it cause program to exit
+		/*if (isMapConnected()) {
+			cout << "Validated: Map is Connected!\n";
+		}
+		else {
+			cout << "Validation failed: Map is not connected.\n";
+		}*/
+
 	if (/*isMapConnected() && areContinentsSubgraphs()*/ true) {
-		cout<< "Map has been Validated!\n"; 
+		cout << "Map has been Validated!\n";
 		return true;
 	}
-	cout<< "Map is invalid.\n";
+	cout << "Map is invalid.\n";
 	return false;
 
 }
+
 
 

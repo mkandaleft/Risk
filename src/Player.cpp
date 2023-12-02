@@ -3,7 +3,7 @@
 *   definitions of the object Player as well as its attributes.
 *
 *   Written by: Mark Kandaleft
-*   For COMP 345 
+*   For COMP 345
 */
 
 #include "../include/Player.h"
@@ -25,18 +25,18 @@ using std::cout;
 using std::string;
 using std::vector;
 
-Player::Player(const string& playerName) : name(playerName),reinforcementPool(0){
-    hand = new Hand(10,this);
+Player::Player(const string& playerName) : name(playerName), reinforcementPool(0) {
+    hand = new Hand(10, this);
     beenAttacked = false;
     strat = new Neutral();
     ordersList = new OrdersList();
 }
 
-Player::Player(const string& playerName, PlayerStrategy* plan) : name(playerName),reinforcementPool(0){
+Player::Player(const string& playerName, PlayerStrategy* plan) : name(playerName), reinforcementPool(0) {
     hand = new Hand();
     beenAttacked = false;
     strat = plan;
-        ordersList = new OrdersList();
+    ordersList = new OrdersList();
 }
 
 Player::~Player() {
@@ -57,18 +57,18 @@ void Player::addTerritory(Territory& territory) {
 }
 
 // Returns a list of territories to be defended
-const vector<Territory*> Player::toDefend(){
+const vector<Territory*> Player::toDefend() {
     return strat->toDefend(this);
 }
 
 // Returns a list of territories to be attacked
-const vector<Territory*> Player::toAttack(){
+const vector<Territory*> Player::toAttack() {
     return strat->toAttack(this);
 }
 
 // Creates an order object and adds it to the list of orders
-void Player::issueOrder(Player* player, GameEngine* engine){
-    strat->issueOrder(this,engine);
+void Player::issueOrder(Player* player, GameEngine* engine) {
+    strat->issueOrder(this, engine);
 }
 
 string Player::getName() const {
@@ -93,19 +93,19 @@ void Player::setName(const string& newName) {
     name = newName;
 }
 
-void Player::earnReinforcement(int add){
-    reinforcementPool+= add;
+void Player::earnReinforcement(int add) {
+    reinforcementPool += add;
 }
 
-void Player::useReinforcement(int use){
-    reinforcementPool-= use;
+void Player::useReinforcement(int use) {
+    reinforcementPool -= use;
 }
 
-int Player::getPoolSize(){
+int Player::getPoolSize() {
     return reinforcementPool;
 }
 
-OrdersList* Player::getOrdersList(){
+OrdersList* Player::getOrdersList() {
     return ordersList;
 }
 
@@ -113,7 +113,7 @@ vector<Territory*> Player::getTerritories() const {
     return territories;
 }
 
-Hand* Player::getHand(){
+Hand* Player::getHand() {
     return hand;
 }
 
@@ -128,24 +128,24 @@ void Player::addAlliance(Player* ally)
 }
 
 //Gets all territories not owned by me, that are touching a territory owned by me
-vector<Territory*> Player::getSurroundings(){
-    
+vector<Territory*> Player::getSurroundings() {
+
     vector<Territory*> surroundings;
     vector<Territory*> nextToMe;
 
     //check all owned territories
-    for(Territory* ownedTerr:getTerritories()){
+    for (Territory* ownedTerr : getTerritories()) {
 
         //check all adjacent territories of owned territories
         nextToMe = ownedTerr->getAdjacents();
-        for(Territory* adj:nextToMe){
+        for (Territory* adj : nextToMe) {
             auto it = find(nextToMe.begin(), nextToMe.end(), adj);
 
             //if the adjacent territory was already added, or its owned by this player, don't add
-            if(it != nextToMe.end() || adj->getOwner() == this){
+            if (it != nextToMe.end() || adj->getOwner() == this) {
                 continue;
             }
-            else{
+            else {
                 surroundings.push_back(adj);
             }
         }
@@ -155,18 +155,18 @@ vector<Territory*> Player::getSurroundings(){
     return surroundings;
 }
 
-void Player::setBeenAttacked(bool status){
+void Player::setBeenAttacked(bool status) {
     beenAttacked = status;
 }
 
-bool Player::getBeenAttacked(){
+bool Player::getBeenAttacked() {
     return beenAttacked;
 }
 
-void Player::setStrategy(PlayerStrategy* plan){
+void Player::setStrategy(PlayerStrategy* plan) {
 
     //reset so neutral player doesn't immediately become aggressive
-    if(typeid(plan) == typeid(Neutral))
+    if (typeid(plan) == typeid(Neutral))
         beenAttacked = false;
 
     strat = plan;

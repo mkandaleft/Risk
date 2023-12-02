@@ -33,7 +33,7 @@ std::string CommandProcessor::readCommand() {
     std::string userInput;
     std::cout << "Enter a command: ";
     //std::cin.ignore(); // Clear any previous newline characters
-    getline(cin,userInput);
+    getline(cin, userInput);
     return userInput;
 }
 
@@ -125,3 +125,4 @@ void FileCommandProcessorAdapter::saveCommand(std::string s) {
 //
 //    return 0;
 //}
+

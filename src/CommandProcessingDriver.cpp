@@ -4,15 +4,17 @@
 #include <cstdlib>
 #include <random>
 #include <sstream>
+
+#include "../include/GameEngine.h"
 #include "../include/CommandProcessing.h"
 
 void ExecuteCommand(string command, GameEngine* engine) {
 
     if (command.find("tournament", 0) == 0) {
-        
+
     }
-    if (command.find("loadmap",0)== 0) {
-       engine->loadMap(command);
+    if (command.find("loadmap", 0) == 0) {
+        engine->loadMap(command);
     }
     else if (command.find("loadmap", 0) == 0) {
         engine->loadMap(command);
@@ -23,7 +25,7 @@ void ExecuteCommand(string command, GameEngine* engine) {
     else if (command.find("addplayer", 0) == 0) {
         engine->addPlayer(command);
     }
-    else if(command=="gamestart"){
+    else if (command == "gamestart") {
         engine->gameStart();
     }
     else if (command == "assigncountries") {
@@ -63,12 +65,12 @@ void ExecuteCommand(string command, GameEngine* engine) {
 }
 
 int testCommandProcessing() {
-    
+
     GameEngine engine("start");
     CommandProcessor processor;
     FileCommandProcessorAdapter fileAdapter("TestCommands/test1.txt", processor);
-    
-    
+
+
     while (true) {
         cout << "1. Read commands from console" << endl;
         cout << "2. Read commands from file" << endl;
@@ -81,41 +83,41 @@ int testCommandProcessing() {
         string s;
 
         switch (choice) {
-            case 1: //enter command by hand
-                while (true) {
-                    s = processor.getCommand();
-                    if(s=="exit"||s=="quit") break;
-                    ExecuteCommand(s, &engine);
-                    //to do: find a better way to save effect
-                    for (Command* cmd : processor.commands) {
-                        if (cmd->commandText.find(s,0)==0) {
-                            cmd->saveEffect(engine.getState());
-                        }
+        case 1: //enter command by hand
+            while (true) {
+                s = processor.getCommand();
+                if (s == "exit" || s == "quit") break;
+                ExecuteCommand(s, &engine);
+                //to do: find a better way to save effect
+                for (Command* cmd : processor.commands) {
+                    if (cmd->commandText.find(s, 0) == 0) {
+                        cmd->saveEffect(engine.getState());
                     }
                 }
-                break;
-            case 2: //read commands from a text file
-                fileAdapter.readCommand();  
-                for (Command* cmd : processor.commands)
-                {
-                    ExecuteCommand(cmd->commandText, &engine);
-                    cmd->saveEffect(engine.getState());
-                }
-                break;
-            case 3:
-                processor.displayCommands();
-                break;
-            case 4:
-                // Clean up memory
-                for (Command* cmd : processor.commands) {
-                    delete cmd;
-                }
-                return 0;
-            default:
-                cout << "Invalid choice. Try again." << endl;
-                break;
+            }
+            break;
+        case 2: //read commands from a text file
+            fileAdapter.readCommand();
+            for (Command* cmd : processor.commands)
+            {
+                ExecuteCommand(cmd->commandText, &engine);
+                cmd->saveEffect(engine.getState());
+            }
+            break;
+        case 3:
+            processor.displayCommands();
+            break;
+        case 4:
+            // Clean up memory
+            for (Command* cmd : processor.commands) {
+                delete cmd;
+            }
+            return 0;
+        default:
+            cout << "Invalid choice. Try again." << endl;
+            break;
         }
-        
+
     }
 }
 

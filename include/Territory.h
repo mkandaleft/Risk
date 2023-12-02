@@ -33,7 +33,7 @@ public:
 	vector<Territory*> getAdjacents() const;
 	int getUnits();
 	Player* getOwner();
-	
+
 	void connect(Territory* other);
 
 	void setContinent(Continent* newContinent);

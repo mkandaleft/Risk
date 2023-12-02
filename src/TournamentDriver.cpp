@@ -4,6 +4,10 @@
 #include <cstdlib>
 #include <random>
 #include <sstream>
+#include <fstream>
+
+#include "../include/GameEngine.h"
+#include "../include/CommandProcessing.h"
 using namespace std;
 
 vector<string> splitArguments(const string& input);
@@ -66,7 +70,7 @@ int testTournament() {
         }
     }
 
-    
+
 
     // Validate input
     if (mapFiles.empty() || playerStrategies.empty() || numGames < 1 || maxTurns < 10 || maxTurns > 50) {

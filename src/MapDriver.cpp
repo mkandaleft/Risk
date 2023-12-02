@@ -5,26 +5,28 @@
 #include <map>
 #include <vector>
 #include <iomanip>
+#include <filesystem>
 
-using namespace std;
 #include "../include/Map.h"
 #include "../include/Territory.h"
 
-Map testLoadMap(string mapFileName) {
+Map* testLoadMap(string mapFileName) {
 
-    cout<<"Starting to read"<<mapFileName<<endl;
+    cout << "Starting to read" << mapFileName << endl;
 
     bool printLogs = true; //toggle print loading detail on/off
 
+    auto wd = std::filesystem::current_path();
+
     ifstream file(mapFileName); // This function produces warning!!
-    if (!file.is_open()) {                     
+    if (!file.is_open()) {
         cerr << "Error: Unable to open file!" << endl;
         exit;
     }
 
     map<string, string> map_info;
 
-    Map mymap;
+    Map* mymap = new Map();
 
     string line, section; //current line and current section
 
@@ -51,15 +53,15 @@ Map testLoadMap(string mapFileName) {
             auto value = line.substr(delimiter_pos + 1);
             c.setValue(stoi(value));
             //continents[name] = c;
-            mymap.addContinent(name);
-            
+            mymap->addContinent(name);
+
         }
         else if (section == "Territories") {
-            
+
             istringstream iss(line);
             string adjacent;
-            
-            string name,x,y,continentName;
+
+            string name, x, y, continentName;
             getline(iss, name, ',');
             getline(iss, x, ',');
             getline(iss, y, ',');
@@ -71,10 +73,10 @@ Map testLoadMap(string mapFileName) {
             }
 
             //Territory t(name);
-            Territory* t = mymap.addTerritory(name);
+            Territory* t = mymap->addTerritory(name);
 
             t->setCoordinates(stoi(x), stoi(y));
-            Continent* continent = mymap.getContinents()[continentName];
+            Continent* continent = mymap->getContinents()[continentName];
             t->setContinent(continent);
 
             while (getline(iss, adjacent, ',')) {
@@ -82,27 +84,32 @@ Map testLoadMap(string mapFileName) {
                     cerr << "Error - empty adjacent territory " << line << endl;
                     continue; // Skip this adjacent territory
                 }
-                t->adjacent.push_back(adjacent); 
+                t->adjacent.push_back(adjacent);
             }
 
             //territories[name] = *t;
             //continents[continentName].addTerritory(t);
-            mymap.getContinents()[continentName]->addTerritory(t);
-            
+            mymap->getContinents()[continentName]->addTerritory(t);
+
         }
     }
 
 
     //create links to other territory node based on string vector (names of adjacents)
-    for (auto& territoryPair : mymap.getTerritories()) {
+    for (pair<string, Territory*> territoryPair : mymap->getTerritories()) {
         Territory* territory = territoryPair.second; // Reference to the Territory
-        for (const auto& adj : territory->adjacent) {
-            auto it = mymap.getTerritories().find(adj);
-            if (it != mymap.getTerritories().end())
-            territory->connect(it->second);// it->second gives the Territory
+        auto territories = mymap->getTerritories();
+        for (string adj : territory->adjacent) {
+            auto it = territories.find(adj);
+            if (it != territories.end()) {
+                territory->connect(it->second);// it->second gives the Territory
+            }
+            else {
+                cout << "no adjacents found" << endl;
+            }
         }
     }
-    
+
     if (printLogs) {
         //printMapInfo(map_info);
         //printMapInfo(continents);
